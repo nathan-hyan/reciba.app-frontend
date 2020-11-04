@@ -12,7 +12,7 @@ const SignaturePad = require("react-signature-pad");
 const ENDPOINT =
   process.env.NODE_ENV !== "production"
     ? "http://192.168.100.6:8000"
-    : "https://reciba.app/#/";
+    : "https://reciba-api.herokuapp.com/";
 const socket = io.connect(ENDPOINT, {
   transports: ["websocket"],
 });
