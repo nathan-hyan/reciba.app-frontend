@@ -15,7 +15,9 @@ export default function Filter({
   });
 
   const handleSubmit = (e: any) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     let queryToSend = { ...query };
 
@@ -34,6 +36,34 @@ export default function Filter({
   const handleChange = (e: { target: { name: any; value: any } }) => {
     let { name, value } = e.target;
     setQuery({ ...query, [name]: value });
+
+    handleSubmit("");
+  };
+
+  const filterDisplay = () => {
+    if (query.from || query.to) {
+      return (
+        <small className="text-muted border rounded p-1">
+          {`${
+            query.from
+              ? `Desde: ${Intl.DateTimeFormat(navigator.language, {
+                  month: "numeric",
+                  day: "numeric",
+                  year: "numeric",
+                }).format(new Date(query.from).setUTCHours(3))}`
+              : ""
+          } ${
+            query.to
+              ? `Hasta: ${Intl.DateTimeFormat(navigator.language, {
+                  month: "numeric",
+                  day: "numeric",
+                  year: "numeric",
+                }).format(new Date(query.to).setUTCHours(3))}`
+              : ""
+          }`}
+        </small>
+      );
+    }
   };
 
   return (
@@ -41,7 +71,7 @@ export default function Filter({
       <Accordion>
         <Card>
           <Accordion.Toggle as={Card.Header} eventKey="0">
-            Filtros
+            Filtros {filterDisplay()}
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="0">
             <Card.Body>
@@ -60,7 +90,7 @@ export default function Filter({
                   </Col>
                   <Col>
                     <Form.Group>
-                      <Form.Label>Email address</Form.Label>
+                      <Form.Label>Hasta</Form.Label>
                       <Form.Control
                         type="date"
                         onChange={handleChange}
