@@ -20,7 +20,7 @@ export default function Navigation() {
         expand="lg"
       >
         <Link to="/">
-          <Navbar.Brand>Proyecto Bills</Navbar.Brand>
+          <Navbar.Brand>reciba.app</Navbar.Brand>
         </Link>
         <Navbar.Toggle />
         <Navbar.Collapse>
