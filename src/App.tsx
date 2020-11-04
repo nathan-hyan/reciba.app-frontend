@@ -30,33 +30,55 @@ function App() {
             <Navigation />
             <Switch>
               {/* User authentication */}
-              <Route path="/signup" component={Signup} />
-              <Route path="/login" component={Login} />
-              <Route path="/logout" component={Logout} />
-              <Route path="/" exact component={Home} />
+              <Route
+                path={`${process.env.PUBLIC_URL}/signup`}
+                component={Signup}
+              />
+              <Route
+                path={`${process.env.PUBLIC_URL}/login`}
+                component={Login}
+              />
+              <Route
+                path={`${process.env.PUBLIC_URL}/logout`}
+                component={Logout}
+              />
+              <Route
+                path={`${process.env.PUBLIC_URL}/`}
+                exact
+                component={Home}
+              />
 
               {/* Invoice */}
-              <Route path="/invoice/generate" component={GenerateInvoice} />
+              <Route
+                path={`${process.env.PUBLIC_URL}/invoice/generate`}
+                component={GenerateInvoice}
+              />
               <PrivateRoute
-                path="/invoice/edit/:id"
+                path={`${process.env.PUBLIC_URL}/invoice/edit/:id`}
                 render={() => <GenerateInvoice />}
               />
               <Route
-                path="/invoice/display/:id/:socketId"
+                path={`${process.env.PUBLIC_URL}/invoice/display/:id/:socketId`}
                 component={DisplayInvoice}
               />
-              <Route path="/invoice/code/:id" component={ShowQRCodeModal} />
+              <Route
+                path={`${process.env.PUBLIC_URL}/invoice/code/:id`}
+                component={ShowQRCodeModal}
+              />
 
               {/* Dashboard */}
               <PrivateRoute
-                path="/dashboard"
+                path={`${process.env.PUBLIC_URL}/dashboard`}
                 render={() => <DashboardScreen />}
               />
 
               {/* Signature pad */}
-              <Route path="/signature/:socketId" component={Signature} />
               <Route
-                path="/offlinesignature/:invoiceId"
+                path={`${process.env.PUBLIC_URL}/signature/:socketId`}
+                component={Signature}
+              />
+              <Route
+                path={`${process.env.PUBLIC_URL}/offlinesignature/:invoiceId`}
                 component={Signature}
               />
             </Switch>
