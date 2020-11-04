@@ -16,7 +16,7 @@ export default function ShowQRCodeModal({
   const ENDPOINT =
     process.env.NODE_ENV !== "production"
       ? "http://192.168.100.6:3000"
-      : "https://nathan-hyan.github.io/reciba-app-frontend";
+      : "https://reciba.app/#";
   const { generateId, currentId } = useContext(IdGeneration);
 
   useEffect(() => {
