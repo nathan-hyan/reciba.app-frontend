@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/reciba-app-frontend/static/css/main.aacbdfa1.chunk.css",
-    "main.js": "/reciba-app-frontend/static/js/main.44025ebc.chunk.js",
-    "main.js.map": "/reciba-app-frontend/static/js/main.44025ebc.chunk.js.map",
+    "main.js": "/reciba-app-frontend/static/js/main.f09fec07.chunk.js",
+    "main.js.map": "/reciba-app-frontend/static/js/main.f09fec07.chunk.js.map",
     "runtime-main.js": "/reciba-app-frontend/static/js/runtime-main.cac51182.js",
     "runtime-main.js.map": "/reciba-app-frontend/static/js/runtime-main.cac51182.js.map",
-    "static/js/2.dddfbed8.chunk.js": "/reciba-app-frontend/static/js/2.dddfbed8.chunk.js",
-    "static/js/2.dddfbed8.chunk.js.map": "/reciba-app-frontend/static/js/2.dddfbed8.chunk.js.map",
+    "static/js/2.ae792875.chunk.js": "/reciba-app-frontend/static/js/2.ae792875.chunk.js",
+    "static/js/2.ae792875.chunk.js.map": "/reciba-app-frontend/static/js/2.ae792875.chunk.js.map",
     "index.html": "/reciba-app-frontend/index.html",
     "static/css/main.aacbdfa1.chunk.css.map": "/reciba-app-frontend/static/css/main.aacbdfa1.chunk.css.map",
-    "static/js/2.dddfbed8.chunk.js.LICENSE.txt": "/reciba-app-frontend/static/js/2.dddfbed8.chunk.js.LICENSE.txt",
+    "static/js/2.ae792875.chunk.js.LICENSE.txt": "/reciba-app-frontend/static/js/2.ae792875.chunk.js.LICENSE.txt",
     "static/media/main.css": "/reciba-app-frontend/static/media/OpenSans-Regular.1b0809d5.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.cac51182.js",
-    "static/js/2.dddfbed8.chunk.js",
+    "static/js/2.ae792875.chunk.js",
     "static/css/main.aacbdfa1.chunk.css",
-    "static/js/main.44025ebc.chunk.js"
+    "static/js/main.f09fec07.chunk.js"
   ]
 }
