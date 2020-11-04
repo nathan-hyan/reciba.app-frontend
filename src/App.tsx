@@ -1,6 +1,6 @@
 // Import utilities
 import React, { Fragment } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
 // Import context
 import UserContextProvider from "./Context/UserContext";
@@ -13,20 +13,20 @@ import Logout from "./Pages/auth/Logout";
 
 // Import layout
 import Navigation from "./Layout/NavigationBar/Navigation";
-import GenerateInvoice from "./Pages/invoice/generate/GenerateInvoice";
-import DisplayInvoice from "./Pages/invoice/display/DisplayInvoice";
-import Signature from "./Pages/invoice/generate/Signature";
 import ShowQRCodeModal from "./Pages/invoice/qr/ShowQRCodeModal";
 import IdGenerationProvider from "./Context/IdGeneration";
 import DashboardScreen from "./Pages/dashboard/DashboardScreen";
 import PrivateRoute from "./Context/PrivateRoute";
+import Signature from "./Pages/invoice/generate/Signature";
+import DisplayInvoice from "./Pages/invoice/display/DisplayInvoice";
+import GenerateInvoice from "./Pages/invoice/generate/GenerateInvoice";
 
 function App() {
   return (
     <Fragment>
       <UserContextProvider>
         <IdGenerationProvider>
-          <Router basename={process.env.PUBLIC_URL}>
+          <HashRouter basename={process.env.PUBLIC_URL}>
             <Navigation />
             <Switch>
               {/* User authentication */}
@@ -59,8 +59,9 @@ function App() {
                 path={`/offlinesignature/:invoiceId`}
                 component={Signature}
               />
+              <Route render={() => <div>Not found</div>} />
             </Switch>
-          </Router>
+          </HashRouter>
         </IdGenerationProvider>
       </UserContextProvider>
     </Fragment>
