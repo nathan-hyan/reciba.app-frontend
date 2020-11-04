@@ -5,6 +5,7 @@ import UsermenuLoggedIn from "./userMenu/UsermenuLoggedIn";
 import UsermenuLoggedOut from "./userMenu/UsermenuLoggedOut";
 import OptionsLoggedIn from "./options/OptionsLoggedIn";
 import OptionsLoggedOut from "./options/OptionsLoggedOut";
+import { Link } from "react-router-dom";
 
 export default function Navigation() {
   const user = useContext(UserContext);
@@ -18,7 +19,9 @@ export default function Navigation() {
         variant="dark"
         expand="lg"
       >
-        <Navbar.Brand href="/">Proyecto Bills</Navbar.Brand>
+        <Link to="/">
+          <Navbar.Brand>Proyecto Bills</Navbar.Brand>
+        </Link>
         <Navbar.Toggle />
         <Navbar.Collapse>
           {!user.isLoggedIn ? <OptionsLoggedOut /> : <OptionsLoggedIn />}
