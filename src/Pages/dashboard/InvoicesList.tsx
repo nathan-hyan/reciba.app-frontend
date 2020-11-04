@@ -110,7 +110,7 @@ export default function InvoicesList({
             return (
               <ListGroup.Item key={index}>
                 <Row>
-                  <Col md="1">
+                  <Col md="2">
                     {Intl.DateTimeFormat(navigator.language, {
                       day: "numeric",
                       month: "numeric",
@@ -179,7 +179,7 @@ export default function InvoicesList({
           {completed.map((invoice, index) => (
             <ListGroup.Item key={index}>
               <Row>
-                <Col md="1">
+                <Col md="2">
                   {Intl.DateTimeFormat(navigator.language, {
                     month: "numeric",
                     day: "numeric",
@@ -187,7 +187,7 @@ export default function InvoicesList({
                   }).format(new Date(invoice.date).setUTCHours(3))}{" "}
                 </Col>
                 <Col>
-                  {invoice.from}{" "}
+                  {invoice.from} <small>({invoice.currency}${invoice.amount})</small>
                   {invoice.tags?.map((item, index) => (
                     <Badge variant="info" className="ml-1">
                       {item}
