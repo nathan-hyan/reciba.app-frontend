@@ -15,10 +15,8 @@ import { useHistory, useParams } from "react-router-dom";
 import io from "socket.io-client";
 import ShowQRCodeModal from "../qr/ShowQRCodeModal";
 import { IdGeneration } from "../../../Context/IdGeneration";
-const ENDPOINT =
-  process.env.NODE_ENV !== "production"
-    ? "http://192.168.100.6:8000"
-    : "https://reciba-api.herokuapp.com/";
+import { UserContext } from "../../../Context/UserContext";
+const ENDPOINT = "https://reciba-api.herokuapp.com/";
 const socket = io.connect(ENDPOINT, { transports: ["websocket"] });
 
 export default function GenerateInvoice() {
@@ -32,6 +30,7 @@ export default function GenerateInvoice() {
 
   // Get uniqueId for this session
   const { currentId, generateId } = useContext(IdGeneration);
+  const { isLoggedIn } = useContext(UserContext);
 
   //Setting up state
   const [state, setState] = useState<invoice>({
@@ -281,19 +280,21 @@ export default function GenerateInvoice() {
               </Col>
             </Row>
             <Row>
-              <Col className="text-right">
-                <fieldset className="mr-3 py-1 px-2 border border-gray rounded">
-                  <label className="m-0 p-0">
-                    <input
-                      type="checkbox"
-                      name="pending"
-                      checked={state.pending}
-                      onChange={handleChange}
-                      className="mr-1 p-0 m-0"
-                    />
-                    Marcar boleta para firmar luego
-                  </label>
-                </fieldset>
+              <Col className="text-right d-flex align-items-center justify-content-end">
+                {isLoggedIn ? (
+                  <fieldset className="mr-3 py-1 px-2 border border-gray rounded">
+                    <label className="m-0 p-0">
+                      <input
+                        type="checkbox"
+                        name="pending"
+                        checked={state.pending}
+                        onChange={handleChange}
+                        className="mr-1 p-0 m-0"
+                      />
+                      Marcar boleta para firmar luego
+                    </label>
+                  </fieldset>
+                ) : null}
 
                 <Button
                   variant="info"

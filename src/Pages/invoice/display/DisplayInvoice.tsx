@@ -12,10 +12,7 @@ import ButtonsGroup from "./ButtonsGroup";
 import { notify } from "react-notify-toast";
 import EmailInput from "./EmailInput";
 
-const ENDPOINT =
-  process.env.NODE_ENV !== "production"
-    ? "http://192.168.100.6:8000"
-    : "https://reciba-api.herokuapp.com/";
+const ENDPOINT = "https://reciba-api.herokuapp.com/";
 const socket = io.connect(ENDPOINT, { transports: ["websocket"] });
 
 export default function DisplayInvoice() {
