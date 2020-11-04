@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/reciba.app-frontend/static/css/main.68c26883.chunk.css",
-    "main.js": "/reciba.app-frontend/static/js/main.7d9eeaf0.chunk.js",
-    "main.js.map": "/reciba.app-frontend/static/js/main.7d9eeaf0.chunk.js.map",
-    "runtime-main.js": "/reciba.app-frontend/static/js/runtime-main.dcf0aa08.js",
-    "runtime-main.js.map": "/reciba.app-frontend/static/js/runtime-main.dcf0aa08.js.map",
-    "static/js/2.a858ed9f.chunk.js": "/reciba.app-frontend/static/js/2.a858ed9f.chunk.js",
-    "static/js/2.a858ed9f.chunk.js.map": "/reciba.app-frontend/static/js/2.a858ed9f.chunk.js.map",
-    "index.html": "/reciba.app-frontend/index.html",
-    "static/css/main.68c26883.chunk.css.map": "/reciba.app-frontend/static/css/main.68c26883.chunk.css.map",
-    "static/js/2.a858ed9f.chunk.js.LICENSE.txt": "/reciba.app-frontend/static/js/2.a858ed9f.chunk.js.LICENSE.txt",
-    "static/media/main.css": "/reciba.app-frontend/static/media/OpenSans-Regular.1b0809d5.ttf"
+    "main.css": "/reciba-app-frontend/static/css/main.aacbdfa1.chunk.css",
+    "main.js": "/reciba-app-frontend/static/js/main.324f6cd0.chunk.js",
+    "main.js.map": "/reciba-app-frontend/static/js/main.324f6cd0.chunk.js.map",
+    "runtime-main.js": "/reciba-app-frontend/static/js/runtime-main.cac51182.js",
+    "runtime-main.js.map": "/reciba-app-frontend/static/js/runtime-main.cac51182.js.map",
+    "static/js/2.9b76dc8a.chunk.js": "/reciba-app-frontend/static/js/2.9b76dc8a.chunk.js",
+    "static/js/2.9b76dc8a.chunk.js.map": "/reciba-app-frontend/static/js/2.9b76dc8a.chunk.js.map",
+    "index.html": "/reciba-app-frontend/index.html",
+    "static/css/main.aacbdfa1.chunk.css.map": "/reciba-app-frontend/static/css/main.aacbdfa1.chunk.css.map",
+    "static/js/2.9b76dc8a.chunk.js.LICENSE.txt": "/reciba-app-frontend/static/js/2.9b76dc8a.chunk.js.LICENSE.txt",
+    "static/media/main.css": "/reciba-app-frontend/static/media/OpenSans-Regular.1b0809d5.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.dcf0aa08.js",
-    "static/js/2.a858ed9f.chunk.js",
-    "static/css/main.68c26883.chunk.css",
-    "static/js/main.7d9eeaf0.chunk.js"
+    "static/js/runtime-main.cac51182.js",
+    "static/js/2.9b76dc8a.chunk.js",
+    "static/css/main.aacbdfa1.chunk.css",
+    "static/js/main.324f6cd0.chunk.js"
   ]
 }
