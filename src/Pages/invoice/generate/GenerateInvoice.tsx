@@ -18,7 +18,7 @@ import { IdGeneration } from "../../../Context/IdGeneration";
 const ENDPOINT =
   process.env.NODE_ENV !== "production"
     ? "http://192.168.100.6:8000"
-    : "https://billsapp.herokuapp.com/";
+    : "https://nathan-hyan.github.io/reciba-app-frontend/";
 const socket = io.connect(ENDPOINT, { transports: ["websocket"] });
 
 export default function GenerateInvoice() {
