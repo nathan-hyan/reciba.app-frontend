@@ -187,7 +187,10 @@ export default function InvoicesList({
                   }).format(new Date(invoice.date).setUTCHours(3))}{" "}
                 </Col>
                 <Col>
-                  {invoice.from} <small>({invoice.currency}${invoice.amount})</small>
+                  {invoice.from}{" "}
+                  <small>
+                    ({invoice.currency} ${invoice.amount})
+                  </small>
                   {invoice.tags?.map((item, index) => (
                     <Badge variant="info" className="ml-1">
                       {item}

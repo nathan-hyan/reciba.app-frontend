@@ -63,6 +63,14 @@ export default function Filter({
           }`}
         </small>
       );
+    } else {
+      return (
+        <small className="text-muted border rounded p-1">
+          {`Mostrando las boletas de ${Intl.DateTimeFormat(navigator.language, {
+            month: "long",
+          }).format(new Date().setUTCHours(3))}`}
+        </small>
+      );
     }
   };
 
