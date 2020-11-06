@@ -32,14 +32,14 @@ export default function Signup() {
       notify.show("Por favor, verifique los datos antes de continuar", "error");
     } else {
       e.stopPropagation();
-      Axios.post("https://reciba-api.herokuapp.com/api/user/register", {
+      Axios.post("https://recibapp.herokuapp.com/api/user/register", {
         email: state.email,
         password: state.password,
         name: state.name,
       })
         .then((response) => {
           if (response.data.success) {
-            Axios.post(`https://reciba-api.herokuapp.com/api/user/login`, {
+            Axios.post(`https://recibapp.herokuapp.com/api/user/login`, {
               email: state.email,
               password: state.password,
             })

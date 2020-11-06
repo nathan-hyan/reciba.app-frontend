@@ -19,11 +19,11 @@ export default function DashboardScreen() {
 
   const getBills = (query: queryType) => {
     const completedBills = Axios.get(
-      `https://reciba-api.herokuapp.com/api/invoice/completed?from=${query.from}&to=${query.to}`,
+      `https://recibapp.herokuapp.com/api/invoice/completed?from=${query.from}&to=${query.to}`,
       axiosHeaders
     );
     const pendingBills = Axios.get(
-      `https://reciba-api.herokuapp.com/api/invoice/pending?from=${query.from}&to=${query.to}`,
+      `https://recibapp.herokuapp.com/api/invoice/pending?from=${query.from}&to=${query.to}`,
       axiosHeaders
     );
 
@@ -47,7 +47,7 @@ export default function DashboardScreen() {
       window.confirm("Advertencia, se borrará la boleta. ¿Desea Confirmar?")
     ) {
       Axios.delete(
-        `https://reciba-api.herokuapp.com/api/invoice/${id}`,
+        `https://recibapp.herokuapp.com/api/invoice/${id}`,
         axiosHeaders
       )
         .then((res) => {

@@ -25,7 +25,7 @@ const UserContextProvider = (props: { children: React.ReactNode }) => {
 
   if (storedToken && !userData.isLoggedIn) {
     Axios.post(
-      "https://reciba-api.herokuapp.com/api/user/loggedInUser",
+      "https://recibapp.herokuapp.com/api/user/loggedInUser",
       { storedToken },
       { headers: { auth: localStorage.getItem("bill-token") } }
     )

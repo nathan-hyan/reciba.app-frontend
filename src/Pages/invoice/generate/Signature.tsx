@@ -9,7 +9,7 @@ import io from "socket.io-client";
 import { invoice } from "../../../Interfaces/invoice";
 import DownloadModal from "./DownloadModal";
 const SignaturePad = require("react-signature-pad");
-const ENDPOINT = "https://reciba-api.herokuapp.com/";
+const ENDPOINT = "https://recibapp.herokuapp.com/";
 const socket = io.connect(ENDPOINT, {
   transports: ["websocket"],
 });
@@ -27,7 +27,7 @@ export default function Signature() {
       socket.emit("close", false);
     } else if (invoiceId) {
       Axios.get(
-        `https://reciba-api.herokuapp.com/api/invoice/single/${invoiceId}`
+        `https://recibapp.herokuapp.com/api/invoice/single/${invoiceId}`
       )
         .then(({ data }) => {
           if (data.success) {
@@ -57,7 +57,7 @@ export default function Signature() {
   const submitSignature = () => {
     if (window.confirm(`¿Confirma el envio de la firma a ${state.from}?`)) {
       Axios.put(
-        `https://reciba-api.herokuapp.com/api/invoice/addSignature/${invoiceId}`,
+        `https://recibapp.herokuapp.com/api/invoice/addSignature/${invoiceId}`,
         {
           ...state,
           sign: signatureRef.current.toDataURL(),

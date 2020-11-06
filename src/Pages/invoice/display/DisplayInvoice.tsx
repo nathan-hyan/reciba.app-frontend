@@ -12,7 +12,7 @@ import ButtonsGroup from "./ButtonsGroup";
 import { notify } from "react-notify-toast";
 import EmailInput from "./EmailInput";
 
-const ENDPOINT = "https://reciba-api.herokuapp.com/";
+const ENDPOINT = "https://recibapp.herokuapp.com/";
 const socket = io.connect(ENDPOINT, { transports: ["websocket"] });
 
 export default function DisplayInvoice() {
@@ -36,7 +36,7 @@ export default function DisplayInvoice() {
   const [validated, setValidated] = useState(false);
 
   useEffect(() => {
-    Axios.get(`https://reciba-api.herokuapp.com/api/invoice/single/${id}`).then(
+    Axios.get(`https://recibapp.herokuapp.com/api/invoice/single/${id}`).then(
       ({ data }) => {
         const { year, month, date } = dateTransformer(data.data.date);
         setState({ ...data.data, date: new Date(year, month, date) });
@@ -103,7 +103,7 @@ export default function DisplayInvoice() {
     const file = await transformPDFToBase64();
 
     if (form.checkValidity() === true) {
-      Axios.post("https://reciba-api.herokuapp.com/api/mail/send/invoice", {
+      Axios.post("https://recibapp.herokuapp.com/api/mail/send/invoice", {
         file,
         date: state.date,
         email: recipient,

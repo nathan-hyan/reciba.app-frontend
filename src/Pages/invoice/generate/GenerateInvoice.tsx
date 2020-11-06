@@ -16,7 +16,7 @@ import io from "socket.io-client";
 import ShowQRCodeModal from "../qr/ShowQRCodeModal";
 import { IdGeneration } from "../../../Context/IdGeneration";
 import { UserContext } from "../../../Context/UserContext";
-const ENDPOINT = "https://reciba-api.herokuapp.com/";
+const ENDPOINT = "https://recibapp.herokuapp.com/";
 const socket = io.connect(ENDPOINT, { transports: ["websocket"] });
 
 export default function GenerateInvoice() {
@@ -95,7 +95,7 @@ export default function GenerateInvoice() {
     } else {
       if (id) {
         Axios.put(
-          `https://reciba-api.herokuapp.com/api/invoice/edit/${id}`,
+          `https://recibapp.herokuapp.com/api/invoice/edit/${id}`,
           { ...state },
           { headers: { auth: localStorage.getItem("bill-token") } }
         )
@@ -113,7 +113,7 @@ export default function GenerateInvoice() {
           });
       } else {
         Axios.post(
-          `https://reciba-api.herokuapp.com/api/invoice/`,
+          `https://recibapp.herokuapp.com/api/invoice/`,
           { ...state },
           axiosHeaders
         )
@@ -163,12 +163,12 @@ export default function GenerateInvoice() {
 
     // If there's an id, get the invoice
     if (id) {
-      Axios.get(
-        `https://reciba-api.herokuapp.com/api/invoice/single/${id}`
-      ).then(({ data }) => {
-        const newDate = data.data.date.substr(0, 10);
-        setState({ ...data.data, date: newDate });
-      });
+      Axios.get(`https://recibapp.herokuapp.com/api/invoice/single/${id}`).then(
+        ({ data }) => {
+          const newDate = data.data.date.substr(0, 10);
+          setState({ ...data.data, date: newDate });
+        }
+      );
     }
     //eslint-disable-next-line
   }, [currentId]);

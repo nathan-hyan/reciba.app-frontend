@@ -64,7 +64,7 @@ export default function InvoicesList({
 
       if (to !== "") {
         Axios.post(
-          "https://reciba-api.herokuapp.com/api/mail/send/signaturePetition/",
+          "https://recibapp.herokuapp.com/api/mail/send/signaturePetition/",
           {
             invoiceId,
             from,

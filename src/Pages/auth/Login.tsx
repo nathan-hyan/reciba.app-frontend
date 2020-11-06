@@ -40,7 +40,7 @@ export default function Login() {
       notify.show("Por favor verifique los datos antes de continuar", "error");
     } else {
       event.stopPropagation();
-      Axios.post(`https://reciba-api.herokuapp.com/api/user/login`, login)
+      Axios.post(`https://recibapp.herokuapp.com/api/user/login`, login)
         .then(({ data }) => {
           if (data.success) {
             User.setUserData({

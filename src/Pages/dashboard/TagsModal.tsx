@@ -33,7 +33,7 @@ export default function TagsModal({
       throw Error("No hay invoice id especificado");
     }
     Axios.put(
-      `https://reciba-api.herokuapp.com/api/invoice/edit/${invoiceId}`,
+      `https://recibapp.herokuapp.com/api/invoice/edit/${invoiceId}`,
       { tags: items },
       {
         headers: { auth: localStorage.getItem("bill-token") },
