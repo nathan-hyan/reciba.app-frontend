@@ -6,8 +6,12 @@ import { queryType } from "../../Interfaces/invoice";
 
 export default function Filter({
   submitFilter,
+  isLoading,
+  setIsLoading,
 }: {
   submitFilter: (query: queryType) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
 }) {
   const [query, setQuery] = useState<queryType>({
     from: "",
@@ -25,10 +29,12 @@ export default function Filter({
       queryToSend.to = new Date(query.to).setUTCHours(27).toString();
     }
 
+    setIsLoading(true);
     submitFilter(queryToSend);
   };
 
   const clearSearch = () => {
+    setIsLoading(true);
     submitFilter({});
     setQuery({ from: "", to: "" });
   };
@@ -110,11 +116,20 @@ export default function Filter({
                 </Row>
                 <Row>
                   <Col className="d-flex justify-content-end w-100">
-                    <Button className="mr-3" variant="success" type="submit">
+                    <Button
+                      disabled={isLoading}
+                      className="mr-3"
+                      variant="success"
+                      type="submit"
+                    >
                       <FontAwesomeIcon icon={faSearch} /> Buscar
                     </Button>
 
-                    <Button onClick={clearSearch} variant="danger">
+                    <Button
+                      disabled={isLoading}
+                      onClick={clearSearch}
+                      variant="danger"
+                    >
                       <FontAwesomeIcon icon={faTimesCircle} /> Limpiar búsqueda
                     </Button>
                   </Col>

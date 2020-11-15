@@ -70,24 +70,25 @@ export default function DashboardScreen() {
     //eslint-disable-next-line
   }, []);
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  } else {
-    return (
-      <Container className="my-5">
-        <Row className="h-100-minus">
-          <Col>
-            <Filter submitFilter={(query: queryType) => getBills(query)} />
-            <InvoicesList
-              refreshData={(query: queryType) => getBills(query)}
-              deleteBill={(id: string | undefined) => deleteBill(id)}
-              completed={completedBills}
-              pending={pendingBills}
-            />
-            {/* <PaginationBar /> */}
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
+  return (
+    <Container className="my-5">
+      <Row className="h-100-minus">
+        <Col>
+          <Filter
+            isLoading={isLoading}
+            setIsLoading={(bool) => setIsLoading(bool)}
+            submitFilter={(query: queryType) => getBills(query)}
+          />
+          <InvoicesList
+            isLoading={isLoading}
+            refreshData={(query: queryType) => getBills(query)}
+            deleteBill={(id: string | undefined) => deleteBill(id)}
+            completed={completedBills}
+            pending={pendingBills}
+          />
+          {/* <PaginationBar /> */}
+        </Col>
+      </Row>
+    </Container>
+  );
 }
