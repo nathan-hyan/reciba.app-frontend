@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Container, Form, Button, Row, Col, InputGroup } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Button,
+  Row,
+  Col,
+  InputGroup,
+  Spinner,
+} from "react-bootstrap";
 import {
   faSave,
   faTimesCircle,
@@ -45,6 +53,7 @@ export default function GenerateInvoice() {
   });
   const [validated, setValidated] = useState(false);
   const [showQRCodeModal, setShowQRCodeModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Setting up history
   const history = useHistory();
@@ -84,9 +93,12 @@ export default function GenerateInvoice() {
   }) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsLoading(true);
+
     let { currentTarget } = e;
     if (!state.sign && !state.pending) {
       notify.show("Se necesita la firma para continuar", "error");
+      setIsLoading(false);
       return null;
     }
 
@@ -104,12 +116,14 @@ export default function GenerateInvoice() {
               history.push(`/invoice/display/${data.data._id}/${currentId}`);
             }
             notify.show(data.message, "success");
+            setIsLoading(false);
           })
           .catch((err) => {
             notify.show(
               "Ocurrió un error creando el comprobante, por favor reintente",
               "error"
             );
+            setIsLoading(false);
           });
       } else {
         Axios.post(
@@ -126,12 +140,14 @@ export default function GenerateInvoice() {
               );
             }
             notify.show(data.message, "success");
+            setIsLoading(false);
           })
           .catch((err) => {
             notify.show(
               "Ocurrió un error creando el comprobante, por favor reintente",
               "error"
             );
+            setIsLoading(false);
           });
       }
     }
@@ -304,6 +320,7 @@ export default function GenerateInvoice() {
                   <FontAwesomeIcon icon={faQrcode} /> Mostrar QR para firmar
                 </Button>
                 <Button
+                  disabled={isLoading}
                   variant="secondary"
                   className="mr-3"
                   onClick={() => {
@@ -312,8 +329,13 @@ export default function GenerateInvoice() {
                 >
                   <FontAwesomeIcon icon={faTimesCircle} /> Cancelar
                 </Button>
-                <Button variant="primary" type="submit">
-                  <FontAwesomeIcon icon={faSave} /> Guardar
+                <Button disabled={isLoading} variant="primary" type="submit">
+                  {isLoading ? (
+                    <Spinner size="sm" animation="border" />
+                  ) : (
+                    <FontAwesomeIcon icon={faSave} />
+                  )}{" "}
+                  Guardar
                 </Button>
               </Col>
             </Row>

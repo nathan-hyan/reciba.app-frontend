@@ -20,4 +20,5 @@ export interface invoice {
 export interface queryType {
   from?: string;
   to?: string;
+  tags?: string;
 }

@@ -16,6 +16,7 @@ export default function Filter({
   const [query, setQuery] = useState<queryType>({
     from: "",
     to: "",
+    tags: "",
   });
 
   const handleSubmit = (e: any) => {
@@ -36,7 +37,7 @@ export default function Filter({
   const clearSearch = () => {
     setIsLoading(true);
     submitFilter({});
-    setQuery({ from: "", to: "" });
+    setQuery({ from: "", to: "", tags: "" });
   };
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -91,6 +92,17 @@ export default function Filter({
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Row>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>Etiqueta</Form.Label>
+                      <Form.Control
+                        name="tags"
+                        value={query.tags}
+                        onChange={handleChange}
+                        type="text"
+                      />
+                    </Form.Group>
+                  </Col>
                   <Col>
                     <Form.Group>
                       <Form.Label>Desde</Form.Label>

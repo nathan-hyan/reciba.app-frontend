@@ -125,7 +125,7 @@ export default function InvoicesList({
                     </Col>
                     <Col>
                       {invoice.from}{" "}
-                      {invoice.tags?.map((item, index) => (
+                      {invoice.tags?.map((item: string, index: number) => (
                         <Badge key={index} variant="info" className="ml-1">
                           {item}
                         </Badge>
@@ -199,7 +199,7 @@ export default function InvoicesList({
                     <small>
                       ({invoice.currency} ${invoice.amount})
                     </small>
-                    {invoice.tags?.map((item, index) => (
+                    {invoice.tags?.map((item: string, index: number) => (
                       <Badge variant="info" className="ml-1">
                         {item}
                       </Badge>

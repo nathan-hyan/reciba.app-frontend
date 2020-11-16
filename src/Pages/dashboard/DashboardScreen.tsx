@@ -19,11 +19,11 @@ export default function DashboardScreen() {
 
   const getBills = (query: queryType) => {
     const completedBills = Axios.get(
-      `https://recibapp.herokuapp.com/api/invoice/completed?from=${query.from}&to=${query.to}`,
+      `https://recibapp.herokuapp.com/api/invoice/completed?from=${query.from}&to=${query.to}&tags=${query.tags}`,
       axiosHeaders
     );
     const pendingBills = Axios.get(
-      `https://recibapp.herokuapp.com/api/invoice/pending?from=${query.from}&to=${query.to}`,
+      `https://recibapp.herokuapp.com/api/invoice/pending?from=${query.from}&to=${query.to}&tags=${query.tags}`,
       axiosHeaders
     );
 
