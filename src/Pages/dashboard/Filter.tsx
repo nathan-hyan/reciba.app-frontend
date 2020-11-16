@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
 import { queryType } from "../../Interfaces/invoice";
+import moment from "moment";
 
 export default function Filter({
   submitFilter,
@@ -20,18 +21,18 @@ export default function Filter({
   });
 
   const handleSubmit = (e: any) => {
-    if (e) {
-      e.preventDefault();
-    }
-
-    let queryToSend = { ...query };
-
-    if (query.to) {
-      queryToSend.to = new Date(query.to).setUTCHours(27).toString();
-    }
+    e.preventDefault();
 
     setIsLoading(true);
-    submitFilter(queryToSend);
+    submitFilter({
+      from: query.from
+        ? moment(query.from).startOf("day").format("YYYY-MM-DD")
+        : "undefined",
+      to: query.to
+        ? moment(query.to).endOf("day").format("YYYY-MM-DD")
+        : "undefined",
+      tags: query.tags,
+    });
   };
 
   const clearSearch = () => {
@@ -43,8 +44,6 @@ export default function Filter({
   const handleChange = (e: { target: { name: any; value: any } }) => {
     let { name, value } = e.target;
     setQuery({ ...query, [name]: value });
-
-    handleSubmit("");
   };
 
   const filterDisplay = () => {
@@ -80,6 +79,8 @@ export default function Filter({
       );
     }
   };
+
+  console.log(query);
 
   return (
     <Col className="bg-white rounded shadow p-3 mb-3">
