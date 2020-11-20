@@ -75,13 +75,8 @@ export default function Signature() {
             "error"
           );
         });
-    } else {
-      console.log(false);
     }
   };
-
-  console.log("Socket id:", socketId);
-  console.log("Invoice Id:", invoiceId);
 
   return (
     <Container className="h-100-minus mt-5">
