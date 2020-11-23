@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Axios from "axios";
 import { notify } from "react-notify-toast";
 import { UserContext } from "../../Context/UserContext";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 export default function Signup() {
   const history = useHistory();
@@ -152,6 +153,14 @@ export default function Signup() {
                 </Form.Group>
               </Col>
             </Row>
+
+            <Form.Group>
+              <Form.Label>Captcha!</Form.Label>
+              <HCaptcha
+                sitekey="be3fd67b-1a61-4936-b57f-600e3765988f"
+                onVerify={(token) => console.log(token)}
+              />
+            </Form.Group>
 
             <Button variant="primary" type="submit">
               <FontAwesomeIcon icon={faCheck} /> Guardar datos

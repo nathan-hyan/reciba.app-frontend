@@ -9,6 +9,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.12",
+    "@hcaptcha/react-hcaptcha": "^0.2.1",
     "@progress/kendo-drawing": "^1.9.3",
     "@progress/kendo-react-pdf": "^4.0.0",
     "@testing-library/jest-dom": "^5.11.5",
@@ -66,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "@types/hcaptcha__react-hcaptcha": "^0.1.4",
     "gh-pages": "^3.1.0"
   }
 }
