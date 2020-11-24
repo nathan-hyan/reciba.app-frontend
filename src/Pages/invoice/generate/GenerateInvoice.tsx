@@ -18,14 +18,14 @@ import { notify } from "react-notify-toast";
 import { invoice } from "../../../Interfaces/invoice";
 import Axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
-
-// Socket.io stuff
-import io from "socket.io-client";
 import ShowQRCodeModal from "../qr/ShowQRCodeModal";
 import { IdGeneration } from "../../../Context/IdGeneration";
 import { UserContext } from "../../../Context/UserContext";
-const ENDPOINT = "https://recibapp.herokuapp.com/";
-const socket = io.connect(ENDPOINT, { transports: ["websocket"] });
+import io from "socket.io-client";
+import { SOCKETENDPOINT } from "../../../constants/endpoint";
+
+let socket: SocketIOClient.Socket;
+let socketRoomId: string;
 
 export default function GenerateInvoice() {
   var date = new Date().toISOString().substr(0, 10);
@@ -50,6 +50,7 @@ export default function GenerateInvoice() {
     concept: "",
     currency: "ARS",
     pending: false,
+    sign: "",
   });
   const [validated, setValidated] = useState(false);
   const [showQRCodeModal, setShowQRCodeModal] = useState(false);
@@ -62,12 +63,6 @@ export default function GenerateInvoice() {
    * Opens and closes QRCode modal
    */
   const toggleShowQRCodeModal = () => {
-    setShowQRCodeModal((i) => !i);
-  };
-
-  const showQRCodeModalAndGenerateCode = async () => {
-    await generateId();
-    socket.emit("join", currentId);
     setShowQRCodeModal((i) => !i);
   };
 
@@ -113,7 +108,7 @@ export default function GenerateInvoice() {
         )
           .then(({ data }) => {
             if (data.success) {
-              history.push(`/invoice/display/${data.data._id}/${currentId}`);
+              history.push(`/invoice/display/${data.data._id}/${socketRoomId}`);
             }
             notify.show(data.message, "success");
             setIsLoading(false);
@@ -136,13 +131,15 @@ export default function GenerateInvoice() {
               history.push(
                 state.pending
                   ? `/dashboard`
-                  : `/invoice/display/${data.id}/${currentId}`
+                  : `/invoice/display/${data.id}/${socketRoomId}`
               );
             }
             notify.show(data.message, "success");
             setIsLoading(false);
           })
           .catch((err) => {
+            console.log(err.message);
+
             notify.show(
               "Ocurrió un error creando el comprobante, por favor reintente",
               "error"
@@ -155,29 +152,9 @@ export default function GenerateInvoice() {
     setValidated(true);
   };
 
-  /**
-   * Checks everytime there's an update on Socket
-   */
   useEffect(() => {
-    socket.on("sign", (data: any) => {
-      setState({ ...state, sign: data, pending: false });
-    });
+    socket = io(SOCKETENDPOINT);
 
-    if (showQRCodeModal) {
-      socket.on("close", () => {
-        notify.show("Teléfono conectado", "success");
-        setShowQRCodeModal(false);
-      });
-    }
-  });
-
-  useEffect(() => {
-    // Generate currentId and assign it to IO.Socket
-    if (currentId !== "") {
-      socket.emit("join", currentId);
-    }
-
-    // If there's an id, get the invoice
     if (id) {
       Axios.get(`https://recibapp.herokuapp.com/api/invoice/single/${id}`).then(
         ({ data }) => {
@@ -186,12 +163,35 @@ export default function GenerateInvoice() {
         }
       );
     }
-    //eslint-disable-next-line
-  }, [currentId]);
+
+    socket.on("close", () => {
+      toggleShowQRCodeModal();
+    });
+
+    socket.on("sign", (data: string) => {
+      setState((oldstate) => ({ ...oldstate, sign: data }));
+    });
+
+    return () => {
+      socket.off("close");
+    };
+  }, [SOCKETENDPOINT]);
+
+  const showQRCodeModalAndGenerateCode = async () => {
+    if (!socketRoomId) {
+      socketRoomId = generateId();
+      socket.emit("join", socketRoomId);
+    }
+    setShowQRCodeModal((i) => !i);
+  };
 
   return (
     <Container>
-      <ShowQRCodeModal show={showQRCodeModal} onHide={toggleShowQRCodeModal} />
+      <ShowQRCodeModal
+        currentId={socketRoomId}
+        show={showQRCodeModal}
+        onHide={toggleShowQRCodeModal}
+      />
       <Row className="h-100-minus align-items-center">
         <Col className="bg-light p-3 shadow rounded">
           <Form noValidate validated={validated} onSubmit={handleSubmit}>

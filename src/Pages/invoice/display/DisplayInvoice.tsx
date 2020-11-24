@@ -7,13 +7,13 @@ import { useParams } from "react-router-dom";
 import { savePDF } from "@progress/kendo-react-pdf";
 import { drawDOM, exportPDF } from "@progress/kendo-drawing";
 import Bill from "./Bill";
-import io from "socket.io-client";
 import ButtonsGroup from "./ButtonsGroup";
 import { notify } from "react-notify-toast";
 import EmailInput from "./EmailInput";
+import io from "socket.io-client";
+import { SOCKETENDPOINT } from "../../../constants/endpoint";
 
-const ENDPOINT = "https://recibapp.herokuapp.com/";
-const socket = io.connect(ENDPOINT, { transports: ["websocket"] });
+let socket: SocketIOClient.Socket;
 
 export default function DisplayInvoice() {
   const invoice = useRef<any>(<div />);
@@ -34,16 +34,6 @@ export default function DisplayInvoice() {
   const [showEmail, setShowEmail] = useState<boolean>(false);
   const [recipient, setRecipient] = useState<string>("");
   const [validated, setValidated] = useState(false);
-
-  useEffect(() => {
-    Axios.get(`https://recibapp.herokuapp.com/api/invoice/single/${id}`).then(
-      ({ data }) => {
-        const { year, month, date } = dateTransformer(data.data.date);
-        setState({ ...data.data, date: new Date(year, month, date) });
-      }
-    );
-    //eslint-disable-next-line
-  }, []);
 
   /**
    * Adapta la fecha para poder ser parseada sin necesidad de usar Moment
@@ -91,6 +81,7 @@ export default function DisplayInvoice() {
   };
 
   const emitPDFViaSocket = async () => {
+    console.log("Sending PDF");
     socket.emit("pdf", await transformPDFToBase64());
   };
 
@@ -126,10 +117,22 @@ export default function DisplayInvoice() {
   };
 
   useEffect(() => {
-    if (socketId !== "") {
-      socket.emit("join", socketId);
-    }
-  }, [socketId]);
+    socket = io(SOCKETENDPOINT);
+
+    Axios.get(`https://recibapp.herokuapp.com/api/invoice/single/${id}`).then(
+      ({ data }) => {
+        const { year, month, date } = dateTransformer(data.data.date);
+        setState({ ...data.data, date: new Date(year, month, date) });
+      }
+    );
+
+    socket.emit("join", socketId);
+
+    return () => {
+      socket.off("join");
+    };
+    //eslint-disable-next-line
+  }, [SOCKETENDPOINT]);
 
   return (
     <Container>

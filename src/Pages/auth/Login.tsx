@@ -42,6 +42,8 @@ export default function Login() {
       event.stopPropagation();
       Axios.post(`https://recibapp.herokuapp.com/api/user/login`, login)
         .then(({ data }) => {
+          console.log(data);
+
           if (data.success) {
             User.setUserData({
               isLoggedIn: true,

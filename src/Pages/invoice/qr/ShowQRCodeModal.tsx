@@ -9,20 +9,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function ShowQRCodeModal({
   show = true,
   onHide = () => (show = !show),
+  currentId = "Error",
 }: {
   show: boolean;
   onHide: () => void;
+  currentId: string;
 }) {
   const ENDPOINT =
     process.env.NODE_ENV !== "production"
       ? "http://192.168.100.32:3000/#"
       : "https://reciba.app/#";
-  const { generateId, currentId } = useContext(IdGeneration);
-
-  useEffect(() => {
-    generateId();
-    //eslint-disable-next-line
-  }, []);
 
   return (
     <Modal size="xl" show={show} onHide={onHide}>
@@ -41,6 +37,17 @@ export default function ShowQRCodeModal({
             <QRCode size={200} value={`${ENDPOINT}/signature/${currentId}`} />
           </Col>
           <Col />
+        </Row>
+        <Row>
+          <Col className="text-center">
+            <small>
+              También puede ingresar acá para firmar{" "}
+              <a
+                target="_blank"
+                href={`${ENDPOINT}/signature/${currentId}`}
+              >{`${ENDPOINT}/signature/${currentId}`}</a>
+            </small>
+          </Col>
         </Row>
         <Row>
           <Col className="text-center">

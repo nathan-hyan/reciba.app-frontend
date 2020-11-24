@@ -5,24 +5,29 @@ import React, { useRef, useState, useEffect } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { notify } from "react-notify-toast";
 import { useParams } from "react-router-dom";
-import io from "socket.io-client";
+import { SOCKETENDPOINT } from "../../../constants/endpoint";
 import { invoice } from "../../../Interfaces/invoice";
 import DownloadModal from "./DownloadModal";
+import io from "socket.io-client";
 const SignaturePad = require("react-signature-pad");
-const ENDPOINT = "https://recibapp.herokuapp.com/";
-const socket = io.connect(ENDPOINT, {
-  transports: ["websocket"],
-});
+
+let socket: SocketIOClient.Socket;
 
 export default function Signature() {
   const signatureRef: any = useRef();
-  const { socketId, invoiceId } = useParams<any>();
+  const { socketId, invoiceId } = useParams<
+    Partial<{
+      socketId: string;
+      invoiceId: string;
+    }>
+  >();
   const [showModal, setShowModal] = useState(false);
   const [PDFFile, setPDFFile] = useState("");
   const [state, setState] = useState<Partial<invoice>>({});
 
   useEffect(() => {
     if (socketId) {
+      socket = io(SOCKETENDPOINT);
       socket.emit("join", socketId);
       socket.emit("close", false);
     } else if (invoiceId) {
@@ -36,15 +41,16 @@ export default function Signature() {
         })
         .catch((err: any) => alert(err.response.data.message));
     }
-    //eslint-disable-next-line
-  }, []);
 
-  useEffect(() => {
     socket.on("pdf", (file: string) => {
       setPDFFile(file);
       showDeleteModal();
     });
-  });
+
+    return () => {
+      socket.off("pdf");
+    };
+  }, [SOCKETENDPOINT]);
 
   const sendSign = () => {
     socket.emit("sign", signatureRef.current.toDataURL());
