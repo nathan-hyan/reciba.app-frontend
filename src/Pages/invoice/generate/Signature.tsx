@@ -30,6 +30,11 @@ export default function Signature() {
       socket = io(SOCKETENDPOINT);
       socket.emit("join", socketId);
       socket.emit("close", false);
+
+      socket.on("pdf", (file: string) => {
+        setPDFFile(file);
+        showDeleteModal();
+      });
     } else if (invoiceId) {
       Axios.get(
         `https://recibapp.herokuapp.com/api/invoice/single/${invoiceId}`
@@ -42,13 +47,10 @@ export default function Signature() {
         .catch((err: any) => alert(err.response.data.message));
     }
 
-    socket.on("pdf", (file: string) => {
-      setPDFFile(file);
-      showDeleteModal();
-    });
-
     return () => {
-      socket.off("pdf");
+      if (socketId) {
+        socket.off("pdf");
+      }
     };
   }, [SOCKETENDPOINT]);
 
