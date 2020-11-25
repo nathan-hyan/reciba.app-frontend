@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/static/css/main.ea90dc96.chunk.css",
-    "main.js": "/static/js/main.6f87d42f.chunk.js",
-    "main.js.map": "/static/js/main.6f87d42f.chunk.js.map",
+    "main.js": "/static/js/main.973b1d41.chunk.js",
+    "main.js.map": "/static/js/main.973b1d41.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.8b2d2063.js",
     "runtime-main.js.map": "/static/js/runtime-main.8b2d2063.js.map",
-    "static/js/2.6bf5c2ba.chunk.js": "/static/js/2.6bf5c2ba.chunk.js",
-    "static/js/2.6bf5c2ba.chunk.js.map": "/static/js/2.6bf5c2ba.chunk.js.map",
+    "static/js/2.05475b33.chunk.js": "/static/js/2.05475b33.chunk.js",
+    "static/js/2.05475b33.chunk.js.map": "/static/js/2.05475b33.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.ea90dc96.chunk.css.map": "/static/css/main.ea90dc96.chunk.css.map",
-    "static/js/2.6bf5c2ba.chunk.js.LICENSE.txt": "/static/js/2.6bf5c2ba.chunk.js.LICENSE.txt",
+    "static/js/2.05475b33.chunk.js.LICENSE.txt": "/static/js/2.05475b33.chunk.js.LICENSE.txt",
     "static/media/main.css": "/static/media/OpenSans-Regular.1b0809d5.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.8b2d2063.js",
-    "static/js/2.6bf5c2ba.chunk.js",
+    "static/js/2.05475b33.chunk.js",
     "static/css/main.ea90dc96.chunk.css",
-    "static/js/main.6f87d42f.chunk.js"
+    "static/js/main.973b1d41.chunk.js"
   ]
 }
