@@ -19,6 +19,7 @@ import {
 } from "react-bootstrap";
 import { notify } from "react-notify-toast";
 import { useHistory } from "react-router-dom";
+import { endpoints } from '../../constants/endpoint';
 import { invoice, queryType } from "../../Interfaces/invoice";
 import LoadingScreen from "../../Layout/LoadingScreen";
 import TagsModal from "./TagsModal";
@@ -67,7 +68,7 @@ export default function InvoicesList({
 
       if (to !== "") {
         Axios.post(
-          "https://recibapp.herokuapp.com/api/mail/send/signaturePetition/",
+          `${endpoints.backend}api/mail/send/signaturePetition/`,
           {
             invoiceId,
             from,

@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import Axios from "axios";
 import { notify } from "react-notify-toast";
 import { useHistory } from "react-router-dom";
+import { endpoints } from '../constants/endpoint';
 
 type ContextProps = {
   isLoggedIn: boolean;
@@ -25,7 +26,7 @@ const UserContextProvider = (props: { children: React.ReactNode }) => {
 
   if (storedToken && !userData.isLoggedIn) {
     Axios.post(
-      "https://recibapp.herokuapp.com/api/user/loggedInUser",
+      endpoints.backend+"api/user/loggedInUser",
       { storedToken },
       { headers: { auth: localStorage.getItem("bill-token") } }
     )

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { notify } from "react-notify-toast";
 import { useHistory } from "react-router-dom";
+import { endpoints } from '../../constants/endpoint';
 import { invoice, queryType } from "../../Interfaces/invoice";
 import LoadingScreen from "../../Layout/LoadingScreen";
 import Filter from "./Filter";
@@ -19,11 +20,11 @@ export default function DashboardScreen() {
 
   const getBills = (query: queryType) => {
     const completedBills = Axios.get(
-      `https://recibapp.herokuapp.com/api/invoice/completed?from=${query.from}&to=${query.to}&tags=${query.tags}`,
+      `${endpoints.backend}api/invoice/completed?from=${query.from}&to=${query.to}&tags=${query.tags}`,
       axiosHeaders
     );
     const pendingBills = Axios.get(
-      `https://recibapp.herokuapp.com/api/invoice/pending?from=${query.from}&to=${query.to}&tags=${query.tags}`,
+      `${endpoints.backend}api/invoice/pending?from=${query.from}&to=${query.to}&tags=${query.tags}`,
       axiosHeaders
     );
 
@@ -47,7 +48,7 @@ export default function DashboardScreen() {
       window.confirm("Advertencia, se borrará la boleta. ¿Desea Confirmar?")
     ) {
       Axios.delete(
-        `https://recibapp.herokuapp.com/api/invoice/${id}`,
+        `${endpoints.backend}api/invoice/${id}`,
         axiosHeaders
       )
         .then((res) => {

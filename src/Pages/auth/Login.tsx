@@ -6,6 +6,7 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { notify } from "react-notify-toast";
 import Axios from "axios";
 import { UserContext } from "../../Context/UserContext";
+import { endpoints } from '../../constants/endpoint';
 
 export default function Login() {
   const User = useContext(UserContext);
@@ -40,7 +41,7 @@ export default function Login() {
       notify.show("Por favor verifique los datos antes de continuar", "error");
     } else {
       event.stopPropagation();
-      Axios.post(`https://recibapp.herokuapp.com/api/user/login`, login)
+      Axios.post(`${endpoints.backend}api/user/login`, login)
         .then(({ data }) => {
           console.log(data);
 

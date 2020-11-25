@@ -5,7 +5,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { notify } from "react-notify-toast";
 import { useParams } from "react-router-dom";
-import { SOCKETENDPOINT } from "../../../constants/endpoint";
+import { endpoints } from "../../../constants/endpoint";
 import { invoice } from "../../../Interfaces/invoice";
 import DownloadModal from "./DownloadModal";
 import io from "socket.io-client";
@@ -27,7 +27,7 @@ export default function Signature() {
 
   useEffect(() => {
     if (socketId) {
-      socket = io(SOCKETENDPOINT);
+      socket = io(endpoints.backend);
       socket.emit("join", socketId);
       socket.emit("close", false);
 
@@ -37,7 +37,7 @@ export default function Signature() {
       });
     } else if (invoiceId) {
       Axios.get(
-        `https://recibapp.herokuapp.com/api/invoice/single/${invoiceId}`
+        `${endpoints.backend}api/invoice/single/${invoiceId}`
       )
         .then(({ data }) => {
           if (data.success) {
@@ -52,7 +52,7 @@ export default function Signature() {
         socket.off("pdf");
       }
     };
-  }, [SOCKETENDPOINT]);
+  }, [endpoints.backend]);
 
   const sendSign = () => {
     socket.emit("sign", signatureRef.current.toDataURL());
@@ -65,7 +65,7 @@ export default function Signature() {
   const submitSignature = () => {
     if (window.confirm(`¿Confirma el envio de la firma a ${state.from}?`)) {
       Axios.put(
-        `https://recibapp.herokuapp.com/api/invoice/addSignature/${invoiceId}`,
+        `${endpoints.backend}api/invoice/addSignature/${invoiceId}`,
         {
           ...state,
           sign: signatureRef.current.toDataURL(),

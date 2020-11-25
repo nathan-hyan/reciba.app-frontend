@@ -22,7 +22,7 @@ import ShowQRCodeModal from "../qr/ShowQRCodeModal";
 import { IdGeneration } from "../../../Context/IdGeneration";
 import { UserContext } from "../../../Context/UserContext";
 import io from "socket.io-client";
-import { SOCKETENDPOINT } from "../../../constants/endpoint";
+import { endpoints } from "../../../constants/endpoint";
 
 let socket: SocketIOClient.Socket;
 let socketRoomId: string;
@@ -37,7 +37,7 @@ export default function GenerateInvoice() {
   const { id } = useParams<any>();
 
   // Get uniqueId for this session
-  const { currentId, generateId } = useContext(IdGeneration);
+  const { generateId } = useContext(IdGeneration);
   const { isLoggedIn } = useContext(UserContext);
 
   //Setting up state
@@ -102,7 +102,7 @@ export default function GenerateInvoice() {
     } else {
       if (id) {
         Axios.put(
-          `https://recibapp.herokuapp.com/api/invoice/edit/${id}`,
+          `${endpoints.backend}api/invoice/edit/${id}`,
           { ...state },
           { headers: { auth: localStorage.getItem("bill-token") } }
         )
@@ -122,7 +122,7 @@ export default function GenerateInvoice() {
           });
       } else {
         Axios.post(
-          `https://recibapp.herokuapp.com/api/invoice/`,
+          `${endpoints.backend}api/invoice/`,
           { ...state },
           axiosHeaders
         )
@@ -153,10 +153,10 @@ export default function GenerateInvoice() {
   };
 
   useEffect(() => {
-    socket = io(SOCKETENDPOINT);
+    socket = io(endpoints.backend);
 
     if (id) {
-      Axios.get(`https://recibapp.herokuapp.com/api/invoice/single/${id}`).then(
+      Axios.get(`${endpoints.backend}api/invoice/single/${id}`).then(
         ({ data }) => {
           const newDate = data.data.date.substr(0, 10);
           setState({ ...data.data, date: newDate });
@@ -165,7 +165,8 @@ export default function GenerateInvoice() {
     }
 
     socket.on("close", () => {
-      toggleShowQRCodeModal();
+      setShowQRCodeModal(false)
+      notify.show("Teléfono Conectado!", 'success')
     });
 
     socket.on("sign", (data: string) => {
@@ -175,7 +176,9 @@ export default function GenerateInvoice() {
     return () => {
       socket.off("close");
     };
-  }, [SOCKETENDPOINT]);
+
+    //eslint-disable-next-line
+  }, [endpoints.backend]);
 
   const showQRCodeModalAndGenerateCode = async () => {
     if (!socketRoomId) {

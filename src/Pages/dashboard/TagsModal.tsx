@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { notify } from "react-notify-toast";
+import { endpoints } from '../../constants/endpoint';
 
 export default function TagsModal({
   show,
@@ -33,7 +34,7 @@ export default function TagsModal({
       throw Error("No hay invoice id especificado");
     }
     Axios.put(
-      `https://recibapp.herokuapp.com/api/invoice/edit/${invoiceId}`,
+      `${endpoints.backend}api/invoice/edit/${invoiceId}`,
       { tags: items },
       {
         headers: { auth: localStorage.getItem("bill-token") },

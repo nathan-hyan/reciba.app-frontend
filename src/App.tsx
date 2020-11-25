@@ -22,6 +22,7 @@ import DisplayInvoice from "./Pages/invoice/display/DisplayInvoice";
 import GenerateInvoice from "./Pages/invoice/generate/GenerateInvoice";
 
 function App() {
+
   return (
     <Fragment>
       <UserContextProvider>

@@ -5,6 +5,7 @@ import "./QRCode.css";
 import { IdGeneration } from "../../../Context/IdGeneration";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { endpoints } from '../../../constants/endpoint';
 
 export default function ShowQRCodeModal({
   show = true,
@@ -15,10 +16,6 @@ export default function ShowQRCodeModal({
   onHide: () => void;
   currentId: string;
 }) {
-  const ENDPOINT =
-    process.env.NODE_ENV !== "production"
-      ? "http://192.168.100.32:3000/#"
-      : "https://reciba.app/#";
 
   return (
     <Modal size="xl" show={show} onHide={onHide}>
@@ -34,7 +31,7 @@ export default function ShowQRCodeModal({
         <Row className="my-5">
           <Col />
           <Col className="bg-white shadow rounded p-3" md={3}>
-            <QRCode size={200} value={`${ENDPOINT}/signature/${currentId}`} />
+            <QRCode size={200} value={`${endpoints.frontend}#/signature/${currentId}`} />
           </Col>
           <Col />
         </Row>
@@ -44,8 +41,8 @@ export default function ShowQRCodeModal({
               También puede ingresar acá para firmar{" "}
               <a
                 target="_blank"
-                href={`${ENDPOINT}/signature/${currentId}`}
-              >{`${ENDPOINT}/signature/${currentId}`}</a>
+                href={`${endpoints.frontend}#/signature/${currentId}`}
+              >{`${endpoints.frontend}#/signature/${currentId}`}</a>
             </small>
           </Col>
         </Row>

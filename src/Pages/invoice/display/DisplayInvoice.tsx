@@ -11,7 +11,7 @@ import ButtonsGroup from "./ButtonsGroup";
 import { notify } from "react-notify-toast";
 import EmailInput from "./EmailInput";
 import io from "socket.io-client";
-import { SOCKETENDPOINT } from "../../../constants/endpoint";
+import { endpoints } from "../../../constants/endpoint";
 
 let socket: SocketIOClient.Socket;
 
@@ -94,7 +94,7 @@ export default function DisplayInvoice() {
     const file = await transformPDFToBase64();
 
     if (form.checkValidity() === true) {
-      Axios.post("https://recibapp.herokuapp.com/api/mail/send/invoice", {
+      Axios.post(`${endpoints.backend}api/mail/send/invoice`, {
         file,
         date: state.date,
         email: recipient,
@@ -117,9 +117,9 @@ export default function DisplayInvoice() {
   };
 
   useEffect(() => {
-    socket = io(SOCKETENDPOINT);
+    socket = io(endpoints.backend);
 
-    Axios.get(`https://recibapp.herokuapp.com/api/invoice/single/${id}`).then(
+    Axios.get(`${endpoints.backend}api/invoice/single/${id}`).then(
       ({ data }) => {
         const { year, month, date } = dateTransformer(data.data.date);
         setState({ ...data.data, date: new Date(year, month, date) });
@@ -132,7 +132,7 @@ export default function DisplayInvoice() {
       socket.off("join");
     };
     //eslint-disable-next-line
-  }, [SOCKETENDPOINT]);
+  }, [endpoints.backend]);
 
   return (
     <Container>

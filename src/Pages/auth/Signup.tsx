@@ -7,6 +7,7 @@ import Axios from "axios";
 import { notify } from "react-notify-toast";
 import { UserContext } from "../../Context/UserContext";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { endpoints } from '../../constants/endpoint';
 
 export default function Signup() {
   const history = useHistory();
@@ -33,14 +34,14 @@ export default function Signup() {
       notify.show("Por favor, verifique los datos antes de continuar", "error");
     } else {
       e.stopPropagation();
-      Axios.post("https://recibapp.herokuapp.com/api/user/register", {
+      Axios.post(`${endpoints.backend}api/user/register`, {
         email: state.email,
         password: state.password,
         name: state.name,
       })
         .then((response) => {
           if (response.data.success) {
-            Axios.post(`https://recibapp.herokuapp.com/api/user/login`, {
+            Axios.post(`${endpoints.backend}api/user/login`, {
               email: state.email,
               password: state.password,
             })
