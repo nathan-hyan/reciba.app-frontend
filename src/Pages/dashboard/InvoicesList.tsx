@@ -117,38 +117,41 @@ export default function InvoicesList({
               return (
                 <ListGroup.Item key={index}>
                   <Row>
-                    <Col md="2">
+                    <Col md='2'>
                       {Intl.DateTimeFormat(navigator.language, {
-                        day: "numeric",
-                        month: "numeric",
-                        year: "numeric",
-                      }).format(new Date(invoice.date).setUTCHours(3))}{" "}
+                        day: 'numeric',
+                        month: 'numeric',
+                        year: 'numeric'
+                      }).format(new Date(invoice.date).setUTCHours(3))}{' '}
                     </Col>
                     <Col>
-                      {invoice.from}{" "}
+                      {invoice.from}{' '}
+                      <small>
+                        ({invoice.currency} ${invoice.amount})
+                      </small>
                       {invoice.tags?.map((item: string, index: number) => (
-                        <Badge key={index} variant="info" className="ml-1">
+                        <Badge key={index} variant='info' className='ml-1'>
                           {item}
                         </Badge>
-                      ))}{" "}
+                      ))}{' '}
                       {invoice.alreadySent?.isAlreadySent ? (
                         <OverlayTrigger
-                          placement="top"
+                          placement='top'
                           overlay={
-                            <Tooltip id="mail-already-sent">
-                              Mail ya enviado a:{" "}
+                            <Tooltip id='mail-already-sent'>
+                              Mail ya enviado a:{' '}
                               {invoice.alreadySent?.emailAddress}
                             </Tooltip>
                           }
                         >
                           <FontAwesomeIcon
                             icon={faEnvelope}
-                            style={{ color: "#6DB65B" }}
+                            style={{ color: '#6DB65B' }}
                           />
                         </OverlayTrigger>
                       ) : null}
                     </Col>
-                    <Col md="2" className="text-right text-primary">
+                    <Col md='2' className='text-right text-primary'>
                       <FontAwesomeIcon
                         icon={faTag}
                         onClick={() =>
@@ -159,16 +162,16 @@ export default function InvoicesList({
                         onClick={() =>
                           history.push(`/invoice/edit/${invoice._id}/`)
                         }
-                        className="pointer mx-3"
+                        className='pointer mx-3'
                         icon={faPen}
                       />
                       <FontAwesomeIcon
                         onClick={() => deleteBill(invoice._id)}
-                        className="pointer mr-3"
+                        className='pointer mr-3'
                         icon={faTrash}
                       />
                       <FontAwesomeIcon
-                        className="pointer"
+                        className='pointer'
                         onClick={() =>
                           sendSignatureLinkViaMail(invoice._id, invoice.from)
                         }

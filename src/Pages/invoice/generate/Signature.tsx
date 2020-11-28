@@ -1,15 +1,15 @@
-import { faShare, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Axios from "axios";
-import React, { useRef, useState, useEffect } from "react";
-import { Container, Button, Row, Col } from "react-bootstrap";
-import { notify } from "react-notify-toast";
-import { useParams } from "react-router-dom";
-import { endpoints } from "../../../constants/endpoint";
-import { invoice } from "../../../Interfaces/invoice";
-import DownloadModal from "./DownloadModal";
-import io from "socket.io-client";
-const SignaturePad = require("react-signature-pad");
+import { faShare, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Axios from 'axios';
+import React, { useRef, useState, useEffect } from 'react';
+import { Container, Button, Row, Col } from 'react-bootstrap';
+import { notify } from 'react-notify-toast';
+import { useParams } from 'react-router-dom';
+import { endpoints } from '../../../constants/endpoint';
+import { invoice } from '../../../Interfaces/invoice';
+import DownloadModal from './DownloadModal';
+import io from 'socket.io-client';
+const SignaturePad = require('react-signature-pad');
 
 let socket: SocketIOClient.Socket;
 
@@ -22,23 +22,21 @@ export default function Signature() {
     }>
   >();
   const [showModal, setShowModal] = useState(false);
-  const [PDFFile, setPDFFile] = useState("");
+  const [PDFFile, setPDFFile] = useState('');
   const [state, setState] = useState<Partial<invoice>>({});
 
   useEffect(() => {
     if (socketId) {
       socket = io(endpoints.backend);
-      socket.emit("join", socketId);
-      socket.emit("close", false);
+      socket.emit('join', socketId);
+      socket.emit('close', false);
 
-      socket.on("pdf", (file: string) => {
+      socket.on('pdf', (file: string) => {
         setPDFFile(file);
         showDeleteModal();
       });
     } else if (invoiceId) {
-      Axios.get(
-        `${endpoints.backend}api/invoice/single/${invoiceId}`
-      )
+      Axios.get(`${endpoints.backend}api/invoice/single/${invoiceId}`)
         .then(({ data }) => {
           if (data.success) {
             setState(data.data);
@@ -49,13 +47,15 @@ export default function Signature() {
 
     return () => {
       if (socketId) {
-        socket.off("pdf");
+        socket.off('pdf');
       }
     };
   }, [endpoints.backend]);
 
   const sendSign = () => {
-    socket.emit("sign", signatureRef.current.toDataURL());
+    if (socketId) {
+      socket.emit('sign', signatureRef.current.toDataURL());
+    }
   };
 
   const showDeleteModal = () => {
@@ -64,42 +64,37 @@ export default function Signature() {
 
   const submitSignature = () => {
     if (window.confirm(`¿Confirma el envio de la firma a ${state.from}?`)) {
-      Axios.put(
-        `${endpoints.backend}api/invoice/addSignature/${invoiceId}`,
-        {
-          ...state,
-          sign: signatureRef.current.toDataURL(),
-        }
-      )
+      Axios.put(`${endpoints.backend}api/invoice/addSignature/${invoiceId}`, {
+        ...state,
+        sign: signatureRef.current.toDataURL()
+      })
         .then((response) => {
           notify.show(
-            "Se ha firmado correctamente. Ya puede salir de esta app.",
-            "success"
+            'Se ha firmado correctamente. Ya puede salir de esta app.',
+            'success'
           );
         })
         .catch((err) => {
-          notify.show(
-            "Ocurrió un error enviando la firma. Reintente por favor.",
-            "error"
-          );
+          const ERROR = err.response ? err.response.data.message : err.message;
+          notify.show(ERROR, 'error');
         });
     }
   };
 
   return (
-    <Container className="h-100-minus mt-5">
+    <Container className='h-100-minus mt-5'>
       <DownloadModal
         PDFFile={PDFFile}
         show={showModal}
         handleClose={showDeleteModal}
       />
-      <Row className={invoiceId ? "d-block" : "d-none"}>
-        <Col className="text-center">
+      <Row className={invoiceId ? 'd-block' : 'd-none'}>
+        <Col className='text-center'>
           <h1>¡Hola!</h1>
 
           <p>
             Recibió esta boleta de <strong>{state.from}</strong> con el concepto
-            de <strong>{state.concept}</strong> por el monto total de{" "}
+            de <strong>{state.concept}</strong> por el monto total de{' '}
             <strong>
               {state.currency} {state.amount}
             </strong>
@@ -109,18 +104,18 @@ export default function Signature() {
         </Col>
       </Row>
       <Row>
-        <Col className="text-center">
-          <p className="lead m-0">Firme en el campo en blanco para continuar</p>
-          <small className="text-muted">
+        <Col className='text-center'>
+          <p className='lead m-0'>Firme en el campo en blanco para continuar</p>
+          <small className='text-muted'>
             Coloque el teléfono en modo horizontal para mejor resultado
           </small>
         </Col>
       </Row>
-      <Row className="my-5">
+      <Row className='my-5'>
         <Col
           onTouchEnd={sendSign}
           onMouseUp={sendSign}
-          className="bg-white shadow rounded"
+          className='bg-white shadow rounded'
         >
           <SignaturePad ref={signatureRef} />
         </Col>
@@ -128,8 +123,8 @@ export default function Signature() {
       <Row>
         <Col>
           <Button
-            className="w-100"
-            variant="danger"
+            className='w-100'
+            variant='danger'
             onClick={() => {
               signatureRef.current.clear();
               sendSign();
@@ -138,15 +133,15 @@ export default function Signature() {
             <FontAwesomeIcon icon={faTimesCircle} /> Reiniciar Firma
           </Button>
         </Col>
-        <Col className={invoiceId ? "d-block" : "d-none"}>
-          <Button className="w-100" variant="success" onClick={submitSignature}>
+        <Col className={invoiceId ? 'd-block' : 'd-none'}>
+          <Button className='w-100' variant='success' onClick={submitSignature}>
             <FontAwesomeIcon icon={faShare} /> Enviar firma
           </Button>
         </Col>
       </Row>
-      <Row className={socketId ? "d-block my-5 text-center" : "d-none"}>
+      <Row className={socketId ? 'd-block my-5 text-center' : 'd-none'}>
         <Col>
-          <p className="lead">¡No cierre esta página!</p>
+          <p className='lead'>¡No cierre esta página!</p>
           <p>
             Cuando se genere el comprobante, debajo aparecerá un botón para
             descargarlo
