@@ -1,35 +1,35 @@
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import {
   faPaperPlane,
   faPen,
   faPrint,
   faTag,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Axios from "axios";
-import React, { useState } from "react";
+  faTrash
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Axios from 'axios';
+import React, { useState } from 'react';
 import {
   Badge,
   Col,
   ListGroup,
   OverlayTrigger,
   Row,
-  Tooltip,
-} from "react-bootstrap";
-import { notify } from "react-notify-toast";
-import { useHistory } from "react-router-dom";
+  Tooltip
+} from 'react-bootstrap';
+import { notify } from 'react-notify-toast';
+import { useHistory } from 'react-router-dom';
 import { endpoints } from '../../constants/endpoint';
-import { invoice, queryType } from "../../Interfaces/invoice";
-import LoadingScreen from "../../Layout/LoadingScreen";
-import TagsModal from "./TagsModal";
+import { invoice, queryType } from '../../Interfaces/invoice';
+import LoadingScreen from '../../Layout/LoadingScreen';
+import TagsModal from './TagsModal';
 
 export default function InvoicesList({
   completed,
   pending,
   deleteBill,
   refreshData,
-  isLoading,
+  isLoading
 }: {
   isLoading: boolean;
   completed: invoice[];
@@ -40,14 +40,14 @@ export default function InvoicesList({
   const history = useHistory();
   const [showTagsModal, setShowTagsModal] = useState(false);
   const [tagData, setTagData] = useState<{ id: string; prevTags: string[] }>({
-    id: "",
-    prevTags: [],
+    id: '',
+    prevTags: []
   });
 
-  const toggleTagsModal = (id = "", prevTags: string[] = []) => {
+  const toggleTagsModal = (id = '', prevTags: string[] = []) => {
     setTagData({
       id,
-      prevTags,
+      prevTags
     });
     setShowTagsModal((prevState) => !prevState);
   };
@@ -58,40 +58,37 @@ export default function InvoicesList({
   ) => {
     if (invoiceId === undefined || from === undefined) {
       notify.show(
-        "Ocurrió un error enviando el mail. Recargue la página y reintente",
-        "error"
+        'Ocurrió un error enviando el mail. Recargue la página y reintente',
+        'error'
       );
     } else {
       const to = window
-        .prompt("Escriba la dirección donde quiere enviar el mail")
+        .prompt('Escriba la dirección donde quiere enviar el mail')
         ?.trim();
 
-      if (to !== "") {
-        Axios.post(
-          `${endpoints.backend}api/mail/send/signaturePetition/`,
-          {
-            invoiceId,
-            from,
-            to,
-          }
-        )
+      if (to !== '') {
+        Axios.post(`${endpoints.backend}api/mail/send/signaturePetition/`, {
+          invoiceId,
+          from,
+          to
+        })
           .then((response) => {
             if (response.data.success) {
-              notify.show(response.data.message, "success");
+              notify.show(response.data.message, 'success');
               refreshData({});
             } else {
-              notify.show(response.data.message, "warning");
+              notify.show(response.data.message, 'warning');
             }
           })
           .catch((err) => {
             console.log(err);
             notify.show(
-              "Ocurrió un error enviando el mail, reintente",
-              "error"
+              'Ocurrió un error enviando el mail, reintente',
+              'error'
             );
           });
       } else {
-        notify.show("Debe especificar un mail válido", "error");
+        notify.show('Debe especificar un mail válido', 'error');
       }
     }
   };
@@ -117,12 +114,12 @@ export default function InvoicesList({
               return (
                 <ListGroup.Item key={index}>
                   <Row>
-                    <Col md='2'>
+                    <Col md="2">
                       {Intl.DateTimeFormat(navigator.language, {
                         day: 'numeric',
                         month: 'numeric',
                         year: 'numeric'
-                      }).format(new Date(invoice.date).setUTCHours(3))}{' '}
+                      }).format(new Date(invoice.date))}{' '}
                     </Col>
                     <Col>
                       {invoice.from}{' '}
@@ -130,15 +127,15 @@ export default function InvoicesList({
                         ({invoice.currency} ${invoice.amount})
                       </small>
                       {invoice.tags?.map((item: string, index: number) => (
-                        <Badge key={index} variant='info' className='ml-1'>
+                        <Badge key={index} variant="info" className="ml-1">
                           {item}
                         </Badge>
                       ))}{' '}
                       {invoice.alreadySent?.isAlreadySent ? (
                         <OverlayTrigger
-                          placement='top'
+                          placement="top"
                           overlay={
-                            <Tooltip id='mail-already-sent'>
+                            <Tooltip id="mail-already-sent">
                               Mail ya enviado a:{' '}
                               {invoice.alreadySent?.emailAddress}
                             </Tooltip>
@@ -151,7 +148,7 @@ export default function InvoicesList({
                         </OverlayTrigger>
                       ) : null}
                     </Col>
-                    <Col md='2' className='text-right text-primary'>
+                    <Col md="2" className="text-right text-primary">
                       <FontAwesomeIcon
                         icon={faTag}
                         onClick={() =>
@@ -162,16 +159,16 @@ export default function InvoicesList({
                         onClick={() =>
                           history.push(`/invoice/edit/${invoice._id}/`)
                         }
-                        className='pointer mx-3'
+                        className="pointer mx-3"
                         icon={faPen}
                       />
                       <FontAwesomeIcon
                         onClick={() => deleteBill(invoice._id)}
-                        className='pointer mr-3'
+                        className="pointer mr-3"
                         icon={faTrash}
                       />
                       <FontAwesomeIcon
-                        className='pointer'
+                        className="pointer"
                         onClick={() =>
                           sendSignatureLinkViaMail(invoice._id, invoice.from)
                         }
@@ -193,13 +190,13 @@ export default function InvoicesList({
                 <Row>
                   <Col md="2">
                     {Intl.DateTimeFormat(navigator.language, {
-                      month: "numeric",
-                      day: "numeric",
-                      year: "numeric",
-                    }).format(new Date(invoice.date).setUTCHours(3))}{" "}
+                      month: 'numeric',
+                      day: 'numeric',
+                      year: 'numeric'
+                    }).format(new Date(invoice.date))}{' '}
                   </Col>
                   <Col>
-                    {invoice.from}{" "}
+                    {invoice.from}{' '}
                     <small>
                       ({invoice.currency} ${invoice.amount})
                     </small>
@@ -207,7 +204,7 @@ export default function InvoicesList({
                       <Badge variant="info" className="ml-1">
                         {item}
                       </Badge>
-                    ))}{" "}
+                    ))}{' '}
                   </Col>
                   <Col md="2" className="text-right text-primary">
                     <FontAwesomeIcon
@@ -236,7 +233,7 @@ export default function InvoicesList({
                       icon={faTrash}
                     />
                   </Col>
-                </Row>{" "}
+                </Row>{' '}
               </ListGroup.Item>
             ))}
           </ListGroup>

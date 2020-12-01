@@ -1,23 +1,23 @@
-import { faSearch, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
-import { queryType } from "../../Interfaces/invoice";
-import moment from "moment";
+import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+import { Accordion, Button, Card, Col, Form, Row } from 'react-bootstrap';
+import { queryType } from '../../Interfaces/invoice';
+import moment from 'moment';
 
 export default function Filter({
   submitFilter,
   isLoading,
-  setIsLoading,
+  setIsLoading
 }: {
   submitFilter: (query: queryType) => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
 }) {
   const [query, setQuery] = useState<queryType>({
-    from: "",
-    to: "",
-    tags: "",
+    from: '',
+    to: '',
+    tags: ''
   });
 
   const handleSubmit = (e: any) => {
@@ -26,19 +26,19 @@ export default function Filter({
     setIsLoading(true);
     submitFilter({
       from: query.from
-        ? moment(query.from).startOf("day").format("YYYY-MM-DD")
-        : "undefined",
+        ? moment(query.from).startOf('day').format('YYYY-MM-DD')
+        : 'undefined',
       to: query.to
-        ? moment(query.to).endOf("day").format("YYYY-MM-DD")
-        : "undefined",
-      tags: query.tags,
+        ? moment(query.to).endOf('day').format('YYYY-MM-DD')
+        : 'undefined',
+      tags: query.tags
     });
   };
 
   const clearSearch = () => {
     setIsLoading(true);
     submitFilter({});
-    setQuery({ from: "", to: "", tags: "" });
+    setQuery({ from: '', to: '', tags: '' });
   };
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -53,19 +53,19 @@ export default function Filter({
           {`${
             query.from
               ? `Desde: ${Intl.DateTimeFormat(navigator.language, {
-                  month: "numeric",
-                  day: "numeric",
-                  year: "numeric",
-                }).format(new Date(query.from).setUTCHours(3))}`
-              : ""
+                  month: 'numeric',
+                  day: 'numeric',
+                  year: 'numeric'
+                }).format(new Date(query.from))}`
+              : ''
           } ${
             query.to
               ? `Hasta: ${Intl.DateTimeFormat(navigator.language, {
-                  month: "numeric",
-                  day: "numeric",
-                  year: "numeric",
-                }).format(new Date(query.to).setUTCHours(3))}`
-              : ""
+                  month: 'numeric',
+                  day: 'numeric',
+                  year: 'numeric'
+                }).format(new Date(query.to))}`
+              : ''
           }`}
         </small>
       );
@@ -73,14 +73,12 @@ export default function Filter({
       return (
         <small className="text-muted border rounded p-1">
           {`Mostrando las boletas de ${Intl.DateTimeFormat(navigator.language, {
-            month: "long",
-          }).format(new Date().setUTCHours(3))}`}
+            month: 'long'
+          }).format(new Date())}`}
         </small>
       );
     }
   };
-
-  console.log(query);
 
   return (
     <Col className="bg-white rounded shadow p-3 mb-3">
