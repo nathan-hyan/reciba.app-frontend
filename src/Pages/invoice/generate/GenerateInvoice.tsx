@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Container,
   Form,
@@ -6,23 +6,23 @@ import {
   Row,
   Col,
   InputGroup,
-  Spinner,
-} from "react-bootstrap";
+  Spinner
+} from 'react-bootstrap';
 import {
   faSave,
   faTimesCircle,
-  faQrcode,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { notify } from "react-notify-toast";
-import { invoice } from "../../../Interfaces/invoice";
-import Axios from "axios";
-import { useHistory, useParams } from "react-router-dom";
-import ShowQRCodeModal from "../qr/ShowQRCodeModal";
-import { IdGeneration } from "../../../Context/IdGeneration";
-import { UserContext } from "../../../Context/UserContext";
-import io from "socket.io-client";
-import { endpoints } from "../../../constants/endpoint";
+  faQrcode
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { notify } from 'react-notify-toast';
+import { invoice } from '../../../Interfaces/invoice';
+import Axios from 'axios';
+import { useHistory, useParams } from 'react-router-dom';
+import ShowQRCodeModal from '../qr/ShowQRCodeModal';
+import { IdGeneration } from '../../../Context/IdGeneration';
+import { UserContext } from '../../../Context/UserContext';
+import io from 'socket.io-client';
+import { endpoints } from '../../../constants/endpoint';
 
 let socket: SocketIOClient.Socket;
 let socketRoomId: string;
@@ -30,8 +30,8 @@ let socketRoomId: string;
 export default function GenerateInvoice() {
   var date = new Date().toISOString().substr(0, 10);
 
-  const axiosHeaders = localStorage.getItem("bill-token")
-    ? { headers: { auth: localStorage.getItem("bill-token") } }
+  const axiosHeaders = localStorage.getItem('bill-token')
+    ? { headers: { auth: localStorage.getItem('bill-token') } }
     : undefined;
 
   const { id } = useParams<any>();
@@ -44,13 +44,13 @@ export default function GenerateInvoice() {
   const [state, setState] = useState<invoice>({
     invoiceNumber: 1,
     date,
-    from: "",
-    amountText: "",
+    from: '',
+    amountText: '',
     amount: 0,
-    concept: "",
-    currency: "ARS",
+    concept: '',
+    currency: 'ARS',
     pending: false,
-    sign: "",
+    sign: ''
   });
   const [validated, setValidated] = useState(false);
   const [showQRCodeModal, setShowQRCodeModal] = useState(false);
@@ -72,7 +72,7 @@ export default function GenerateInvoice() {
    */
   const handleChange = (e: any) => {
     let { name, value, type, checked } = e.target;
-    let newValue = type === "checkbox" ? checked : value;
+    let newValue = type === 'checkbox' ? checked : value;
 
     setState({ ...state, [name]: newValue });
   };
@@ -92,31 +92,31 @@ export default function GenerateInvoice() {
 
     let { currentTarget } = e;
     if (!state.sign && !state.pending) {
-      notify.show("Se necesita la firma para continuar", "error");
+      notify.show('Se necesita la firma para continuar', 'error');
       setIsLoading(false);
       return null;
     }
 
     if (currentTarget.checkValidity() === false) {
-      notify.show("Please verify the form and try again", "error");
+      notify.show('Please verify the form and try again', 'error');
     } else {
       if (id) {
         Axios.put(
           `${endpoints.backend}api/invoice/edit/${id}`,
           { ...state },
-          { headers: { auth: localStorage.getItem("bill-token") } }
+          { headers: { auth: localStorage.getItem('bill-token') } }
         )
           .then(({ data }) => {
             if (data.success) {
               history.push(`/invoice/display/${data.data._id}/${socketRoomId}`);
             }
-            notify.show(data.message, "success");
+            notify.show(data.message, 'success');
             setIsLoading(false);
           })
           .catch((err) => {
             notify.show(
-              "Ocurrió un error creando el comprobante, por favor reintente",
-              "error"
+              'Ocurrió un error creando el comprobante, por favor reintente',
+              'error'
             );
             setIsLoading(false);
           });
@@ -134,15 +134,15 @@ export default function GenerateInvoice() {
                   : `/invoice/display/${data.id}/${socketRoomId}`
               );
             }
-            notify.show(data.message, "success");
+            notify.show(data.message, 'success');
             setIsLoading(false);
           })
           .catch((err) => {
             console.log(err.message);
 
             notify.show(
-              "Ocurrió un error creando el comprobante, por favor reintente",
-              "error"
+              'Ocurrió un error creando el comprobante, por favor reintente',
+              'error'
             );
             setIsLoading(false);
           });
@@ -164,17 +164,19 @@ export default function GenerateInvoice() {
       );
     }
 
-    socket.on("close", () => {
-      setShowQRCodeModal(false)
-      notify.show("Teléfono Conectado!", 'success')
+    socket.on('close', () => {
+      setShowQRCodeModal(false);
+      notify.show('Teléfono Conectado!', 'success');
     });
 
-    socket.on("sign", (data: string) => {
+    socket.on('sign', (data: string) => {
       setState((oldstate) => ({ ...oldstate, sign: data }));
     });
 
     return () => {
-      socket.off("close");
+      console.log('Fired?');
+      socket.disconnect();
+      socketRoomId = '';
     };
 
     //eslint-disable-next-line
@@ -183,7 +185,7 @@ export default function GenerateInvoice() {
   const showQRCodeModalAndGenerateCode = async () => {
     if (!socketRoomId) {
       socketRoomId = generateId();
-      socket.emit("join", socketRoomId);
+      socket.emit('join', socketRoomId);
     }
     setShowQRCodeModal((i) => !i);
   };
@@ -327,7 +329,7 @@ export default function GenerateInvoice() {
                   variant="secondary"
                   className="mr-3"
                   onClick={() => {
-                    history.push("/");
+                    history.push('/');
                   }}
                 >
                   <FontAwesomeIcon icon={faTimesCircle} /> Cancelar
@@ -337,7 +339,7 @@ export default function GenerateInvoice() {
                     <Spinner size="sm" animation="border" />
                   ) : (
                     <FontAwesomeIcon icon={faSave} />
-                  )}{" "}
+                  )}{' '}
                   Guardar
                 </Button>
               </Col>

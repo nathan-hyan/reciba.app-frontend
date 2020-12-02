@@ -18,6 +18,7 @@ export default function IdGenerationProvider(props: {
 
   const generateId = () => {
     const newId = uuidv4();
+    console.log('New room id', newId);
     return newId;
   };
 
