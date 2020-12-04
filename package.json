@@ -28,6 +28,7 @@
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.32",
     "qrcode.react": "^1.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",

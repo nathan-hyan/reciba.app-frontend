@@ -1,8 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLink } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLink } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
 export default function Home() {
   return (
@@ -29,7 +30,7 @@ export default function Home() {
         </Col>
 
         <Col className="text-right">
-          <h3>...</h3>
+          <h3>{moment().format('MMMM Do YYYY, h:mm:ss a')}</h3>
         </Col>
       </Row>
     </Container>

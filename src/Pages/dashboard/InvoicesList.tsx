@@ -23,6 +23,7 @@ import { endpoints } from '../../constants/endpoint';
 import { invoice, queryType } from '../../Interfaces/invoice';
 import LoadingScreen from '../../Layout/LoadingScreen';
 import TagsModal from './TagsModal';
+import moment from 'moment';
 
 export default function InvoicesList({
   completed,
@@ -114,13 +115,7 @@ export default function InvoicesList({
               return (
                 <ListGroup.Item key={index}>
                   <Row>
-                    <Col md="2">
-                      {Intl.DateTimeFormat(navigator.language, {
-                        day: 'numeric',
-                        month: 'numeric',
-                        year: 'numeric'
-                      }).format(new Date(invoice.date))}{' '}
-                    </Col>
+                    <Col md="2">{moment(invoice.date).format('L')}</Col>
                     <Col>
                       {invoice.from}{' '}
                       <small>
@@ -188,20 +183,14 @@ export default function InvoicesList({
             {completed.map((invoice, index) => (
               <ListGroup.Item key={index}>
                 <Row>
-                  <Col md="2">
-                    {Intl.DateTimeFormat(navigator.language, {
-                      month: 'numeric',
-                      day: 'numeric',
-                      year: 'numeric'
-                    }).format(new Date(invoice.date))}{' '}
-                  </Col>
+                  <Col md="2">{moment(invoice.date).format('L')}</Col>
                   <Col>
                     {invoice.from}{' '}
                     <small>
                       ({invoice.currency} ${invoice.amount})
                     </small>
                     {invoice.tags?.map((item: string, index: number) => (
-                      <Badge variant="info" className="ml-1">
+                      <Badge key={index} variant="info" className="ml-1">
                         {item}
                       </Badge>
                     ))}{' '}
