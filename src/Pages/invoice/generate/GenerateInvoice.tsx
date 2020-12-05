@@ -93,7 +93,6 @@ export default function GenerateInvoice() {
     let { currentTarget } = e;
     if (!state.sign && !state.pending) {
       notify.show('Se necesita la firma para continuar', 'error');
-      setIsLoading(false);
       return null;
     }
 
@@ -111,14 +110,12 @@ export default function GenerateInvoice() {
               history.push(`/invoice/display/${data.data._id}/${socketRoomId}`);
             }
             notify.show(data.message, 'success');
-            setIsLoading(false);
           })
           .catch((err) => {
             notify.show(
               'Ocurrió un error creando el comprobante, por favor reintente',
               'error'
             );
-            setIsLoading(false);
           });
       } else {
         Axios.post(
@@ -135,7 +132,6 @@ export default function GenerateInvoice() {
               );
             }
             notify.show(data.message, 'success');
-            setIsLoading(false);
           })
           .catch((err) => {
             console.log(err.message);
@@ -144,11 +140,11 @@ export default function GenerateInvoice() {
               'Ocurrió un error creando el comprobante, por favor reintente',
               'error'
             );
-            setIsLoading(false);
           });
       }
     }
 
+    setIsLoading(false);
     setValidated(true);
   };
 
@@ -286,7 +282,7 @@ export default function GenerateInvoice() {
                       onChange={handleChange}
                       value={state.amount}
                       min={1}
-                      type="number"
+                      type="decimal"
                     />
                   </InputGroup>
                 </Form.Group>
