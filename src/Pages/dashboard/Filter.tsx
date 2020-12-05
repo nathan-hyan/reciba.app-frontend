@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Accordion, Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { queryType } from '../../Interfaces/invoice';
 import moment from 'moment';
+import { dateConverter } from '../../utils/dateConverter';
 
 export default function Filter({
   submitFilter,
@@ -52,19 +53,11 @@ export default function Filter({
         <small className="text-muted border rounded p-1">
           {`${
             query.from
-              ? `Desde: ${Intl.DateTimeFormat(navigator.language, {
-                  month: 'numeric',
-                  day: 'numeric',
-                  year: 'numeric'
-                }).format(new Date(query.from))}`
+              ? `Desde: ${moment(dateConverter(query.from)).format('L')}`
               : ''
           } ${
             query.to
-              ? `Hasta: ${Intl.DateTimeFormat(navigator.language, {
-                  month: 'numeric',
-                  day: 'numeric',
-                  year: 'numeric'
-                }).format(new Date(query.to))}`
+              ? `Hasta: ${moment(dateConverter(query.to)).format('L')}`
               : ''
           }`}
         </small>

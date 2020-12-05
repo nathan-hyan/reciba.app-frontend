@@ -24,6 +24,7 @@ import { invoice, queryType } from '../../Interfaces/invoice';
 import LoadingScreen from '../../Layout/LoadingScreen';
 import TagsModal from './TagsModal';
 import moment from 'moment';
+import { dateConverter } from '../../utils/dateConverter';
 
 export default function InvoicesList({
   completed,
@@ -115,7 +116,9 @@ export default function InvoicesList({
               return (
                 <ListGroup.Item key={index}>
                   <Row>
-                    <Col md="2">{moment(invoice.date).format('L')}</Col>
+                    <Col md="2">
+                      {moment(dateConverter(invoice.date)).format('L')}
+                    </Col>
                     <Col>
                       {invoice.from}{' '}
                       <small>
@@ -180,51 +183,57 @@ export default function InvoicesList({
             Boletas finalizadas - {completed.length}
           </small>
           <ListGroup>
-            {completed.map((invoice, index) => (
-              <ListGroup.Item key={index}>
-                <Row>
-                  <Col md="2">{moment(invoice.date).format('L')}</Col>
-                  <Col>
-                    {invoice.from}{' '}
-                    <small>
-                      ({invoice.currency} ${invoice.amount})
-                    </small>
-                    {invoice.tags?.map((item: string, index: number) => (
-                      <Badge key={index} variant="info" className="ml-1">
-                        {item}
-                      </Badge>
-                    ))}{' '}
-                  </Col>
-                  <Col md="2" className="text-right text-primary">
-                    <FontAwesomeIcon
-                      className="pointer"
-                      icon={faTag}
-                      onClick={() => toggleTagsModal(invoice._id, invoice.tags)}
-                    />
+            {completed.map((invoice, index) => {
+              return (
+                <ListGroup.Item key={index}>
+                  <Row>
+                    <Col md="2">
+                      {moment(dateConverter(invoice.date)).format('L')}
+                    </Col>
+                    <Col>
+                      {invoice.from}{' '}
+                      <small>
+                        ({invoice.currency} ${invoice.amount})
+                      </small>
+                      {invoice.tags?.map((item: string, index: number) => (
+                        <Badge key={index} variant="info" className="ml-1">
+                          {item}
+                        </Badge>
+                      ))}{' '}
+                    </Col>
+                    <Col md="2" className="text-right text-primary">
+                      <FontAwesomeIcon
+                        className="pointer"
+                        icon={faTag}
+                        onClick={() =>
+                          toggleTagsModal(invoice._id, invoice.tags)
+                        }
+                      />
 
-                    <FontAwesomeIcon
-                      onClick={() =>
-                        history.push(`/invoice/edit/${invoice._id}/`)
-                      }
-                      className="ml-3 pointer"
-                      icon={faPen}
-                    />
-                    <FontAwesomeIcon
-                      onClick={() =>
-                        history.push(`/invoice/display/${invoice._id}/no`)
-                      }
-                      icon={faPrint}
-                      className="mx-3 pointer"
-                    />
-                    <FontAwesomeIcon
-                      onClick={() => deleteBill(invoice._id)}
-                      className="pointer"
-                      icon={faTrash}
-                    />
-                  </Col>
-                </Row>{' '}
-              </ListGroup.Item>
-            ))}
+                      <FontAwesomeIcon
+                        onClick={() =>
+                          history.push(`/invoice/edit/${invoice._id}/`)
+                        }
+                        className="ml-3 pointer"
+                        icon={faPen}
+                      />
+                      <FontAwesomeIcon
+                        onClick={() =>
+                          history.push(`/invoice/display/${invoice._id}/no`)
+                        }
+                        icon={faPrint}
+                        className="mx-3 pointer"
+                      />
+                      <FontAwesomeIcon
+                        onClick={() => deleteBill(invoice._id)}
+                        className="pointer"
+                        icon={faTrash}
+                      />
+                    </Col>
+                  </Row>{' '}
+                </ListGroup.Item>
+              );
+            })}
           </ListGroup>
         </Col>
       </>

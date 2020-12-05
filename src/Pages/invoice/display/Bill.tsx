@@ -1,10 +1,11 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
-import { invoice } from "../../../Interfaces/invoice";
+import moment from 'moment';
+import React from 'react';
+import { Row, Col } from 'react-bootstrap';
+import { invoice } from '../../../Interfaces/invoice';
 
 export default function Bill({
   isOriginal = false,
-  data,
+  data
 }: {
   isOriginal?: boolean;
   data: invoice;
@@ -18,10 +19,10 @@ export default function Bill({
             height: 64,
             marginTop: 150,
             width: 109,
-            paddingLeft: 0,
+            paddingLeft: 0
           }}
         >
-          {isOriginal ? "Recibo Original" : "Recibo Duplicado"}
+          {isOriginal ? 'Recibo Original' : 'Recibo Duplicado'}
         </p>
       </Col>
 
@@ -45,12 +46,7 @@ export default function Bill({
           <Col className="text-center">
             <p className="my-0">
               <strong>Fecha: </strong>
-              {Intl.DateTimeFormat(navigator.language, {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              }).format(new Date(data.date))}
+              {moment(data.date).format('MMMM Do [del] YYYY')}
             </p>
           </Col>
         </Row>

@@ -30,6 +30,7 @@ export default function Home() {
         </Col>
 
         <Col className="text-right">
+          <h6>Hora actual:</h6>
           <h3>{moment().format('MMMM Do YYYY, h:mm:ss a')}</h3>
         </Col>
       </Row>
