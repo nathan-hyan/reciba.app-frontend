@@ -82,8 +82,15 @@ function SendMailModal({ resetData, show, data }: Props) {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button disabled={isSendingMail} variant="secondary">
-            <FontAwesomeIcon icon={faTimesCircle} onClick={resetData} /> Cerrar
+          <Button
+            disabled={isSendingMail}
+            onClick={() => {
+              resetData();
+              setEmail('');
+            }}
+            variant="secondary"
+          >
+            <FontAwesomeIcon icon={faTimesCircle} /> Cerrar
           </Button>
           <Button disabled={isSendingMail} type="submit" variant="primary">
             <FontAwesomeIcon icon={faPaperPlane} />{' '}
