@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { UserContext } from "../../Context/UserContext";
-import UsermenuLoggedIn from "./userMenu/UsermenuLoggedIn";
-import UsermenuLoggedOut from "./userMenu/UsermenuLoggedOut";
-import OptionsLoggedIn from "./options/OptionsLoggedIn";
-import OptionsLoggedOut from "./options/OptionsLoggedOut";
-import { Link } from "react-router-dom";
+import React, { useContext } from 'react';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../../Context/UserContext';
+import UsermenuLoggedIn from './userMenu/UsermenuLoggedIn';
+import UsermenuLoggedOut from './userMenu/UsermenuLoggedOut';
+import OptionsLoggedIn from './options/OptionsLoggedIn';
+import OptionsLoggedOut from './options/OptionsLoggedOut';
 
 export default function Navigation() {
   const user = useContext(UserContext);
@@ -28,7 +28,7 @@ export default function Navigation() {
           <Nav className="ml-auto">
             <NavDropdown
               title={`Usuario actual: ${
-                user.isLoggedIn ? user.name : "invitado"
+                user.isLoggedIn ? user.name : 'invitado'
               }`}
               id="collasible-nav-dropdown"
             >

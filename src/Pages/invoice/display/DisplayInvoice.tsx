@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Container, Row } from "react-bootstrap";
-//eslint-disable-next-line
-import { invoice } from "../../../Interfaces/invoice";
-import Axios from "axios";
-import { useParams } from "react-router-dom";
-import { savePDF } from "@progress/kendo-react-pdf";
-import { drawDOM, exportPDF } from "@progress/kendo-drawing";
-import Bill from "./Bill";
-import ButtonsGroup from "./ButtonsGroup";
-import { notify } from "react-notify-toast";
-import EmailInput from "./EmailInput";
-import io from "socket.io-client";
-import { endpoints } from "../../../constants/endpoint";
+import React, { useState, useEffect, useRef } from 'react';
+import { Container, Row } from 'react-bootstrap';
+import Axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { savePDF } from '@progress/kendo-react-pdf';
+import { drawDOM, exportPDF } from '@progress/kendo-drawing';
+import { notify } from 'react-notify-toast';
+import io from 'socket.io-client';
+import { Invoice } from '../../../Interfaces/invoice';
+import EmailInput from './EmailInput';
+import ButtonsGroup from './ButtonsGroup';
+import Bill from './Bill';
+import { endpoints } from '../../../constants/endpoint';
 
 let socket: SocketIOClient.Socket;
 
@@ -19,20 +18,20 @@ export default function DisplayInvoice() {
   const invoice = useRef<any>(<div />);
   const { id, socketId } = useParams<any>();
 
-  const [state, setState] = useState<invoice>({
+  const [state, setState] = useState<Invoice>({
     invoiceNumber: 1,
-    logo: "",
+    logo: '',
     date: new Date(),
-    from: "",
-    amountText: "",
+    from: '',
+    amountText: '',
     amount: 0,
-    concept: "",
-    sign: "",
-    currency: "ARS",
+    concept: '',
+    sign: '',
+    currency: 'ARS',
     pending: false,
   });
   const [showEmail, setShowEmail] = useState<boolean>(false);
-  const [recipient, setRecipient] = useState<string>("");
+  const [recipient, setRecipient] = useState<string>('');
   const [validated, setValidated] = useState(false);
 
   /**
@@ -40,11 +39,11 @@ export default function DisplayInvoice() {
    * @param input Fecha en formato (YYYY-MM-DD)
    */
   const dateTransformer = (input: string) => {
-    let dateWithoutTime = input.slice(0, 10);
-    let dateArray = dateWithoutTime.split("-");
-    let year: number = parseInt(dateArray[0]);
-    let month: number = parseInt(dateArray[1], 10) - 1;
-    let date: number = parseInt(dateArray[2]);
+    const dateWithoutTime = input.slice(0, 10);
+    const dateArray = dateWithoutTime.split('-');
+    const year: number = parseInt(dateArray[0]);
+    const month: number = parseInt(dateArray[1], 10) - 1;
+    const date: number = parseInt(dateArray[2]);
 
     return { year, month, date };
   };
@@ -54,11 +53,11 @@ export default function DisplayInvoice() {
    */
   const exportPDFToFile = () => {
     savePDF(invoice.current, {
-      paperSize: "A4",
+      paperSize: 'A4',
       fileName: `Invoice - ${Intl.DateTimeFormat(navigator.language, {
-        month: "numeric",
-        day: "numeric",
-        year: "numeric",
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric',
       }).format(new Date(state.date))} - ${id}`,
       landscape: true,
       scale: 0.75,
@@ -70,19 +69,16 @@ export default function DisplayInvoice() {
    */
   const transformPDFToBase64 = () => {
     const base64 = drawDOM(invoice.current, {
-      paperSize: "A4",
+      paperSize: 'A4',
       landscape: true,
       scale: 0.75,
-    }).then((group) => {
-      return exportPDF(group);
-    });
+    }).then((group) => exportPDF(group));
 
     return base64;
   };
 
   const emitPDFViaSocket = async () => {
-    console.log("Sending PDF");
-    socket.emit("pdf", await transformPDFToBase64());
+    socket.emit('pdf', await transformPDFToBase64());
   };
 
   /**
@@ -100,16 +96,16 @@ export default function DisplayInvoice() {
         email: recipient,
       })
         .then(({ data }) => {
-          let { success, message } = data;
+          const { success, message } = data;
 
           if (success) {
-            notify.show(message, "success");
+            notify.show(message, 'success');
           } else {
-            notify.show(message, "error");
+            notify.show(message, 'error');
           }
         })
         .catch((error) => {
-          console.log(error.response.data);
+          notify.show('Ocurrió un error', 'error');
         });
     }
 
@@ -126,12 +122,12 @@ export default function DisplayInvoice() {
       }
     );
 
-    socket.emit("join", socketId);
+    socket.emit('join', socketId);
 
     return () => {
-      socket.off("join");
+      socket.off('join');
     };
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, [endpoints.backend]);
 
   return (
@@ -141,10 +137,10 @@ export default function DisplayInvoice() {
           exportPDFToFile={exportPDFToFile}
           transformPDFToBase64={emitPDFViaSocket}
           toggleEmailInput={() => setShowEmail(!showEmail)}
-          hasSocketId={socketId === "no"}
+          hasSocketId={socketId === 'no'}
         />
       </Row>
-      <Row className={showEmail ? "d-block" : "d-none"}>
+      <Row className={showEmail ? 'd-block' : 'd-none'}>
         <EmailInput
           recipient={recipient}
           sendEmail={(e) => sendEmail(e)}

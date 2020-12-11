@@ -14,19 +14,19 @@ type ContextProps = {
 
 export const UserContext = createContext<Partial<ContextProps>>({});
 
-const UserContextProvider = (props: { children: React.ReactNode }) => {
+const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   const history = useHistory();
   const storedToken = localStorage.getItem('bill-token');
   const [userData, setUserData] = useState({
     isLoggedIn: false,
     level: 9,
     token: '',
-    name: ''
+    name: '',
   });
 
   if (storedToken && !userData.isLoggedIn) {
     Axios.post(
-      endpoints.backend + 'api/user/loggedInUser',
+      `${endpoints.backend}api/user/loggedInUser`,
       { storedToken },
       { headers: { auth: localStorage.getItem('bill-token') } }
     )
@@ -36,7 +36,7 @@ const UserContextProvider = (props: { children: React.ReactNode }) => {
           isLoggedIn: true,
           level: 9,
           token: response.data.data.token,
-          name: response.data.data.name
+          name: response.data.data.name,
         });
       })
       .catch((err) => {
@@ -47,7 +47,7 @@ const UserContextProvider = (props: { children: React.ReactNode }) => {
           isLoggedIn: false,
           level: 9,
           token: '',
-          name: ''
+          name: '',
         });
         history.push('/');
       });
@@ -55,7 +55,7 @@ const UserContextProvider = (props: { children: React.ReactNode }) => {
 
   return (
     <UserContext.Provider value={{ ...userData, setUserData }}>
-      {props.children}
+      {children}
     </UserContext.Provider>
   );
 };

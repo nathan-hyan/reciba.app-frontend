@@ -1,7 +1,7 @@
-import Axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
-import { notify } from "react-notify-toast";
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
+import { notify } from 'react-notify-toast';
 import { endpoints } from '../../constants/endpoint';
 
 export default function TagsModal({
@@ -17,44 +17,42 @@ export default function TagsModal({
   refreshData: () => void;
   prevTags?: string[];
 }) {
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState('');
 
   useEffect(() => {
     if (prevTags !== []) {
-      setTags(prevTags ? prevTags.toString() : "");
-    } else {
-      return;
+      setTags(prevTags ? prevTags.toString() : '');
     }
 
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, [invoiceId]);
 
   const saveTags = (items: string[]) => {
-    if (invoiceId === "") {
-      throw Error("No hay invoice id especificado");
+    if (invoiceId === '') {
+      throw Error('No hay invoice id especificado');
     }
     Axios.put(
       `${endpoints.backend}api/invoice/edit/${invoiceId}`,
       { tags: items },
       {
-        headers: { auth: localStorage.getItem("bill-token") },
+        headers: { auth: localStorage.getItem('bill-token') },
       }
     )
       .then(({ data }) => {
-        notify.show("Datos guardados", "success");
+        notify.show('Datos guardados', 'success');
         refreshData();
         handleClose();
       })
       .catch((err) => {
-        notify.show(err.message, "error");
+        notify.show(err.message, 'error');
       });
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const arrayFromString = tags.split(",");
-    let processedArray = [];
-    for (let item of arrayFromString) {
+    const arrayFromString = tags.split(',');
+    const processedArray = [];
+    for (const item of arrayFromString) {
       processedArray.push(item.trim());
     }
 

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-onchange */
 import React, { useState, useEffect, useContext } from 'react';
 import {
   Container,
@@ -6,29 +7,29 @@ import {
   Row,
   Col,
   InputGroup,
-  Spinner
+  Spinner,
 } from 'react-bootstrap';
 import {
   faSave,
   faTimesCircle,
-  faQrcode
+  faQrcode,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { notify } from 'react-notify-toast';
-import { invoice } from '../../../Interfaces/invoice';
 import Axios from 'axios';
 import { useHistory, useParams } from 'react-router-dom';
-import ShowQRCodeModal from '../qr/ShowQRCodeModal';
-import { IdGeneration } from '../../../Context/IdGeneration';
-import { UserContext } from '../../../Context/UserContext';
 import io from 'socket.io-client';
 import { endpoints } from '../../../constants/endpoint';
+import { IdGeneration } from '../../../Context/IdGeneration';
+import { UserContext } from '../../../Context/UserContext';
+import { Invoice } from '../../../Interfaces/invoice';
+import ShowQRCodeModal from '../qr/ShowQRCodeModal';
 
 let socket: SocketIOClient.Socket;
 let socketRoomId: string;
 
 export default function GenerateInvoice() {
-  var date = new Date().toISOString().substr(0, 10);
+  const date = new Date().toISOString().substr(0, 10);
 
   const axiosHeaders = localStorage.getItem('bill-token')
     ? { headers: { auth: localStorage.getItem('bill-token') } }
@@ -40,8 +41,8 @@ export default function GenerateInvoice() {
   const { generateId } = useContext(IdGeneration);
   const { isLoggedIn } = useContext(UserContext);
 
-  //Setting up state
-  const [state, setState] = useState<invoice>({
+  // Setting up state
+  const [state, setState] = useState<Invoice>({
     invoiceNumber: 1,
     date,
     from: '',
@@ -50,7 +51,7 @@ export default function GenerateInvoice() {
     concept: '',
     currency: 'ARS',
     pending: false,
-    sign: ''
+    sign: '',
   });
   const [validated, setValidated] = useState(false);
   const [showQRCodeModal, setShowQRCodeModal] = useState(false);
@@ -71,8 +72,8 @@ export default function GenerateInvoice() {
    * @param e Input
    */
   const handleChange = (e: any) => {
-    let { name, value, type, checked } = e.target;
-    let newValue = type === 'checkbox' ? checked : value;
+    const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
 
     setState({ ...state, [name]: newValue });
   };
@@ -90,7 +91,7 @@ export default function GenerateInvoice() {
     e.stopPropagation();
     setIsLoading(true);
 
-    let { currentTarget } = e;
+    const { currentTarget } = e;
     if (!state.sign && !state.pending) {
       notify.show('Se necesita la firma para continuar', 'error');
       return null;
@@ -98,54 +99,48 @@ export default function GenerateInvoice() {
 
     if (currentTarget.checkValidity() === false) {
       notify.show('Please verify the form and try again', 'error');
+    } else if (id) {
+      Axios.put(
+        `${endpoints.backend}api/invoice/edit/${id}`,
+        { ...state },
+        { headers: { auth: localStorage.getItem('bill-token') } }
+      )
+        .then(({ data }) => {
+          if (data.success) {
+            history.push(`/invoice/display/${data.data._id}/${socketRoomId}`);
+          }
+          notify.show(data.message, 'success');
+        })
+        .catch((err) => {
+          notify.show(
+            'Ocurrió un error creando el comprobante, por favor reintente',
+            'error'
+          );
+        });
     } else {
-      if (id) {
-        Axios.put(
-          `${endpoints.backend}api/invoice/edit/${id}`,
-          { ...state },
-          { headers: { auth: localStorage.getItem('bill-token') } }
-        )
-          .then(({ data }) => {
-            if (data.success) {
-              history.push(`/invoice/display/${data.data._id}/${socketRoomId}`);
-            }
-            notify.show(data.message, 'success');
-          })
-          .catch((err) => {
-            notify.show(
-              'Ocurrió un error creando el comprobante, por favor reintente',
-              'error'
+      Axios.post(`${endpoints.backend}api/invoice/`, { ...state }, axiosHeaders)
+        .then(({ data }) => {
+          if (data.id) {
+            history.push(
+              state.pending
+                ? '/dashboard'
+                : `/invoice/display/${data.id}/${socketRoomId}`
             );
-          });
-      } else {
-        Axios.post(
-          `${endpoints.backend}api/invoice/`,
-          { ...state },
-          axiosHeaders
-        )
-          .then(({ data }) => {
-            if (data.id) {
-              history.push(
-                state.pending
-                  ? `/dashboard`
-                  : `/invoice/display/${data.id}/${socketRoomId}`
-              );
-            }
-            notify.show(data.message, 'success');
-          })
-          .catch((err) => {
-            console.log(err.message);
-
-            notify.show(
-              'Ocurrió un error creando el comprobante, por favor reintente',
-              'error'
-            );
-          });
-      }
+          }
+          notify.show(data.message, 'success');
+        })
+        .catch((err) => {
+          notify.show(
+            'Ocurrió un error creando el comprobante, por favor reintente',
+            'error'
+          );
+        });
     }
 
     setIsLoading(false);
     setValidated(true);
+
+    return false;
   };
 
   useEffect(() => {
@@ -170,12 +165,11 @@ export default function GenerateInvoice() {
     });
 
     return () => {
-      console.log('Fired?');
       socket.disconnect();
       socketRoomId = '';
     };
 
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, [endpoints.backend]);
 
   const showQRCodeModalAndGenerateCode = async () => {
@@ -300,8 +294,9 @@ export default function GenerateInvoice() {
               <Col className="text-right d-flex align-items-center justify-content-end">
                 {isLoggedIn ? (
                   <fieldset className="mr-3 py-1 px-2 border border-gray rounded">
-                    <label className="m-0 p-0">
+                    <label htmlFor="pending" className="m-0 p-0">
                       <input
+                        id="pending"
                         type="checkbox"
                         name="pending"
                         checked={state.pending}
@@ -318,7 +313,8 @@ export default function GenerateInvoice() {
                   onClick={showQRCodeModalAndGenerateCode}
                   className="mr-3"
                 >
-                  <FontAwesomeIcon icon={faQrcode} /> Mostrar QR para firmar
+                  <FontAwesomeIcon icon={faQrcode} />
+                  Mostrar QR para firmar
                 </Button>
                 <Button
                   disabled={isLoading}
@@ -328,14 +324,15 @@ export default function GenerateInvoice() {
                     history.push('/');
                   }}
                 >
-                  <FontAwesomeIcon icon={faTimesCircle} /> Cancelar
+                  <FontAwesomeIcon icon={faTimesCircle} />
+                  Cancelar
                 </Button>
                 <Button disabled={isLoading} variant="primary" type="submit">
                   {isLoading ? (
                     <Spinner size="sm" animation="border" />
                   ) : (
                     <FontAwesomeIcon icon={faSave} />
-                  )}{' '}
+                  )}
                   Guardar
                 </Button>
               </Col>

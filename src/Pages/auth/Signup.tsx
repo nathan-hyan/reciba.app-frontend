@@ -1,12 +1,12 @@
-import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Axios from "axios";
-import { notify } from "react-notify-toast";
-import { UserContext } from "../../Context/UserContext";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Axios from 'axios';
+import { notify } from 'react-notify-toast';
+// import HCaptcha from '@hcaptcha/react-hcaptcha';
+import { UserContext } from '../../Context/UserContext';
 import { endpoints } from '../../constants/endpoint';
 
 export default function Signup() {
@@ -14,10 +14,10 @@ export default function Signup() {
   const user = useContext(UserContext);
 
   const [state, setState] = useState({
-    name: "",
-    email: "",
-    password: "",
-    repeatPassword: "",
+    name: '',
+    email: '',
+    password: '',
+    repeatPassword: '',
   });
 
   const [validated, setValidated] = useState(false);
@@ -31,7 +31,7 @@ export default function Signup() {
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.stopPropagation();
-      notify.show("Por favor, verifique los datos antes de continuar", "error");
+      notify.show('Por favor, verifique los datos antes de continuar', 'error');
     } else {
       e.stopPropagation();
       Axios.post(`${endpoints.backend}api/user/register`, {
@@ -52,25 +52,25 @@ export default function Signup() {
                     token: data.data.token,
                     name: data.data.name,
                   });
-                  localStorage.setItem("bill-token", data.data.token);
-                  notify.show(`${data.message}`, "success");
-                  history.push("/");
+                  localStorage.setItem('bill-token', data.data.token);
+                  notify.show(`${data.message}`, 'success');
+                  history.push('/');
                 } else {
-                  notify.show("Ocurrió un error, reintente por favor", "error");
+                  notify.show('Ocurrió un error, reintente por favor', 'error');
                 }
               })
               .catch((err) => {
-                notify.show(`${err.response.data.message}`, "error");
+                notify.show(`${err.response.data.message}`, 'error');
               });
           } else {
-            notify.show(`Error: ${response.data.message}`, "error");
+            notify.show(`Error: ${response.data.message}`, 'error');
           }
         })
         .catch((err) => {
           try {
-            notify.show(`${err.response.data.message}`, "error");
-          } catch (err) {
-            notify.show(`${err.message}`, "error");
+            notify.show(`${err.response.data.message}`, 'error');
+          } catch (error) {
+            notify.show(`${error.message}`, 'error');
           }
         });
     }
@@ -79,7 +79,7 @@ export default function Signup() {
   };
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
-    let { name, value } = e.target;
+    const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
 
@@ -105,7 +105,7 @@ export default function Signup() {
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Por favor ingrese su nombre{" "}
+                Por favor ingrese su nombre{' '}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -157,10 +157,10 @@ export default function Signup() {
 
             <Form.Group>
               <Form.Label>Captcha!</Form.Label>
-              <HCaptcha
+              {/* <HCaptcha
                 sitekey="be3fd67b-1a61-4936-b57f-600e3765988f"
                 onVerify={(token) => console.log(token)}
-              />
+              /> */}
             </Form.Group>
 
             <Button variant="primary" type="submit">

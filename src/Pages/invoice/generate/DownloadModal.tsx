@@ -1,8 +1,8 @@
-import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
 
 export default function DownloadModal({
   show,

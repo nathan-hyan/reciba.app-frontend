@@ -1,16 +1,16 @@
-import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-import { notify } from "react-notify-toast";
-import Axios from "axios";
-import { UserContext } from "../../Context/UserContext";
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Row, Col, Container, Form, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { notify } from 'react-notify-toast';
+import Axios from 'axios';
+import { UserContext } from '../../Context/UserContext';
 import { endpoints } from '../../constants/endpoint';
 
 export default function Login() {
   const User = useContext(UserContext);
-  const [login, setLogin] = useState({ email: "", password: "" });
+  const [login, setLogin] = useState({ email: '', password: '' });
   const [validated, setValidated] = useState(false);
   const history = useHistory();
 
@@ -20,7 +20,7 @@ export default function Login() {
    * @param e Input
    */
   const handleChange = (e: { target: { name: any; value: any } }) => {
-    let { name, value } = e.target;
+    const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
   };
 
@@ -38,29 +38,27 @@ export default function Login() {
     event.preventDefault();
     if (form.checkValidity() === false) {
       event.stopPropagation();
-      notify.show("Por favor verifique los datos antes de continuar", "error");
+      notify.show('Por favor verifique los datos antes de continuar', 'error');
     } else {
       event.stopPropagation();
       Axios.post(`${endpoints.backend}api/user/login`, login)
         .then(({ data }) => {
-          console.log(data);
-
           if (data.success) {
             User.setUserData({
               isLoggedIn: true,
               token: data.data.token,
               name: data.data.name,
             });
-            localStorage.setItem("bill-token", data.data.token);
-            notify.show(`${data.message}`, "success");
-            history.push("/");
+            localStorage.setItem('bill-token', data.data.token);
+            notify.show(`${data.message}`, 'success');
+            history.push('/');
           } else {
-            notify.show("Ocurrió un error, por favor reintente", "error");
+            notify.show('Ocurrió un error, por favor reintente', 'error');
           }
         })
         .catch((err) => {
-          let error = err.response ? err.response.data.message : err.message;
-          notify.show(`${error}`, "error");
+          const error = err.response ? err.response.data.message : err.message;
+          notify.show(`${error}`, 'error');
         });
     }
 

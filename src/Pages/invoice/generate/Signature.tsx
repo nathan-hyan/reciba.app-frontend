@@ -5,10 +5,11 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Container, Button, Row, Col } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
 import { useParams } from 'react-router-dom';
-import { endpoints } from '../../../constants/endpoint';
-import { invoice } from '../../../Interfaces/invoice';
-import DownloadModal from './DownloadModal';
 import io from 'socket.io-client';
+import { endpoints } from '../../../constants/endpoint';
+import { Invoice } from '../../../Interfaces/invoice';
+import DownloadModal from './DownloadModal';
+
 const SignaturePad = require('react-signature-pad');
 
 let socket: SocketIOClient.Socket;
@@ -23,7 +24,7 @@ export default function Signature() {
   >();
   const [showModal, setShowModal] = useState(false);
   const [PDFFile, setPDFFile] = useState('');
-  const [state, setState] = useState<Partial<invoice>>({});
+  const [state, setState] = useState<Partial<Invoice>>({});
 
   useEffect(() => {
     if (socketId) {
@@ -42,6 +43,7 @@ export default function Signature() {
             setState(data.data);
           }
         })
+        // eslint-disable-next-line no-alert
         .catch((err: any) => alert(err.response.data.message));
     }
 
@@ -50,6 +52,7 @@ export default function Signature() {
         socket.off('pdf');
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endpoints.backend]);
 
   const sendSign = () => {
@@ -63,10 +66,11 @@ export default function Signature() {
   };
 
   const submitSignature = () => {
+    // eslint-disable-next-line no-alert
     if (window.confirm(`¿Confirma el envio de la firma a ${state.from}?`)) {
       Axios.put(`${endpoints.backend}api/invoice/addSignature/${invoiceId}`, {
         ...state,
-        sign: signatureRef.current.toDataURL()
+        sign: signatureRef.current.toDataURL(),
       })
         .then((response) => {
           notify.show(
@@ -82,21 +86,22 @@ export default function Signature() {
   };
 
   return (
-    <Container className='h-100-minus mt-5'>
+    <Container className="h-100-minus mt-5">
       <DownloadModal
         PDFFile={PDFFile}
         show={showModal}
         handleClose={showDeleteModal}
       />
       <Row className={invoiceId ? 'd-block' : 'd-none'}>
-        <Col className='text-center'>
+        <Col className="text-center">
           <h1>¡Hola!</h1>
 
           <p>
             Recibió esta boleta de <strong>{state.from}</strong> con el concepto
             de <strong>{state.concept}</strong> por el monto total de{' '}
             <strong>
-              {state.currency} {state.amount}
+              {state.currency}
+              {state.amount}
             </strong>
           </p>
 
@@ -104,18 +109,18 @@ export default function Signature() {
         </Col>
       </Row>
       <Row>
-        <Col className='text-center'>
-          <p className='lead m-0'>Firme en el campo en blanco para continuar</p>
-          <small className='text-muted'>
+        <Col className="text-center">
+          <p className="lead m-0">Firme en el campo en blanco para continuar</p>
+          <small className="text-muted">
             Coloque el teléfono en modo horizontal para mejor resultado
           </small>
         </Col>
       </Row>
-      <Row className='my-5'>
+      <Row className="my-5">
         <Col
           onTouchEnd={sendSign}
           onMouseUp={sendSign}
-          className='bg-white shadow rounded'
+          className="bg-white shadow rounded"
         >
           <SignaturePad ref={signatureRef} />
         </Col>
@@ -123,8 +128,8 @@ export default function Signature() {
       <Row>
         <Col>
           <Button
-            className='w-100'
-            variant='danger'
+            className="w-100"
+            variant="danger"
             onClick={() => {
               signatureRef.current.clear();
               sendSign();
@@ -134,14 +139,14 @@ export default function Signature() {
           </Button>
         </Col>
         <Col className={invoiceId ? 'd-block' : 'd-none'}>
-          <Button className='w-100' variant='success' onClick={submitSignature}>
+          <Button className="w-100" variant="success" onClick={submitSignature}>
             <FontAwesomeIcon icon={faShare} /> Enviar firma
           </Button>
         </Col>
       </Row>
       <Row className={socketId ? 'd-block my-5 text-center' : 'd-none'}>
         <Col>
-          <p className='lead'>¡No cierre esta página!</p>
+          <p className="lead">¡No cierre esta página!</p>
           <p>
             Cuando se genere el comprobante, debajo aparecerá un botón para
             descargarlo

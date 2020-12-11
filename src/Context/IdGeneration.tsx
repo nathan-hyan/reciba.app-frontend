@@ -1,30 +1,31 @@
 import React, { createContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-export const IdGeneration = createContext<{
+interface Context {
   generateId: () => string;
   currentId: string;
-}>({
-  generateId: () => {
-    return '';
-  },
-  currentId: ''
+}
+
+export const IdGeneration = createContext<Context>({
+  generateId: () => '',
+  currentId: '',
 });
 
-export default function IdGenerationProvider(props: {
+export default function IdGenerationProvider({
+  children,
+}: {
   children: React.ReactNode;
 }) {
   const [currentId] = useState('');
 
   const generateId = () => {
     const newId = uuidv4();
-    console.log('New room id', newId);
     return newId;
   };
 
   return (
     <IdGeneration.Provider value={{ generateId, currentId }}>
-      {props.children}
+      {children}
     </IdGeneration.Provider>
   );
 }

@@ -2,23 +2,23 @@ import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { Accordion, Button, Card, Col, Form, Row } from 'react-bootstrap';
-import { queryType } from '../../Interfaces/invoice';
 import moment from 'moment';
+import { queryType } from '../../Interfaces/invoice';
 import { dateConverter } from '../../utils/dateConverter';
 
 export default function Filter({
   submitFilter,
   isLoading,
-  setIsLoading
+  setIsLoading,
 }: {
   submitFilter: (query: queryType) => void;
   isLoading: boolean;
-  setIsLoading: (isLoading: boolean) => void;
+  setIsLoading: (_isLoading: boolean) => void;
 }) {
   const [query, setQuery] = useState<queryType>({
     from: '',
     to: '',
-    tags: ''
+    tags: '',
   });
 
   const handleSubmit = (e: any) => {
@@ -32,7 +32,7 @@ export default function Filter({
       to: query.to
         ? moment(query.to).endOf('day').format('YYYY-MM-DD')
         : 'undefined',
-      tags: query.tags
+      tags: query.tags,
     });
   };
 
@@ -43,7 +43,7 @@ export default function Filter({
   };
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
-    let { name, value } = e.target;
+    const { name, value } = e.target;
     setQuery({ ...query, [name]: value });
   };
 
@@ -62,15 +62,14 @@ export default function Filter({
           }`}
         </small>
       );
-    } else {
-      return (
-        <small className="text-muted border rounded p-1">
-          {`Mostrando las boletas de ${Intl.DateTimeFormat(navigator.language, {
-            month: 'long'
-          }).format(new Date())}`}
-        </small>
-      );
     }
+    return (
+      <small className="text-muted border rounded p-1">
+        {`Mostrando las boletas de ${Intl.DateTimeFormat(navigator.language, {
+          month: 'long',
+        }).format(new Date())}`}
+      </small>
+    );
   };
 
   return (

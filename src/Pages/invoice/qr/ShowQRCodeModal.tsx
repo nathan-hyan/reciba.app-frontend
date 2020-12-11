@@ -1,22 +1,23 @@
-import React, { useContext, useEffect } from "react";
-import QRCode from "qrcode.react";
-import { Row, Col, Button, Modal } from "react-bootstrap";
-import "./QRCode.css";
-import { IdGeneration } from "../../../Context/IdGeneration";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import QRCode from 'qrcode.react';
+import { Row, Col, Button, Modal } from 'react-bootstrap';
+import './QRCode.css';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { endpoints } from '../../../constants/endpoint';
 
 export default function ShowQRCodeModal({
   show = true,
-  onHide = () => (show = !show),
-  currentId = "Error",
+  onHide = () => {
+    const newShow = !show;
+    return newShow;
+  },
+  currentId = 'Error',
 }: {
   show: boolean;
   onHide: () => void;
   currentId: string;
 }) {
-
   return (
     <Modal size="xl" show={show} onHide={onHide}>
       <Modal.Body>
@@ -31,18 +32,24 @@ export default function ShowQRCodeModal({
         <Row className="my-5">
           <Col />
           <Col className="bg-white shadow rounded p-3" md={3}>
-            <QRCode size={200} value={`${endpoints.frontend}#/signature/${currentId}`} />
+            <QRCode
+              size={200}
+              value={`${endpoints.frontend}#/signature/${currentId}`}
+            />
           </Col>
           <Col />
         </Row>
         <Row>
           <Col className="text-center">
             <small>
-              También puede ingresar acá para firmar{" "}
+              También puede ingresar acá para firmar{' '}
               <a
                 target="_blank"
+                rel="noreferrer"
                 href={`${endpoints.frontend}#/signature/${currentId}`}
-              >{`${endpoints.frontend}#/signature/${currentId}`}</a>
+              >
+                {`${endpoints.frontend}#/signature/${currentId}`}
+              </a>
             </small>
           </Col>
         </Row>

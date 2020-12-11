@@ -1,33 +1,34 @@
+/* eslint-disable no-alert */
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { notify } from 'react-notify-toast';
 import { useHistory } from 'react-router-dom';
 import { endpoints } from '../../constants/endpoint';
-import { invoice, queryType } from '../../Interfaces/invoice';
+import { Invoice, queryType } from '../../Interfaces/invoice';
 import Filter from './Filter';
 import InvoicesList from './InvoicesList';
 
 export default function DashboardScreen() {
   const history = useHistory();
-  const [pendingBills, setPendingBills] = useState<invoice[]>([]);
-  const [completedBills, setCompletedBills] = useState<invoice[]>([]);
+  const [pendingBills, setPendingBills] = useState<Invoice[]>([]);
+  const [completedBills, setCompletedBills] = useState<Invoice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const axiosHeaders = {
-    headers: { auth: localStorage.getItem('bill-token') }
+    headers: { auth: localStorage.getItem('bill-token') },
   };
 
   const getBills = (query: queryType) => {
-    const completedBills = Axios.get(
+    const _completedBills = Axios.get(
       `${endpoints.backend}api/invoice/completed?from=${query.from}&to=${query.to}&tags=${query.tags}`,
       axiosHeaders
     );
-    const pendingBills = Axios.get(
+    const _pendingBills = Axios.get(
       `${endpoints.backend}api/invoice/pending?from=${query.from}&to=${query.to}&tags=${query.tags}`,
       axiosHeaders
     );
 
-    Axios.all([completedBills, pendingBills])
+    Axios.all([_completedBills, _pendingBills])
       .then(
         Axios.spread((...response) => {
           setCompletedBills(response[0].data.data);
@@ -64,7 +65,7 @@ export default function DashboardScreen() {
   useEffect(() => {
     setIsLoading(true);
     getBills({});
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   return (

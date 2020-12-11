@@ -1,14 +1,14 @@
 import moment from 'moment';
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { invoice } from '../../../Interfaces/invoice';
+import { Invoice } from '../../../Interfaces/invoice';
 
 export default function Bill({
   isOriginal = false,
-  data
+  data,
 }: {
   isOriginal?: boolean;
-  data: invoice;
+  data: Invoice;
 }) {
   return (
     <Row className="pdf-font my-5 py-5 bg-white">
@@ -19,7 +19,7 @@ export default function Bill({
             height: 64,
             marginTop: 150,
             width: 109,
-            paddingLeft: 0
+            paddingLeft: 0,
           }}
         >
           {isOriginal ? 'Recibo Original' : 'Recibo Duplicado'}
@@ -37,11 +37,14 @@ export default function Bill({
                 </p>
               </>
             ) : (
-              <p className="text-monospace">Recibo N°: {data.invoiceNumber}</p>
+              <p className="text-monospace">
+                Recibo N°:
+                {data.invoiceNumber}
+              </p>
             )}
           </Col>
 
-          <Col md="2"></Col>
+          <Col md="2" />
 
           <Col className="text-center">
             <p className="my-0">
