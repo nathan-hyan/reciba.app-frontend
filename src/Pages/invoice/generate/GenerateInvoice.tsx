@@ -103,7 +103,7 @@ export default function GenerateInvoice() {
     } else if (id) {
       Axios.put(
         `${endpoints.backend}api/invoice/edit/${id}`,
-        { ...state },
+        { ...state, pending: state.sign === '' },
         { headers: { auth: localStorage.getItem('bill-token') } }
       )
         .then(({ data }) => {
@@ -162,7 +162,7 @@ export default function GenerateInvoice() {
     });
 
     socket.on('sign', (data: string) => {
-      setState((oldstate) => ({ ...oldstate, sign: data }));
+      setState((oldstate) => ({ ...oldstate, sign: data, pending: false }));
     });
 
     return () => {
