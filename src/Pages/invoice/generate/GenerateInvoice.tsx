@@ -94,6 +94,7 @@ export default function GenerateInvoice() {
     const { currentTarget } = e;
     if (!state.sign && !state.pending) {
       notify.show('Se necesita la firma para continuar', 'error');
+      setIsLoading(false);
       return null;
     }
 
@@ -107,7 +108,7 @@ export default function GenerateInvoice() {
       )
         .then(({ data }) => {
           if (data.success) {
-            history.push(`/invoice/display/${data.data._id}/${socketRoomId}`);
+            history.push('/dashboard');
           }
           notify.show(data.message, 'success');
         })
