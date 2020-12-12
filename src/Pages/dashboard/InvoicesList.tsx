@@ -115,6 +115,7 @@ export default function InvoicesList({
                 <Col md="2" className="text-right text-primary">
                   <FontAwesomeIcon
                     icon={faTag}
+                    className="pointer"
                     onClick={() => toggleTagsModal(invoice._id, invoice.tags)}
                   />
                   <FontAwesomeIcon
