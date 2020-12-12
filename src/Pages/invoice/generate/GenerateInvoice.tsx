@@ -108,7 +108,13 @@ export default function GenerateInvoice() {
       )
         .then(({ data }) => {
           if (data.success) {
-            history.push('/dashboard');
+            if (data.data._id) {
+              history.push(
+                state.pending
+                  ? '/dashboard'
+                  : `/invoice/display/${data.data._id}/${socketRoomId}`
+              );
+            }
           }
           notify.show(data.message, 'success');
         })
