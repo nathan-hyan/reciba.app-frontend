@@ -328,7 +328,7 @@ export default function GenerateInvoice() {
                   variant="secondary"
                   className="mr-3"
                   onClick={() => {
-                    history.push('/');
+                    history.goBack();
                   }}
                 >
                   <FontAwesomeIcon icon={faTimesCircle} />
