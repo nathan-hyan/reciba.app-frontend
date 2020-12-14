@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, NavItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import i18next from 'i18next';
 import { UserContext } from '../../Context/UserContext';
 import UsermenuLoggedIn from './userMenu/UsermenuLoggedIn';
 import UsermenuLoggedOut from './userMenu/UsermenuLoggedOut';
@@ -27,8 +28,8 @@ export default function Navigation() {
           {!user.isLoggedIn ? <OptionsLoggedOut /> : <OptionsLoggedIn />}
           <Nav className="ml-auto">
             <NavDropdown
-              title={`Usuario actual: ${
-                user.isLoggedIn ? user.name : 'invitado'
+              title={`${i18next.t('NavBar:actualUser')}: ${
+                user.isLoggedIn ? user.name : i18next.t('NavBar:guest')
               }`}
               id="collasible-nav-dropdown"
             >
