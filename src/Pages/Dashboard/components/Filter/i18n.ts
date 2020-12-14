@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 
 i18next.addResources('es', 'Filter', {
+  filter: 'Filtro',
   title: 'Mostrando las boletas de',
   tag: 'Etiqueta',
   from: 'Desde',
@@ -10,6 +11,7 @@ i18next.addResources('es', 'Filter', {
 });
 
 i18next.addResources('en', 'Filter', {
+  filter: 'Filter',
   title: 'Displaying invoices from',
   tag: 'Tag',
   from: 'Since',

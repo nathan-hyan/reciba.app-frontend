@@ -7,6 +7,7 @@ i18next.addResources('es', 'Tags', {
   close: 'Cerrar',
   save: 'Guardar',
 });
+
 i18next.addResources('en', 'Tags', {
   title: 'Add tags',
   label: 'Tags separated by commas',

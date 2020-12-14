@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
@@ -54,11 +55,15 @@ export default function Filter({
         <small className="text-muted border rounded p-1">
           {`${
             query.from
-              ? `Desde: ${moment(dateConverter(query.from)).format('L')}`
+              ? `${i18next.t('Filter:from')}: ${moment(
+                  dateConverter(query.from)
+                ).format('L')}`
               : ''
           } ${
             query.to
-              ? `Hasta: ${moment(dateConverter(query.to)).format('L')}`
+              ? `${i18next.t('Filter:to')}: ${moment(
+                  dateConverter(query.to)
+                ).format('L')}`
               : ''
           }`}
         </small>
@@ -81,7 +86,7 @@ export default function Filter({
       <Accordion>
         <Card>
           <Accordion.Toggle as={Card.Header} eventKey="0">
-            Filtros {filterDisplay()}
+            {i18next.t('Filter:filter')} {filterDisplay()}
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="0">
             <Card.Body>
