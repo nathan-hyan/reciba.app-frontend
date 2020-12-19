@@ -1,9 +1,11 @@
 // Import utilities
-import React, { Fragment } from 'react';
+import React, { useContext } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import './utils/i18n';
 
 // Import context
+import { LangContext } from 'Context/Language';
+import DashboardScreen from 'Pages/Dashboard';
 import UserContextProvider from './Context/UserContext';
 
 // Import pages
@@ -15,19 +17,24 @@ import Logout from './Pages/Logout';
 // Import layout
 import Navigation from './Layout/NavigationBar/Navigation';
 import IdGenerationProvider from './Context/IdGeneration';
-import DashboardScreen from './Pages/Dashboard';
 import PrivateRoute from './Context/PrivateRoute';
 import Signature from './Pages/Signature';
 import DisplayInvoice from './Pages/DisplayInvoice';
 import GenerateInvoice from './Pages/GenerateInvoice';
 
 function App() {
+  const language = useContext(LangContext);
+
+  const changeLang = (lang: 'en' | 'es') => {
+    language.setLanguage(lang);
+  };
+
   return (
     <>
       <UserContextProvider>
         <IdGenerationProvider>
           <HashRouter basename={process.env.PUBLIC_URL}>
-            <Navigation />
+            <Navigation changeLang={(lang) => changeLang(lang)} />
             <Switch>
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />

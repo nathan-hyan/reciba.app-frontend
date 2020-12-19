@@ -10,10 +10,10 @@ i18next
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
-    fallbackLng: 'en',
+    fallbackLng: localStorage.getItem('i18nextLng') || 'en',
     detection: {
-      order: ['navigator', 'queryString', 'cookie'],
-      cache: ['cookie'],
+      order: ['localStorage'],
+      cache: ['localStorage'],
     },
     interpolation: { escapeValue: false },
   });

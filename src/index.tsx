@@ -9,25 +9,28 @@ import './styles/main.css';
 import 'moment/locale/es';
 import moment from 'moment-timezone';
 
+import Language from 'Context/Language';
 import App from './App';
 
 moment.tz.setDefault('America/Buenos_Aires');
-moment.locale('es');
+moment.locale(localStorage.getItem('i18nextLng') || 'en');
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Notifications
-        options={{
-          zIndex: 998,
-          top: '56px',
-          colors: {
-            error: { color: '#FFFFFF', backgroundColor: '#ff7851' },
-            success: { color: '#FFFFFF', backgroundColor: '#56cc9d' },
-          },
-        }}
-      />
-      <App />
+      <Language>
+        <Notifications
+          options={{
+            zIndex: 998,
+            top: '56px',
+            colors: {
+              error: { color: '#FFFFFF', backgroundColor: '#ff7851' },
+              success: { color: '#FFFFFF', backgroundColor: '#56cc9d' },
+            },
+          }}
+        />
+        <App />
+      </Language>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

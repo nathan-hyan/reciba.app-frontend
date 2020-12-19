@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Navbar, Nav, NavDropdown, NavItem } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import i18next from 'i18next';
 import { UserContext } from '../../Context/UserContext';
@@ -8,7 +8,11 @@ import UsermenuLoggedOut from './userMenu/UsermenuLoggedOut';
 import OptionsLoggedIn from './options/OptionsLoggedIn';
 import OptionsLoggedOut from './options/OptionsLoggedOut';
 
-export default function Navigation() {
+export default function Navigation({
+  changeLang,
+}: {
+  changeLang: (e: 'en' | 'es') => void;
+}) {
   const user = useContext(UserContext);
 
   return (
@@ -27,6 +31,24 @@ export default function Navigation() {
         <Navbar.Collapse>
           {!user.isLoggedIn ? <OptionsLoggedOut /> : <OptionsLoggedIn />}
           <Nav className="ml-auto">
+            <div className="mr-3">
+              <Button type="button" onClick={() => changeLang('es')}>
+                <img
+                  src="https://cdn.countryflags.com/thumbs/spain/flag-400.png"
+                  alt="spanish"
+                  width="15"
+                />{' '}
+                ES
+              </Button>
+              <Button type="button" onClick={() => changeLang('en')}>
+                <img
+                  src="https://www.countryflags.com/wp-content/uploads/united-kingdom-flag-png-large.png"
+                  alt="english"
+                  height="10"
+                />{' '}
+                EN
+              </Button>
+            </div>
             <NavDropdown
               title={`${i18next.t('NavBar:actualUser')}: ${
                 user.isLoggedIn ? user.name : i18next.t('NavBar:guest')
