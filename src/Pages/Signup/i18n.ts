@@ -16,6 +16,7 @@ i18next.addResources('es', 'Signup', {
   passwordConfirmationValidation:
     'Es necesario que repita la contraseña correctamente',
   save: 'Guardar',
+  invalidToken: 'Por favor, verifique el Captcha antes de continuar',
 });
 
 i18next.addResources('en', 'Signup', {
@@ -33,5 +34,6 @@ i18next.addResources('en', 'Signup', {
   passwordConfirmation: 'Repeat password',
   passwordConfirmationValidation:
     'Is necessary that both passwords are the same',
-  save: 'save',
+  save: 'Save',
+  invalidToken: 'Please, verify the Captcha before continuing',
 });

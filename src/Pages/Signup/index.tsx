@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -20,7 +20,10 @@ export default function Signup() {
     email: '',
     password: '',
     repeatPassword: '',
+    token: '',
   });
+
+  const captcha = useRef<any>();
 
   const [validated, setValidated] = useState(false);
 
@@ -31,7 +34,10 @@ export default function Signup() {
   }) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (form.checkValidity() === false) {
+    if (!state.token) {
+      e.stopPropagation();
+      notify.show(i18next.t('Signup:invalidToken'), 'error');
+    } else if (form.checkValidity() === false) {
       e.stopPropagation();
       notify.show(i18next.t('Signup:verifyForm'), 'error');
     } else {
@@ -40,6 +46,7 @@ export default function Signup() {
         email: state.email,
         password: state.password,
         name: state.name,
+        token: state.token,
       })
         .then((response) => {
           if (response.data.success) {
@@ -49,6 +56,7 @@ export default function Signup() {
             })
               .then(({ data }) => {
                 if (data.success) {
+                  captcha.current.resetCaptcha();
                   user.setUserData({
                     isLoggedIn: true,
                     token: data.data.token,
@@ -159,8 +167,10 @@ export default function Signup() {
             <Form.Group>
               <Form.Label>Captcha!</Form.Label>
               <HCaptcha
+                ref={captcha}
                 sitekey="be3fd67b-1a61-4936-b57f-600e3765988f"
-                onVerify={(token) => {}}
+                onVerify={(token: string) => setState({ ...state, token })}
+                onExpire={() => setState({ ...state, token: '' })}
               />
             </Form.Group>
 
