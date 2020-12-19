@@ -1,13 +1,13 @@
 @font-face {
-  font-family: "OpenSans";
-  src: url("../fonts/OpenSans-Regular.ttf");
+  font-family: 'OpenSans';
+  src: url('../fonts/OpenSans-Regular.ttf');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "OpenSans";
-  src: url("../fonts/OpenSans-Bold.ttf");
+  font-family: 'OpenSans';
+  src: url('../fonts/OpenSans-Bold.ttf');
   font-weight: 700;
   font-style: bold;
 }
@@ -31,7 +31,7 @@ canvas {
 }
 
 .pdf-font {
-  font-family: "OpenSans" !important;
+  font-family: 'OpenSans' !important;
 }
 
 fieldset {
@@ -40,6 +40,41 @@ fieldset {
 
 .pointer {
   cursor: pointer;
+}
+
+.signature {
+  max-width: 500px;
+  max-height: 100px;
+}
+
+.flex-gap-3 {
+  margin-bottom: 0;
+}
+
+.border-black {
+  border-color: black !important;
+}
+
+canvas {
+  width: 150px !important;
+  height: 150px !important;
+  max-width: 300px !important;
+  max-height: 300px !important;
+}
+
+@media (max-width: 500px) {
+  .signature {
+    max-width: 250px;
+    max-height: 100px;
+  }
+
+  .flex-gap-3 {
+    justify-content: center !important;
+  }
+
+  .h-100-minus {
+    margin-top: 30px;
+  }
 }
 
 .component {

@@ -72,7 +72,7 @@ function SendMailModal({ resetData, show, data }: Props) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <Form.Text className="text-muted">
+            <Form.Text className="d-none d-sm-block text-muted">
               {i18next.t('Mail:linkText')}:{' '}
               <a
                 href={`${endpoints.frontend}#/offlinesignature/${data.invoice}`}

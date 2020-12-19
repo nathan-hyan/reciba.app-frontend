@@ -27,9 +27,9 @@ export default function ShowQRCodeModal({
             <p className="lead text-center">{i18next.t('QR:body')}</p>
           </Col>
         </Row>
-        <Row className="my-5">
+        <Row className="my-5 d-flex align-items-center justify-content-center">
           <Col />
-          <Col className="bg-white shadow rounded p-3" md={3}>
+          <Col className="w-auto qrcode bg-white shadow rounded p-3 text-center">
             <QRCode
               size={200}
               value={`${endpoints.frontend}#/signature/${currentId}`}

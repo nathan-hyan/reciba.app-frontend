@@ -12,7 +12,7 @@ export default function Bill({
   data: Invoice;
 }) {
   return (
-    <Row className="pdf-font my-5 py-5 bg-white">
+    <Row className="pdf-font my-5 py-5 bg-white border border-black">
       <Col md={1}>
         <p
           className="text-muted p-0 mb-0 text-center"

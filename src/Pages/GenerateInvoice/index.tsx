@@ -189,7 +189,7 @@ export default function GenerateInvoice() {
   };
 
   return (
-    <Container>
+    <Container className="h-100-minus">
       <ShowQRCodeModal
         currentId={socketRoomId}
         show={showQRCodeModal}
@@ -294,14 +294,19 @@ export default function GenerateInvoice() {
               </Col>
               <Col>
                 {state.sign ? (
-                  <img height="100" src={state.sign} alt="signature" />
+                  <img
+                    height="100"
+                    src={state.sign}
+                    className="signature"
+                    alt="signature"
+                  />
                 ) : null}
               </Col>
             </Row>
             <Row>
-              <Col className="text-right d-flex align-items-center justify-content-end">
+              <Col className="d-flex align-items-center justify-content-end flex-column flex-md-row text-md-right text-center">
                 {isLoggedIn ? (
-                  <fieldset className="mr-3 py-1 px-2 border border-gray rounded">
+                  <fieldset className="mt-3 mt-md-0 w-100 mx-3 py-1 px-2 border border-gray rounded">
                     <label htmlFor="pending" className="m-0 p-0">
                       <input
                         id="pending"
@@ -319,7 +324,7 @@ export default function GenerateInvoice() {
                 <Button
                   variant="info"
                   onClick={showQRCodeModalAndGenerateCode}
-                  className="mr-3"
+                  className="mt-3 mt-md-0 w-100 mx-3"
                 >
                   <FontAwesomeIcon icon={faQrcode} />{' '}
                   {i18next.t('GenerateInvoice:QR')}
@@ -327,7 +332,7 @@ export default function GenerateInvoice() {
                 <Button
                   disabled={isLoading}
                   variant="secondary"
-                  className="mr-3"
+                  className="mt-3 mt-md-0 w-100 mx-3"
                   onClick={() => {
                     history.goBack();
                   }}
@@ -335,7 +340,12 @@ export default function GenerateInvoice() {
                   <FontAwesomeIcon icon={faTimesCircle} />{' '}
                   {i18next.t('GenerateInvoice:cancel')}
                 </Button>
-                <Button disabled={isLoading} variant="primary" type="submit">
+                <Button
+                  className="mt-3 mt-md-0 w-100 mx-3"
+                  disabled={isLoading}
+                  variant="primary"
+                  type="submit"
+                >
                   {isLoading ? (
                     <Spinner size="sm" animation="border" />
                   ) : (

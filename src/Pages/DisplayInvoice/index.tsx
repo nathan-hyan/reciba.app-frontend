@@ -60,8 +60,8 @@ export default function DisplayInvoice() {
         day: 'numeric',
         year: 'numeric',
       }).format(new Date(state.date))} - ${id}`,
-      landscape: true,
-      scale: 0.75,
+      landscape: false,
+      scale: 0.5,
     });
   };
 

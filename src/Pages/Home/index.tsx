@@ -9,7 +9,7 @@ import i18next from 'i18next';
 export default function Home() {
   return (
     <Container>
-      <Row className="h-100-minus align-items-center">
+      <Row className="h-100-minus align-items-center text-center text-md-left">
         <Col>
           <h1>
             {i18next.t('Home:title')}{' '}
@@ -27,7 +27,7 @@ export default function Home() {
           </Link>
         </Col>
 
-        <Col className="text-right">
+        <Col className="text-right d-none d-md-block">
           <h6>{i18next.t('Home:currentTime')}:</h6>
           <h3>{moment().format('MMMM Do YYYY, h:mm:ss a')}</h3>
         </Col>
