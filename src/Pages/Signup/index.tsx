@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
-import { faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Axios from 'axios';
 import { notify } from 'react-notify-toast';
