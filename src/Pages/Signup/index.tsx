@@ -10,12 +10,13 @@ import HCaptcha from '@hcaptcha/react-hcaptcha';
 import i18next from 'i18next';
 import { UserContext } from '../../Context/UserContext';
 import { endpoints } from '../../constants/endpoint';
+import { Fields, FIELDS } from './constants';
 
 export default function Signup() {
   const history = useHistory();
   const user = useContext(UserContext);
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<Fields>({
     name: '',
     email: '',
     password: '',
@@ -102,68 +103,21 @@ export default function Signup() {
         </Col>
         <Col className="bg-light shadow p-3 rounded">
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group>
-              <Form.Label>{i18next.t('Signup:name')}</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                onChange={handleChange}
-                value={state.name}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                {i18next.t('Signup:nameValidation')}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>{i18next.t('Signup:email')}</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                onChange={handleChange}
-                value={state.email}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                {i18next.t('Signup:emailValidation')}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Row>
-              <Col>
-                <Form.Group>
-                  <Form.Label>{i18next.t('Signup:password')}</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="password"
-                    onChange={handleChange}
-                    value={state.password}
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {i18next.t('Signup:passwordValidation')}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group>
-                  <Form.Label>
-                    {i18next.t('Signup:passwordConfirmation')}
-                  </Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="repeatPassword"
-                    onChange={handleChange}
-                    value={state.repeatPassword}
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {i18next.t('Signup:PasswordConfirmationValidation')}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Col>
-            </Row>
-
+            {FIELDS.map((field) => (
+              <Form.Group>
+                <Form.Label>{i18next.t(`Signup:${field.name}`)}</Form.Label>
+                <Form.Control
+                  type={field.type}
+                  name={field.name}
+                  onChange={handleChange}
+                  value={state[field.name]}
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {i18next.t(`Signup:${field.name}Validation`)}
+                </Form.Control.Feedback>
+              </Form.Group>
+            ))}
             <Form.Group>
               <Form.Label>Captcha!</Form.Label>
               <HCaptcha
