@@ -1,18 +1,21 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Row, Col, Container, Form, Button } from 'react-bootstrap';
+import { Row, Col, Container, Form, Button, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { notify } from 'react-notify-toast';
 import Axios from 'axios';
 import i18next from 'i18next';
+import { Fields } from 'Pages/Signup/constants';
 import { UserContext } from '../../Context/UserContext';
 import { endpoints } from '../../constants/endpoint';
+import { FIELDS } from './constants';
 
 export default function Login() {
   const User = useContext(UserContext);
-  const [login, setLogin] = useState({ email: '', password: '' });
+  const [login, setLogin] = useState<Fields>({ email: '', password: '' });
   const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
   /**
@@ -37,9 +40,12 @@ export default function Login() {
   }) => {
     const form = event.currentTarget;
     event.preventDefault();
+    setIsLoading(true);
+
     if (form.checkValidity() === false) {
       event.stopPropagation();
       notify.show(i18next.t('Login:verifyData'), 'error');
+      setIsLoading(false);
     } else {
       event.stopPropagation();
       Axios.post(`${endpoints.backend}api/user/login`, login)
@@ -52,14 +58,18 @@ export default function Login() {
             });
             localStorage.setItem('bill-token', data.data.token);
             notify.show(`${data.message}`, 'success');
+            setIsLoading(false);
+
             history.push('/');
           } else {
             notify.show(i18next.t('Login:error'), 'error');
+            setIsLoading(false);
           }
         })
         .catch((err) => {
           const error = err.response ? err.response.data.message : err.message;
           notify.show(`${error}`, 'error');
+          setIsLoading(false);
         });
     }
 
@@ -72,36 +82,28 @@ export default function Login() {
         <Col />
         <Col md={6} sm={12} className="shadow rounded bg-light p-3">
           <Form onSubmit={onSubmit} noValidate validated={validated}>
-            <Form.Group>
-              <Form.Label>{i18next.t('Login:email')}</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={login.email}
-                onChange={handleChange}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                {i18next.t('Login:emailValidation')}
-              </Form.Control.Feedback>
-            </Form.Group>
+            {FIELDS.map((field) => (
+              <Form.Group>
+                <Form.Label>{i18next.t(`Login:${field.name}`)}</Form.Label>
+                <Form.Control
+                  type={field.name}
+                  name={field.name}
+                  value={login[field.name]}
+                  onChange={handleChange}
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {i18next.t(`Login:${field.name}Validation`)}
+                </Form.Control.Feedback>
+              </Form.Group>
+            ))}
 
-            <Form.Group>
-              <Form.Label>{i18next.t('Login:password')}</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={login.password}
-                onChange={handleChange}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                {i18next.t('Login:passwordValidation')}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
-              <FontAwesomeIcon icon={faCheckCircle} />{' '}
+            <Button disabled={isLoading} variant="primary" type="submit">
+              {isLoading ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                <FontAwesomeIcon icon={faCheckCircle} />
+              )}{' '}
               {i18next.t('Login:login')}
             </Button>
           </Form>

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
+import { faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Axios from 'axios';
 import { notify } from 'react-notify-toast';
@@ -23,6 +23,7 @@ export default function Signup() {
     repeatPassword: '',
     token: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const captcha = useRef<any>();
 
@@ -34,6 +35,7 @@ export default function Signup() {
     stopPropagation: () => void;
   }) => {
     e.preventDefault();
+    setIsLoading(true);
     const form = e.currentTarget;
     if (!state.token) {
       e.stopPropagation();
@@ -65,23 +67,30 @@ export default function Signup() {
                   });
                   localStorage.setItem('bill-token', data.data.token);
                   notify.show(`${data.message}`, 'success');
+                  setIsLoading(false);
+
                   history.push('/');
                 } else {
                   notify.show(i18next.t('Signup:error'), 'error');
+                  setIsLoading(false);
                 }
               })
               .catch((err) => {
                 notify.show(`${err.response.data.message}`, 'error');
+                setIsLoading(false);
               });
           } else {
             notify.show(`Error: ${response.data.message}`, 'error');
+            setIsLoading(false);
           }
         })
         .catch((err) => {
           try {
             notify.show(`${err.response.data.message}`, 'error');
+            setIsLoading(false);
           } catch (error) {
             notify.show(`${error.message}`, 'error');
+            setIsLoading(false);
           }
         });
     }
@@ -104,7 +113,7 @@ export default function Signup() {
         <Col className="bg-light shadow p-3 rounded">
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             {FIELDS.map((field) => (
-              <Form.Group>
+              <Form.Group key={field.id}>
                 <Form.Label>{i18next.t(`Signup:${field.name}`)}</Form.Label>
                 <Form.Control
                   type={field.type}
@@ -128,8 +137,13 @@ export default function Signup() {
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit">
-              <FontAwesomeIcon icon={faCheck} /> {i18next.t('Signup:save')}
+            <Button disabled={isLoading} variant="primary" type="submit">
+              {isLoading ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                <FontAwesomeIcon icon={faCheck} />
+              )}{' '}
+              {i18next.t('Signup:save')}
             </Button>
           </Form>
         </Col>
