@@ -114,8 +114,11 @@ export default function Signup() {
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             {FIELDS.map((field) => (
               <Form.Group key={field.id}>
-                <Form.Label>{i18next.t(`Signup:${field.name}`)}</Form.Label>
+                <Form.Label htmlFor={field.name}>
+                  {i18next.t(`Signup:${field.name}`)}
+                </Form.Label>
                 <Form.Control
+                  id={field.name}
                   type={field.type}
                   name={field.name}
                   onChange={handleChange}
@@ -127,11 +130,11 @@ export default function Signup() {
                 </Form.Control.Feedback>
               </Form.Group>
             ))}
-            <Form.Group>
-              <Form.Label>Captcha!</Form.Label>
+            <Form.Group data-testid="testing">
+              <Form.Label htmlFor="captcha">Captcha!</Form.Label>
               <HCaptcha
                 ref={captcha}
-                sitekey="be3fd67b-1a61-4936-b57f-600e3765988f"
+                sitekey={endpoints.siteKey}
                 onVerify={(token: string) => setState({ ...state, token })}
                 onExpire={() => setState({ ...state, token: '' })}
               />

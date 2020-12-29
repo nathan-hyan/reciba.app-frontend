@@ -12,7 +12,7 @@ import { endpoints } from '../../constants/endpoint';
 import { FIELDS } from './constants';
 
 export default function Login() {
-  const User = useContext(UserContext);
+  const { setUserData } = useContext(UserContext);
   const [login, setLogin] = useState<Fields>({ email: '', password: '' });
   const [validated, setValidated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +51,7 @@ export default function Login() {
       Axios.post(`${endpoints.backend}api/user/login`, login)
         .then(({ data }) => {
           if (data.success) {
-            User.setUserData({
+            setUserData({
               isLoggedIn: true,
               token: data.data.token,
               name: data.data.name,
@@ -83,9 +83,12 @@ export default function Login() {
         <Col md={6} sm={12} className="shadow rounded bg-light p-3">
           <Form onSubmit={onSubmit} noValidate validated={validated}>
             {FIELDS.map((field) => (
-              <Form.Group>
-                <Form.Label>{i18next.t(`Login:${field.name}`)}</Form.Label>
+              <Form.Group key={field.id}>
+                <Form.Label htmlFor={field.name}>
+                  {i18next.t(`Login:${field.name}`)}
+                </Form.Label>
                 <Form.Control
+                  id={field.name}
                   type={field.name}
                   name={field.name}
                   value={login[field.name]}

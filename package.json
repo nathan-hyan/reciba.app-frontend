@@ -50,7 +50,7 @@
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "./node_modules/eslint/bin/eslint.js src --ext .js --ext .ts --ext .tsx",
     "lint-fix": "./node_modules/eslint/bin/eslint.js src --ext .js --ext .ts --ext .tsx --fix"
@@ -88,6 +88,8 @@
     "gh-pages": "^3.1.0",
     "husky": "^4.3.5",
     "lint-staged": "^10.5.3",
+    "msw": "^0.24.2",
+    "mutationobserver-shim": "^0.3.7",
     "prettier": "^2.2.1"
   }
 }

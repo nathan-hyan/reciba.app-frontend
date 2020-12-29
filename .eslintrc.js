@@ -41,37 +41,6 @@ module.exports = {
     radix: 0,
     'implicit-arrow-linebreak': 0,
     'operator-linebreak': 0,
+    'function-paren-newline': 0,
   },
-
-  // settings: {
-  //   react: { version: 'detect' },
-  //   'import/resolver': {
-  //     webpack: {
-  //       extensions: ['.js', '.jsx', '.ts', '.tsx'],
-  //     },
-  //   },
-  // },
-  // settings: {
-  //   react: {
-  //     version: 'detect',
-  //   },
-  //   'import/resolver': {
-  //     'babel-module': {
-  //       root: ['./src'],
-  //       extensions: ['.js', '.jsx', '.ts', '.tsx'],
-  //       alias: {
-  //         '~components': './src/app/components',
-  //         '~screens': './src/app/screens',
-  //         '~config': './src/config',
-  //         '~constants': './src/constants',
-  //         '~services': './src/services',
-  //         '~utils': './src/utils',
-  //         '~app': './src/app',
-  //         '~assets': './src/assets',
-  //         '~hooks': './src/app/hooks',
-  //         '~contexts': './src/app/contexts',
-  //       },
-  //     },
-  //   },
-  // },
 };
