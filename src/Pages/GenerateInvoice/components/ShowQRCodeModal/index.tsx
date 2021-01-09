@@ -1,11 +1,11 @@
 import React from 'react';
 import QRCode from 'qrcode.react';
 import { Row, Col, Button, Modal } from 'react-bootstrap';
-// import styles from 'styles.module.scss';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { endpoints } from 'constants/endpoint';
 import i18next from 'i18next';
+import styles from './styles.module.scss';
 
 export default function ShowQRCodeModal({
   show = true,
@@ -29,7 +29,9 @@ export default function ShowQRCodeModal({
         </Row>
         <Row className="my-5 d-flex align-items-center justify-content-center">
           <Col />
-          <Col className="w-auto qrcode bg-white shadow rounded p-3 text-center">
+          <Col
+            className={`${styles.qrcode} w-auto qrcode bg-white shadow rounded p-3 text-center`}
+          >
             <QRCode
               size={200}
               value={`${endpoints.frontend}#/signature/${currentId}`}

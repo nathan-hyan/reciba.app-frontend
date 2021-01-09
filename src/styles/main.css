@@ -55,13 +55,6 @@ fieldset {
   border-color: black !important;
 }
 
-canvas {
-  width: 150px !important;
-  height: 150px !important;
-  max-width: 300px !important;
-  max-height: 300px !important;
-}
-
 @media (max-width: 500px) {
   .signature {
     max-width: 250px;
