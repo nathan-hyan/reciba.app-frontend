@@ -25,6 +25,7 @@ import { IdGeneration } from '../../Context/IdGeneration';
 import { UserContext } from '../../Context/UserContext';
 import { Invoice } from '../../Interfaces/invoice';
 import ShowQRCodeModal from './components/ShowQRCodeModal';
+import { RADIO } from './constants';
 
 let socket: SocketIOClient.Socket;
 let socketRoomId: string;
@@ -53,6 +54,7 @@ export default function GenerateInvoice() {
     currency: 'ARS',
     pending: false,
     sign: '',
+    payment: 'cash',
   });
   const [validated, setValidated] = useState(false);
   const [showQRCodeModal, setShowQRCodeModal] = useState(false);
@@ -303,6 +305,21 @@ export default function GenerateInvoice() {
                 ) : null}
               </Col>
             </Row>
+            <Row>
+              <Col className="my-3 d-flex justify-content-center p-3 border border-gray">
+                {RADIO.map((item) => (
+                  <Form.Check
+                    className="mx-5"
+                    inline
+                    type="radio"
+                    label={i18next.t(`Radio:${item}`)}
+                    checked={state.payment === item}
+                    onChange={() => setState({ ...state, payment: item })}
+                  />
+                ))}
+              </Col>
+            </Row>
+
             <Row>
               <Col className="d-flex align-items-center justify-content-end flex-column flex-md-row text-md-right text-center">
                 {isLoggedIn ? (

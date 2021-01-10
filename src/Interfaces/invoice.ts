@@ -15,6 +15,7 @@ export interface Invoice {
     isAlreadySent: Boolean;
     emailAddress?: String;
   };
+  payment?: 'check' | 'transfer' | 'cash' | 'creditcard';
 }
 
 export interface queryType {

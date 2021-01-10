@@ -31,3 +31,16 @@ i18next.addResources('es', 'GIError', {
 i18next.addResources('es', 'GIError', {
   date: 'The date is required',
 });
+
+i18next.addResources('es', 'Radio', {
+  cash: 'Efectivo',
+  check: 'Cheque',
+  creditcard: 'Tarjeta de crédito',
+  transfer: 'Transferencia',
+});
+i18next.addResources('en', 'Radio', {
+  cash: 'Cash',
+  check: 'Check',
+  creditcard: 'Credit card',
+  transfer: 'Bank Transfer',
+});
