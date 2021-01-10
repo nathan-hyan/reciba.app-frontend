@@ -21,11 +21,11 @@ export default function DashboardScreen() {
 
   const getBills = (query: queryType) => {
     const _completedBills = Axios.get(
-      `${endpoints.backend}api/invoice/completed?from=${query.from}&to=${query.to}&tags=${query.tags}`,
+      `${endpoints.backend}api/invoice/completed?from=${query.from}&to=${query.to}&tags=${query.tags}&types=${query.type}`,
       axiosHeaders
     );
     const _pendingBills = Axios.get(
-      `${endpoints.backend}api/invoice/pending?from=${query.from}&to=${query.to}&tags=${query.tags}`,
+      `${endpoints.backend}api/invoice/pending?from=${query.from}&to=${query.to}&tags=${query.tags}&types=${query.type}`,
       axiosHeaders
     );
 

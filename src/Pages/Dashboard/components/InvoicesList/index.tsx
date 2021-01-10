@@ -90,7 +90,8 @@ export default function InvoicesList({
                 <Col>
                   {invoice.from}{' '}
                   <small>
-                    ({invoice.currency} ${invoice.amount})
+                    ({invoice.currency} ${invoice.amount} -{' '}
+                    {i18next.t(`Radio:${invoice.payment}`)})
                   </small>
                   {invoice.tags?.map((item: string) => (
                     <Badge key={Math.random()} variant="info" className="ml-1">
@@ -162,7 +163,8 @@ export default function InvoicesList({
                 <Col>
                   {invoice.from}{' '}
                   <small>
-                    ({invoice.currency} ${invoice.amount})
+                    ({invoice.currency} ${invoice.amount} -{' '}
+                    {i18next.t(`Radio:${invoice.payment}`)})
                   </small>
                   {invoice.tags?.map((item: string) => (
                     <Badge key={Math.random()} variant="info" className="ml-1">

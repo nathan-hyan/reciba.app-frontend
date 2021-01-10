@@ -7,7 +7,9 @@ i18next.addResources('es', 'Filter', {
   from: 'Desde',
   to: 'Hasta',
   search: 'Buscar',
+  payment: 'Metodo de pago',
   cleanSearch: 'Limpiar búsqueda',
+  all: 'Todos los métodos',
 });
 
 i18next.addResources('en', 'Filter', {
@@ -17,5 +19,7 @@ i18next.addResources('en', 'Filter', {
   from: 'Since',
   to: 'To',
   search: 'Search',
+  payment: 'Payment type',
   cleanSearch: 'Clean search',
+  all: 'All methods',
 });

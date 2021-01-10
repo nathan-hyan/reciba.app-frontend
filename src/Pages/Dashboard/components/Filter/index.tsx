@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Accordion, Button, Card, Col, Form, Row } from 'react-bootstrap';
 import moment from 'moment';
 import i18next from 'i18next';
+import { RADIO } from 'Pages/GenerateInvoice/constants';
 import { queryType } from '../../../../Interfaces/invoice';
 import { dateConverter } from '../../../../utils/dateConverter';
 
@@ -21,6 +22,7 @@ export default function Filter({
     from: '',
     to: '',
     tags: '',
+    type: '',
   });
 
   const handleSubmit = (e: any) => {
@@ -35,13 +37,14 @@ export default function Filter({
         ? moment(query.to).endOf('day').format('YYYY-MM-DD')
         : 'undefined',
       tags: query.tags,
+      type: query.type,
     });
   };
 
   const clearSearch = () => {
     setIsLoading(true);
     submitFilter({});
-    setQuery({ from: '', to: '', tags: '' });
+    setQuery({ from: '', to: '', tags: '', type: '' });
   };
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -123,6 +126,24 @@ export default function Filter({
                         name="to"
                         value={query.to}
                       />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>{i18next.t('Filter:payment')}</Form.Label>
+                      <Form.Control
+                        onChange={handleChange}
+                        name="type"
+                        value={query.type}
+                        as="select"
+                      >
+                        <option value="">{i18next.t('Filter:all')}</option>
+                        {RADIO.map((item) => (
+                          <option value={item}>
+                            {i18next.t(`Radio:${item}`)}
+                          </option>
+                        ))}
+                      </Form.Control>
                     </Form.Group>
                   </Col>
                 </Row>

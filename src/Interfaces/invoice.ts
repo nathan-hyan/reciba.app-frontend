@@ -22,4 +22,5 @@ export interface queryType {
   from?: string;
   to?: string;
   tags?: string;
+  type?: 'check' | 'transfer' | 'cash' | 'creditcard' | '';
 }
