@@ -290,7 +290,7 @@ export default function GenerateInvoice() {
                 </Form.Group>
               </Col>
               <Col className="text-right">
-                <p className="lead">{i18next.t('Invoice:signature')}</p>
+                <p className="lead">{i18next.t('Invoice:signature')}:</p>
               </Col>
               <Col>
                 {state.sign ? (
@@ -298,7 +298,7 @@ export default function GenerateInvoice() {
                     height="100"
                     src={state.sign}
                     className="signature"
-                    alt="signature"
+                    alt={i18next.t('Invoice:signature')}
                   />
                 ) : null}
               </Col>

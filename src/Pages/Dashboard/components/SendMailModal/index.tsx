@@ -44,7 +44,7 @@ function SendMailModal({ resetData, show, data }: Props) {
             setIsSendingMail(false);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           notify.show(i18next.t('Mail:cantSend'), 'error');
           setIsSendingMail(false);
         });

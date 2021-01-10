@@ -10,6 +10,7 @@ i18next.addResources('es', 'Invoice', {
   quantity: 'La cantidad de',
   inConceptOf: 'En concepto de',
   receiptBy: 'Recibo por',
+  signature: 'Firma',
 });
 i18next.addResources('en', 'Invoice', {
   originalInvoice: 'Original receipt',
@@ -20,5 +21,6 @@ i18next.addResources('en', 'Invoice', {
   from: 'From',
   quantity: 'Quantity of',
   inConceptOf: 'In concept of',
-  receiptBy: 'Signature',
+  receiptBy: 'Receipt by',
+  signtaure: 'Signature',
 });

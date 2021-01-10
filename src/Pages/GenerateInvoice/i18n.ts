@@ -6,15 +6,12 @@ i18next.addResources('es', 'GenerateInvoice', {
   errorCreatingInvoice:
     'Ocurrió un error creando el comprobante. Por favor, reintente',
   phoneConnected: 'Teléfono conectado',
-  markAsPending: 'Marcar boleta para firmar luego',
-  QR: 'Mostrar código QR para firmar',
+  markAsPending: 'Marcar para firmar luego',
+  QR: 'Mostrar código QR',
   cancel: 'Cancelar',
   save: 'Guardar',
 });
 
-i18next.addResources('es', 'GIError', {
-  date: 'La fecha es necesaria',
-});
 i18next.addResources('en', 'GenerateInvoice', {
   signatureNeeded: 'The signature is required to continue',
   verifyForm: 'Please verify the form before continuing',
@@ -25,6 +22,10 @@ i18next.addResources('en', 'GenerateInvoice', {
   QR: 'Show QR code',
   cancel: 'Cancel',
   save: 'Save',
+});
+
+i18next.addResources('es', 'GIError', {
+  date: 'La fecha es necesaria',
 });
 
 i18next.addResources('es', 'GIError', {
