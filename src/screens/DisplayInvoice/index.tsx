@@ -16,6 +16,10 @@ import Bill from "./components/Bill";
 let socket: SocketIOClient.Socket;
 
 export default function DisplayInvoice() {
+  const axiosHeaders = {
+    headers: { auth: localStorage.getItem("bill-token") },
+  };
+
   const invoice = useRef<any>(<div />);
   const { id, socketId } = useParams<any>();
 
@@ -117,12 +121,13 @@ export default function DisplayInvoice() {
   useEffect(() => {
     socket = io(endpoints.backend);
 
-    Axios.get(`${endpoints.backend}api/invoice/single/${id}`).then(
-      ({ data }) => {
-        const { year, month, date } = dateTransformer(data.data.date);
-        setState({ ...data.data, date: new Date(year, month, date) });
-      }
-    );
+    Axios.get(
+      `${endpoints.backend}api/invoice/single/${id}`,
+      axiosHeaders
+    ).then(({ data }) => {
+      const { year, month, date } = dateTransformer(data.data.date);
+      setState({ ...data.data, date: new Date(year, month, date) });
+    });
 
     socket.emit("join", socketId);
 
