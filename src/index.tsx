@@ -1,17 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+/* eslint-disable no-console */
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import Notifications from "react-notify-toast";
+
+import Language from "configs/Language";
+import CONFIG from "constants/notifications";
+import moment from "moment-timezone";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+
+import "styles/customBootstrap.css";
+import "styles/main.css";
+
+moment.tz.setDefault("America/Buenos_Aires");
+moment.locale(localStorage.getItem("i18nextLng") || "en");
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Language>
+        <Notifications options={CONFIG} />
+        <App />
+      </Language>
+    </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(console.log);
