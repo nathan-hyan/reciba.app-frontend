@@ -121,12 +121,14 @@ export default function GenerateInvoice() {
             }
           }
           notify.show(data.message, "success");
+          setIsLoading(false);
         })
         .catch((err) => {
           notify.show(
             i18next.t("GenerateInvoice:errorCreatingInvoice"),
             "error"
           );
+          setIsLoading(false);
         });
     } else {
       Axios.post(`${endpoints.backend}api/invoice/`, { ...state }, axiosHeaders)
@@ -139,16 +141,17 @@ export default function GenerateInvoice() {
             );
           }
           notify.show(data.message, "success");
+          setIsLoading(false);
         })
         .catch((err) => {
           notify.show(
             i18next.t("GenerateInvoice:errorCreatingInvoice"),
             "error"
           );
+          setIsLoading(false);
         });
     }
 
-    setIsLoading(false);
     setValidated(true);
 
     return false;
@@ -190,6 +193,8 @@ export default function GenerateInvoice() {
     }
     setShowQRCodeModal((i) => !i);
   };
+
+  console.log(isLoading);
 
   return (
     <Container className="h-100-minus">
