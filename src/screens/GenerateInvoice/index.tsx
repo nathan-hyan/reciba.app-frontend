@@ -194,8 +194,6 @@ export default function GenerateInvoice() {
     setShowQRCodeModal((i) => !i);
   };
 
-  console.log(isLoading);
-
   return (
     <Container className="h-100-minus">
       <ShowQRCodeModal
