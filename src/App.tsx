@@ -15,6 +15,7 @@ import DisplayInvoice from "screens/DisplayInvoice";
 import Signature from "screens/Signature";
 
 import "utils/i18n";
+import Profile from "screens/Profile";
 
 function App() {
   const language = useContext(LangContext);
@@ -46,6 +47,7 @@ function App() {
                 path="/dashboard"
                 render={() => <DashboardScreen />}
               />
+              <PrivateRoute path="/profile" render={Profile} />
               <Route path="/signature/:socketId" component={Signature} />
               <Route
                 path="/offlinesignature/:invoiceId"
