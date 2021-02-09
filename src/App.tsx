@@ -15,6 +15,8 @@ import DisplayInvoice from "screens/DisplayInvoice";
 import Signature from "screens/Signature";
 
 import "utils/i18n";
+import Confirmation from "screens/Confirmation";
+import ConfirmationError from "screens/ConfirmationError";
 
 function App() {
   const language = useContext(LangContext);
@@ -34,22 +36,27 @@ function App() {
               <Route path="/logout" component={Logout} />
               <Route path="/" exact component={Home} />
               <Route path="/invoice/generate" component={GenerateInvoice} />
-              <PrivateRoute
-                path="/invoice/edit/:id"
-                render={() => <GenerateInvoice />}
-              />
               <Route
                 path="/invoice/display/:id/:socketId"
                 component={DisplayInvoice}
-              />
-              <PrivateRoute
-                path="/dashboard"
-                render={() => <DashboardScreen />}
               />
               <Route path="/signature/:socketId" component={Signature} />
               <Route
                 path="/offlinesignature/:invoiceId"
                 component={Signature}
+              />
+              <Route path="/confirm/:token" component={Confirmation} />
+              <Route
+                path="/confirmError/:errorType"
+                component={ConfirmationError}
+              />
+              <PrivateRoute
+                path="/invoice/edit/:id"
+                render={() => <GenerateInvoice />}
+              />
+              <PrivateRoute
+                path="/dashboard"
+                render={() => <DashboardScreen />}
               />
               <Route render={() => <div>Not found</div>} />
             </Switch>

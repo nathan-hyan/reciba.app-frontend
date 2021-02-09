@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -7,13 +7,11 @@ import Axios from "axios";
 import { notify } from "react-notify-toast";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import i18next from "i18next";
-import { UserContext } from "configs/UserContext";
 import { endpoints } from "constants/endpoints";
 import { Fields, FIELDS } from "./constants";
 
 export default function Signup() {
   const history = useHistory();
-  const user = useContext(UserContext);
 
   const [state, setState] = useState<Fields>({
     name: "",
@@ -39,8 +37,10 @@ export default function Signup() {
     if (!state.token) {
       e.stopPropagation();
       notify.show(i18next.t("Signup:invalidToken"), "error");
+      setIsLoading(false);
     } else if (form.checkValidity() === false) {
       e.stopPropagation();
+      setIsLoading(false);
       notify.show(i18next.t("Signup:verifyForm"), "error");
     } else {
       e.stopPropagation();
@@ -52,32 +52,9 @@ export default function Signup() {
       })
         .then((response) => {
           if (response.data.success) {
-            Axios.post(`${endpoints.backend}api/user/login`, {
-              email: state.email,
-              password: state.password,
-            })
-              .then(({ data }) => {
-                if (data.success) {
-                  captcha.current.resetCaptcha();
-                  user.setUserData({
-                    isLoggedIn: true,
-                    token: data.data.token,
-                    name: data.data.name,
-                  });
-                  localStorage.setItem("bill-token", data.data.token);
-                  notify.show(`${data.message}`, "success");
-                  setIsLoading(false);
-
-                  history.push("/");
-                } else {
-                  notify.show(i18next.t("Signup:error"), "error");
-                  setIsLoading(false);
-                }
-              })
-              .catch((err) => {
-                notify.show(`${err.response.data.message}`, "error");
-                setIsLoading(false);
-              });
+            setIsLoading(false);
+            notify.show(i18next.t("Signup:confirm"), "success");
+            history.push("/");
           } else {
             notify.show(`Error: ${response.data.message}`, "error");
             setIsLoading(false);
