@@ -1,15 +1,16 @@
 import { BootstrapInputProps } from "components/BootstrapInput";
+import i18next from "i18next";
 
 export const FORM_INPUTS: BootstrapInputProps[] = [
   {
     name: "name",
-    label: "Nombre",
+    label: "ProfilePage:name",
     type: "text",
     required: false,
   },
   {
     name: "email",
-    label: "Dirección de correo",
+    label: "ProfilePage:email",
     type: "email",
     required: false,
   },

@@ -8,6 +8,7 @@ import i18next from "i18next";
 import { RADIO } from "screens/GenerateInvoice/constants";
 import { queryType } from "interfaces/invoice";
 import { dateConverter } from "utils/dateConverter";
+import ButtonWithIcon from "components/ButtonWithIcon";
 
 export default function Filter({
   submitFilter,
@@ -149,24 +150,22 @@ export default function Filter({
                 </Row>
                 <Row>
                   <Col className="d-flex justify-content-end w-100">
-                    <Button
+                    <ButtonWithIcon
+                      label={i18next.t("Filter:search")}
+                      icon={faSearch}
                       disabled={isLoading}
                       className="mr-3"
-                      variant="success"
+                      variant="primary"
                       type="submit"
-                    >
-                      <FontAwesomeIcon icon={faSearch} />{" "}
-                      {i18next.t("Filter:search")}
-                    </Button>
+                    />
 
-                    <Button
+                    <ButtonWithIcon
+                      label={i18next.t("Filter:cleanSearch")}
+                      icon={faTimesCircle}
                       disabled={isLoading}
-                      onClick={clearSearch}
                       variant="danger"
-                    >
-                      <FontAwesomeIcon icon={faTimesCircle} />{" "}
-                      {i18next.t("Filter:cleanSearch")}
-                    </Button>
+                      onClick={clearSearch}
+                    />
                   </Col>
                 </Row>
               </Form>

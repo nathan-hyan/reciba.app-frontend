@@ -34,6 +34,7 @@ export default function BootstrapInput({
     <Form.Group controlId={name}>
       <Form.Label>{label}</Form.Label>
       <Form.Control
+        className="w-100"
         type={type}
         placeholder={placeholder}
         name={name}

@@ -7,6 +7,7 @@ import { notify } from "react-notify-toast";
 import { useHistory } from "react-router-dom";
 import { endpoints } from "constants/endpoints";
 import { Invoice, queryType } from "interfaces/invoice";
+import { axiosHeaders } from "constants/headers";
 import Filter from "./components/Filter";
 import InvoicesList from "./components/InvoicesList";
 
@@ -15,9 +16,6 @@ export default function DashboardScreen() {
   const [pendingBills, setPendingBills] = useState<Invoice[]>([]);
   const [completedBills, setCompletedBills] = useState<Invoice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const axiosHeaders = {
-    headers: { auth: localStorage.getItem("bill-token") },
-  };
 
   const getBills = (query: queryType) => {
     const _completedBills = Axios.get(

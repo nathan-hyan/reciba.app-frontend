@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -8,6 +8,9 @@ type Props = {
   label: string;
   variant?: "primary" | "danger" | "warning";
   type?: "submit" | "button";
+  disabled?: boolean;
+  className?: string;
+  onClick?: MouseEventHandler;
 };
 
 export default function ButtonWithIcon({
@@ -15,9 +18,18 @@ export default function ButtonWithIcon({
   label,
   variant = "primary",
   type = "button",
+  disabled,
+  className = "",
+  onClick,
 }: Props) {
   return (
-    <Button variant={variant} type={type}>
+    <Button
+      className={className}
+      disabled={disabled}
+      variant={variant}
+      type={type}
+      onClick={onClick}
+    >
       <FontAwesomeIcon icon={icon} className="mr-2" /> {label}
     </Button>
   );

@@ -24,6 +24,7 @@ import { IdGeneration } from "configs/IdGeneration";
 import { UserContext } from "configs/UserContext";
 import { endpoints } from "constants/endpoints";
 import { Invoice } from "interfaces/invoice";
+import { axiosHeaders } from "constants/headers";
 import ShowQRCodeModal from "./components/ShowQRCodeModal";
 import { RADIO } from "./constants";
 
@@ -32,10 +33,6 @@ let socketRoomId: string;
 
 export default function GenerateInvoice() {
   const date = new Date().toISOString().substr(0, 10);
-
-  const axiosHeaders = localStorage.getItem("bill-token")
-    ? { headers: { auth: localStorage.getItem("bill-token") } }
-    : undefined;
 
   const { id } = useParams<any>();
 
@@ -108,7 +105,7 @@ export default function GenerateInvoice() {
       Axios.put(
         `${endpoints.backend}api/invoice/edit/${id}`,
         { ...state, pending: state.sign === "" },
-        { headers: { auth: localStorage.getItem("bill-token") } }
+        axiosHeaders
       )
         .then(({ data }) => {
           if (data.success) {

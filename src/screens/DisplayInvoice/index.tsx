@@ -9,6 +9,7 @@ import io from "socket.io-client";
 import i18next from "i18next";
 import { Invoice } from "interfaces/invoice";
 import { endpoints } from "constants/endpoints";
+import { axiosHeaders } from "constants/headers";
 import EmailInput from "./components/EmailInput";
 import ButtonsGroup from "./components/ButtonsGroup";
 import Bill from "./components/Bill";
@@ -16,10 +17,6 @@ import Bill from "./components/Bill";
 let socket: SocketIOClient.Socket;
 
 export default function DisplayInvoice() {
-  const axiosHeaders = {
-    headers: { auth: localStorage.getItem("bill-token") },
-  };
-
   const invoice = useRef<any>(<div />);
   const { id, socketId } = useParams<any>();
 
