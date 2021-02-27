@@ -1,8 +1,7 @@
 /* eslint-disable indent */
-import { faSearch, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
+import { faSearch, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { Accordion, Card, Col, Form, Row } from "react-bootstrap";
 import moment from "moment";
 import i18next from "i18next";
 import { RADIO } from "screens/GenerateInvoice/constants";

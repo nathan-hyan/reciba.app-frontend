@@ -1,5 +1,4 @@
 import { BootstrapInputProps } from "components/BootstrapInput";
-import i18next from "i18next";
 
 export const FORM_INPUTS: BootstrapInputProps[] = [
   {
