@@ -1,14 +1,14 @@
-import { faShare, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Axios from "axios";
-import i18next from "i18next";
 import React, { useRef, useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { notify } from "react-notify-toast";
-import { useParams } from "react-router-dom";
+import Axios from "axios";
+import i18next from "i18next";
 import io from "socket.io-client";
 import { endpoints } from "constants/endpoints";
 import { Invoice } from "interfaces/invoice";
+import { faShare, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DownloadModal from "./components/DownloadModal";
 
 const SignaturePad = require("react-signature-pad");
@@ -16,6 +16,7 @@ const SignaturePad = require("react-signature-pad");
 let socket: SocketIOClient.Socket;
 
 export default function Signature() {
+  const history = useHistory();
   const signatureRef: any = useRef();
   const { socketId, invoiceId } = useParams<
     Partial<{
@@ -75,6 +76,7 @@ export default function Signature() {
       })
         .then((response) => {
           notify.show(i18next.t("Signature:success"), "success");
+          history.push(`/thankYou/${response.data.id}`);
         })
         .catch((err) => {
           const ERROR = err.response ? err.response.data.message : err.message;

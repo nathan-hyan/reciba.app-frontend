@@ -17,6 +17,7 @@ import Signature from "screens/Signature";
 import "utils/i18n";
 import Confirmation from "screens/Confirmation";
 import ConfirmationError from "screens/ConfirmationError";
+import ThankYouScreen from "screens/Signature/screens/ThankYouScreen";
 
 function App() {
   const language = useContext(LangContext);
@@ -41,6 +42,7 @@ function App() {
                 component={DisplayInvoice}
               />
               <Route path="/signature/:socketId" component={Signature} />
+              <Route path="/thankYou/:id" component={ThankYouScreen} />
               <Route
                 path="/offlinesignature/:invoiceId"
                 component={Signature}

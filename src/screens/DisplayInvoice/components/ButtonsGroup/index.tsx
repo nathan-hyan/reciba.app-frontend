@@ -25,13 +25,11 @@ export default function ButtonsGroup({
         <FontAwesomeIcon icon={faFileDownload} />{" "}
         {i18next.t("Buttons:download")}
       </Button>
-      <Button
-        disabled={hasSocketId}
-        className="mx-2"
-        onClick={transformPDFToBase64}
-      >
-        <FontAwesomeIcon icon={faPhone} /> {i18next.t("Buttons:sendToPhone")}
-      </Button>
+      {!hasSocketId && (
+        <Button className="mx-2" onClick={transformPDFToBase64}>
+          <FontAwesomeIcon icon={faPhone} /> {i18next.t("Buttons:sendToPhone")}
+        </Button>
+      )}
       <Button onClick={toggleEmailInput} className="mx-2">
         <FontAwesomeIcon icon={faEnvelope} /> {i18next.t("Buttons:sendToMail")}
       </Button>
