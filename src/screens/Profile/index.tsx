@@ -17,8 +17,6 @@ function Profile() {
     logo: "",
   });
 
-  console.log(currentUser);
-
   return (
     <Container>
       <Row className="h-100-minus align-items-center">

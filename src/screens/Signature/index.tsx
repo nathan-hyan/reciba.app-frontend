@@ -73,7 +73,7 @@ export default function Signature() {
         ...state,
         sign: signatureRef.current.toDataURL(),
       })
-        .then((response) => {
+        .then(() => {
           notify.show(i18next.t("Signature:success"), "success");
         })
         .catch((err) => {
