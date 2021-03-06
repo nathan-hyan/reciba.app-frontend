@@ -108,3 +108,10 @@ fieldset {
 .gap {
   gap: 10px;
 }
+
+.name-title {
+  width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

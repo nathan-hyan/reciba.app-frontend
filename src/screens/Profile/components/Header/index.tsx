@@ -6,14 +6,15 @@ import i18next from "i18next";
 
 interface Props {
   username: string;
-  enterprise: string;
+  enterprise?: string;
 }
 
 export default function Header({ username, enterprise }: Props) {
   return (
     <Row className="mb-5">
       <Col className="d-flex flex-row align-items-center">
-        <h1>{username}</h1> <small className="ml-3">({enterprise})</small>
+        <h1 className="name-title">{username}</h1>{" "}
+        {enterprise && <small className="ml-3">({enterprise})</small>}
       </Col>
       <Col className="text-right">
         <ButtonWithIcon

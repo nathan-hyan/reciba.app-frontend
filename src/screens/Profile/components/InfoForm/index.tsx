@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Form } from "react-bootstrap";
 import ButtonWithIcon from "components/ButtonWithIcon";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
@@ -12,17 +12,26 @@ type StateProps = {
   [key: string]: string;
 };
 
-function InfoForm() {
+interface Props {
+  handleChange: (arg0: { name?: string; email?: string }) => void;
+  currentData: {
+    name: string;
+    email: string;
+  };
+}
+
+function InfoForm({ handleChange, currentData }: Props) {
   const [validated, setValidated] = useState(false);
   const [state, setState] = useState<StateProps>({
     name: "",
     email: "",
   });
 
-  const handleChange = (e: any) => {
+  const handleLocalChange = (e: any) => {
     const { value, name } = e.target;
 
     setState({ ...state, [name]: value });
+    handleChange({ [name]: value });
   };
 
   const handleSubmit = (event: {
@@ -39,6 +48,10 @@ function InfoForm() {
     setValidated(true);
   };
 
+  useEffect(() => {
+    setState(currentData);
+  }, [currentData]);
+
   return (
     <Col className="d-flex flex-column align-items-center justify-content-center">
       <Form
@@ -52,7 +65,7 @@ function InfoForm() {
             name={input.name}
             label={i18next.t(input.label)}
             type={input.type}
-            onChange={handleChange}
+            onChange={handleLocalChange}
             value={state[input.name]}
             required={input.required}
           />
