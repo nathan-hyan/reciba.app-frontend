@@ -50,7 +50,7 @@ export default function Login() {
       event.stopPropagation();
       Axios.post(`${endpoints.backend}api/user/login`, login)
         .then(({ data }) => {
-          if (data.success) {
+          if (data.success && data.confirmed) {
             setUserData({
               isLoggedIn: true,
               token: data.data.token,
@@ -61,6 +61,8 @@ export default function Login() {
             setIsLoading(false);
 
             history.push("/");
+          } else if (!data.confirmed) {
+            history.push(`/confirmError/novalidated`);
           } else {
             notify.show(i18next.t("Login:error"), "error");
             setIsLoading(false);
