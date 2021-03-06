@@ -70,11 +70,6 @@ function InfoForm({ handleChange, currentData }: Props) {
             required={input.required}
           />
         ))}
-        <ButtonWithIcon
-          icon={faSave}
-          label={i18next.t("ProfilePage:submit")}
-          type="submit"
-        />
       </Form>
     </Col>
   );

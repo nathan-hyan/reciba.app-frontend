@@ -11,6 +11,7 @@ type ContextProps = {
   token: string;
   name: string;
   setUserData: any;
+  id: string;
 };
 
 export const UserContext = createContext<Partial<ContextProps>>({});
@@ -23,6 +24,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     level: 9,
     token: "",
     name: "",
+    id: "",
   });
 
   if (storedToken && !userData.isLoggedIn) {
@@ -38,6 +40,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
           level: 9,
           token: response.data.data.token,
           name: response.data.data.name,
+          id: response.data.data._id,
         });
       })
       .catch((err) => {
@@ -49,6 +52,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
           level: 9,
           token: "",
           name: "",
+          id: "",
         });
         history.push("/");
       });

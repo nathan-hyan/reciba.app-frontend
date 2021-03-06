@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Image } from "react-bootstrap";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 function ProfilePicture({ handleLogoChange, currentLogo }: Props) {
-  const [img, setImg] = useState(currentLogo);
+  const [img, setImg] = useState("");
 
   const toBase64: any = (file: File) =>
     new Promise((resolve, reject) => {
@@ -24,6 +24,10 @@ function ProfilePicture({ handleLogoChange, currentLogo }: Props) {
     setImg(CONVERTED);
     handleLogoChange(CONVERTED);
   };
+
+  useEffect(() => {
+    setImg(currentLogo);
+  }, [currentLogo]);
 
   return (
     <Col className="bg-white rounded shadow p-5 d-flex flex-column align-items-center">

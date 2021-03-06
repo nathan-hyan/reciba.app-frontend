@@ -7,9 +7,10 @@ import i18next from "i18next";
 interface Props {
   username: string;
   enterprise?: string;
+  resetCounter: () => void;
 }
 
-export default function Header({ username, enterprise }: Props) {
+export default function Header({ username, enterprise, resetCounter }: Props) {
   return (
     <Row className="mb-5">
       <Col className="d-flex flex-row align-items-center">
@@ -18,6 +19,7 @@ export default function Header({ username, enterprise }: Props) {
       </Col>
       <Col className="text-right">
         <ButtonWithIcon
+          onClick={resetCounter}
           icon={faRedoAlt}
           label={i18next.t("ProfilePage:resetCounter")}
         />

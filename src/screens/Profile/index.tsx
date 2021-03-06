@@ -1,5 +1,16 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { UserContext } from "configs/UserContext";
+import { endpoints } from "constants/endpoints";
 import { Col, Container, Row } from "react-bootstrap";
+import { axiosHeaders } from "constants/headers";
+import { notify } from "react-notify-toast";
+import i18next from "i18next";
+import ButtonWithIcon from "components/ButtonWithIcon";
+import { faSave } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
 import Header from "./components/Header";
 import InfoForm from "./components/InfoForm";
 import ProfilePicture from "./components/ProfilePicture";
@@ -17,6 +28,8 @@ interface Props {
 }
 
 function Profile() {
+  const history = useHistory();
+  const { id } = useContext(UserContext);
   const [state, setState] = useState<Partial<Props>>({
     lastInvoiceNumber: 0,
     name: "",
@@ -37,20 +50,52 @@ function Profile() {
   };
 
   useEffect(() => {
-    setState({
-      lastInvoiceNumber: 1,
-      name: "Cacho",
-      email: "test@test.com",
-      ogPassword:
-        "$2a$10$QAt8cy/7clre9o0x0nZ5rOiqqKtuFPbw1cXIg.FRqdskFqqUWJk9O",
-    });
-  }, []);
+    if (id) {
+      axios
+        .get(`${endpoints.backend}api/user/getUser/${id}`, axiosHeaders)
+        .then(({ data }) => {
+          setState(data.data);
+        })
+        .catch(() => notify.show(i18next.t("ProfilePage:getError"), "error"));
+    }
+  }, [id]);
+
+  const sendData = () => {
+    axios
+      .put(
+        `${endpoints.backend}api/user/editProfile/${id}`,
+        state,
+        axiosHeaders
+      )
+      .then((saveResponse) => {
+        notify.show(i18next.t("ProfilePage:saveSuccess"), "success");
+        history.push("/");
+      });
+  };
+
+  const resetCounter = () => {
+    if (confirm(i18next.t("ProfilePage:confirmResetCounter"))) {
+      axios
+        .put(
+          `${endpoints.backend}api/user/resetInvoiceCounter/${id}`,
+          state,
+          axiosHeaders
+        )
+        .then((saveResponse) => {
+          notify.show(i18next.t("ProfilePage:counterReseted"), "success");
+        });
+    }
+  };
 
   return (
-    <Container>
-      <Row className="h-100-minus align-items-center">
+    <Container className="h-100-minus mt-5">
+      <Row className="align-items-center">
         <Col>
-          <Header username={state.name!} enterprise={state.enterprise} />
+          <Header
+            username={state.name!}
+            enterprise={state.enterprise}
+            resetCounter={resetCounter}
+          />
           <Row>
             <ProfilePicture
               handleLogoChange={handleLogoChange}
@@ -60,6 +105,15 @@ function Profile() {
               handleChange={handleInfoChange}
               currentData={{ name: state.name!, email: state.email! }}
             />
+          </Row>
+          <Row className="my-5">
+            <Col className="w-100 text-center">
+              <ButtonWithIcon
+                onClick={sendData}
+                label={i18next.t("ProfilePage:submit")}
+                icon={faSave}
+              />
+            </Col>
           </Row>
         </Col>
       </Row>

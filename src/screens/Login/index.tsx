@@ -50,11 +50,13 @@ export default function Login() {
       event.stopPropagation();
       Axios.post(`${endpoints.backend}api/user/login`, login)
         .then(({ data }) => {
+          console.log(data);
           if (data.success && data.confirmed) {
             setUserData({
               isLoggedIn: true,
               token: data.data.token,
               name: data.data.name,
+              id: data.data._id,
             });
             localStorage.setItem("bill-token", data.data.token);
             notify.show(`${data.message}`, "success");
