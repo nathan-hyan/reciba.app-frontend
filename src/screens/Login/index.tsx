@@ -50,7 +50,6 @@ export default function Login() {
       event.stopPropagation();
       Axios.post(`${endpoints.backend}api/user/login`, login)
         .then(({ data }) => {
-          console.log(data);
           if (data.success && data.confirmed) {
             setUserData({
               isLoggedIn: true,

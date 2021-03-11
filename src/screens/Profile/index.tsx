@@ -1,16 +1,16 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
 import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "configs/UserContext";
-import { endpoints } from "constants/endpoints";
 import { Col, Container, Row } from "react-bootstrap";
-import { axiosHeaders } from "constants/headers";
 import { notify } from "react-notify-toast";
 import i18next from "i18next";
-import ButtonWithIcon from "components/ButtonWithIcon";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
-import { useHistory } from "react-router-dom";
+import { endpoints } from "constants/endpoints";
+import { axiosHeaders } from "constants/headers";
+import ButtonWithIcon from "components/ButtonWithIcon";
+import { UserContext } from "configs/UserContext";
 import Header from "./components/Header";
 import InfoForm from "./components/InfoForm";
 import ProfilePicture from "./components/ProfilePicture";

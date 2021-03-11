@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Col, Form } from "react-bootstrap";
-import ButtonWithIcon from "components/ButtonWithIcon";
-import { faSave } from "@fortawesome/free-solid-svg-icons";
 import BootstrapInput from "components/BootstrapInput";
 import { FORM_INPUTS } from "screens/Profile/constants";
 import i18next from "i18next";
@@ -62,6 +60,7 @@ function InfoForm({ handleChange, currentData }: Props) {
       >
         {FORM_INPUTS.map((input) => (
           <BootstrapInput
+            key={input.name}
             name={input.name}
             label={i18next.t(input.label)}
             type={input.type}
