@@ -10,7 +10,7 @@ export default function Logout() {
   const history = useHistory();
   const query = useQuery();
 
-  const type = query.get("type") === "changedemail";
+  const type = query.get("type");
 
   useEffect(() => {
     localStorage.removeItem("bill-token");
@@ -24,23 +24,45 @@ export default function Logout() {
     // eslint-disable-next-line
   }, []);
 
+  const getText = () => {
+    switch (type) {
+      case "changedemail": {
+        return {
+          title: i18next.t("Logout:wentGreat"),
+          body: i18next.t("Logout:changedEmailBody"),
+          emoji: `😄`,
+        };
+      }
+
+      case "changedpassword": {
+        return {
+          title: i18next.t("Logout:wentGreat"),
+          body: i18next.t("Logout:changedPasswordBody"),
+          emoji: `😄`,
+        };
+      }
+
+      default: {
+        return {
+          title: i18next.t("Logout:title"),
+          body: i18next.t("Logout:body"),
+          emoji: `😢`,
+        };
+      }
+    }
+  };
+
   return (
     <Container>
       <Row className="h-100-minus align-items-center">
         <Col className="text-center">
           <h1>
-            {type
-              ? i18next.t("Logout:changedEmail")
-              : i18next.t("Logout:title")}{" "}
+            {getText().title}{" "}
             <span role="img" aria-label="sad">
-              {type ? `😄` : `😢`}
+              {getText().emoji}
             </span>
           </h1>
-          <p>
-            {type
-              ? i18next.t("Logout:changedEmailBody")
-              : i18next.t("Logout:body")}
-          </p>
+          <p>{getText().body}</p>
           <Button className="mt-5" onClick={() => history.push("/")}>
             {i18next.t("Logout:goBack")}
           </Button>

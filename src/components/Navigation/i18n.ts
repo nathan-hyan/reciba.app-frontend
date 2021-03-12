@@ -14,6 +14,7 @@ i18next.addResources("es", "LoggedInOpts", {
   newInvoice: "Nuevo comprobante",
   dashboard: "Tablero",
   profile: "Perfil",
+  changePassword: "Cambiar contraseña",
   closeSession: "Cerrar sesión",
 });
 i18next.addResources("en", "LoggedInOpts", {
@@ -21,6 +22,7 @@ i18next.addResources("en", "LoggedInOpts", {
   newInvoice: "New invoice",
   dashboard: "Dashboard",
   profile: "Profile",
+  changePassword: "Change password",
   closeSession: "Log out",
 });
 
