@@ -15,6 +15,7 @@ interface Props {
   currentData: {
     name: string;
     email: string;
+    oldEmail: string;
   };
 }
 
@@ -67,6 +68,13 @@ function InfoForm({ handleChange, currentData }: Props) {
             onChange={handleLocalChange}
             value={state[input.name]}
             required={input.required}
+            subtext={
+              input.name === "email" &&
+              currentData.email !== currentData.oldEmail
+                ? i18next.t("ProfilePage:emailConfirmationAlert")
+                : ""
+            }
+            subtextColor="danger"
           />
         ))}
       </Form>

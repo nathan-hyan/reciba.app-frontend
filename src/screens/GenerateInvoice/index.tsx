@@ -24,7 +24,7 @@ import { IdGeneration } from "configs/IdGeneration";
 import { UserContext } from "configs/UserContext";
 import { endpoints } from "constants/endpoints";
 import { Invoice } from "interfaces/invoice";
-import { axiosHeaders } from "constants/headers";
+import { getHeaders } from "constants/headers";
 import ShowQRCodeModal from "./components/ShowQRCodeModal";
 import { RADIO } from "./constants";
 
@@ -105,7 +105,7 @@ export default function GenerateInvoice() {
       Axios.put(
         `${endpoints.backend}api/invoice/edit/${id}`,
         { ...state, pending: state.sign === "" },
-        axiosHeaders
+        getHeaders()
       )
         .then(({ data }) => {
           if (data.success) {
@@ -128,7 +128,7 @@ export default function GenerateInvoice() {
           setIsLoading(false);
         });
     } else {
-      Axios.post(`${endpoints.backend}api/invoice/`, { ...state }, axiosHeaders)
+      Axios.post(`${endpoints.backend}api/invoice/`, { ...state }, getHeaders())
         .then(({ data }) => {
           if (data.id) {
             history.push(

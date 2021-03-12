@@ -8,7 +8,7 @@ import { notify } from "react-notify-toast";
 import i18next from "i18next";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { endpoints } from "constants/endpoints";
-import { axiosHeaders } from "constants/headers";
+import { getHeaders } from "constants/headers";
 import ButtonWithIcon from "components/ButtonWithIcon";
 import { UserContext } from "configs/UserContext";
 import Header from "./components/Header";
@@ -30,6 +30,7 @@ interface Props {
 function Profile() {
   const history = useHistory();
   const { id } = useContext(UserContext);
+  const [oldEmail, setOldEmail] = useState("");
   const [state, setState] = useState<Partial<Props>>({
     lastInvoiceNumber: 0,
     name: "",
@@ -52,24 +53,37 @@ function Profile() {
   useEffect(() => {
     if (id) {
       axios
-        .get(`${endpoints.backend}api/user/getUser/${id}`, axiosHeaders)
+        .get(`${endpoints.backend}api/user/getUser/${id}`, getHeaders())
         .then(({ data }) => {
           setState(data.data);
+          setOldEmail(data.data.email);
         })
         .catch(() => notify.show(i18next.t("ProfilePage:getError"), "error"));
     }
   }, [id]);
 
-  const sendData = () => {
+  const checkDataForSubmit = () => {
+    if (state.email !== oldEmail) {
+      confirm(i18next.t("ProfilePage:confirmEmailChange"))
+        ? sendData(true)
+        : setState({ ...state, email: oldEmail });
+    } else {
+      sendData(false);
+    }
+  };
+
+  const sendData = (hasToLogOut: boolean) => {
     axios
       .put(
         `${endpoints.backend}api/user/editProfile/${id}`,
         state,
-        axiosHeaders
+        getHeaders()
       )
       .then((saveResponse) => {
         notify.show(i18next.t("ProfilePage:saveSuccess"), "success");
-        history.push("/");
+        hasToLogOut
+          ? history.push("/logout?type=changedemail")
+          : history.push("/");
       });
   };
 
@@ -79,7 +93,7 @@ function Profile() {
         .put(
           `${endpoints.backend}api/user/resetInvoiceCounter/${id}`,
           state,
-          axiosHeaders
+          getHeaders()
         )
         .then((saveResponse) => {
           notify.show(i18next.t("ProfilePage:counterReseted"), "success");
@@ -103,13 +117,17 @@ function Profile() {
             />
             <InfoForm
               handleChange={handleInfoChange}
-              currentData={{ name: state.name!, email: state.email! }}
+              currentData={{
+                name: state.name!,
+                email: state.email!,
+                oldEmail,
+              }}
             />
           </Row>
           <Row className="my-5">
             <Col className="w-100 text-center">
               <ButtonWithIcon
-                onClick={sendData}
+                onClick={checkDataForSubmit}
                 label={i18next.t("ProfilePage:submit")}
                 icon={faSave}
               />

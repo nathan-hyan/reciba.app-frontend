@@ -1,3 +1,5 @@
-export const axiosHeaders = {
-  headers: { auth: localStorage.getItem("bill-token") },
+export const getHeaders = () => {
+  return {
+    headers: { auth: localStorage.getItem("bill-token") },
+  };
 };

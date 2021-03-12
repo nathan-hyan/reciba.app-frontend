@@ -8,6 +8,7 @@ export type BootstrapInputProps = {
   type?: "email" | "text" | "number" | "password";
   placeholder?: string;
   subtext?: string;
+  subtextColor?: "success" | "danger" | "info" | "warning";
   required: boolean;
 };
 
@@ -26,6 +27,7 @@ export default function BootstrapInput({
   type = "text",
   placeholder,
   subtext,
+  subtextColor,
   value,
   onChange,
   required = false,
@@ -42,7 +44,9 @@ export default function BootstrapInput({
         onChange={onChange}
         required={required}
       />
-      <Form.Text className="text-muted">{subtext}</Form.Text>
+      <Form.Text className={`text-${subtextColor ?? "muted"}`}>
+        {subtext}
+      </Form.Text>
       <Form.Control.Feedback type="invalid">
         {INVALID_MESSAGES[type]}
       </Form.Control.Feedback>

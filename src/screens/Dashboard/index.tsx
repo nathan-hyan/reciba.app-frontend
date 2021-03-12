@@ -7,7 +7,7 @@ import { notify } from "react-notify-toast";
 import { useHistory } from "react-router-dom";
 import { endpoints } from "constants/endpoints";
 import { Invoice, queryType } from "interfaces/invoice";
-import { axiosHeaders } from "constants/headers";
+import { getHeaders } from "constants/headers";
 import Filter from "./components/Filter";
 import InvoicesList from "./components/InvoicesList";
 
@@ -20,11 +20,11 @@ export default function DashboardScreen() {
   const getBills = (query: queryType) => {
     const _completedBills = Axios.get(
       `${endpoints.backend}api/invoice/completed?from=${query.from}&to=${query.to}&tags=${query.tags}&types=${query.type}`,
-      axiosHeaders
+      getHeaders()
     );
     const _pendingBills = Axios.get(
       `${endpoints.backend}api/invoice/pending?from=${query.from}&to=${query.to}&tags=${query.tags}&types=${query.type}`,
-      axiosHeaders
+      getHeaders()
     );
 
     Axios.all([_completedBills, _pendingBills])
@@ -43,7 +43,7 @@ export default function DashboardScreen() {
 
   const deleteBill = (id: string | undefined) => {
     if (id !== undefined && window.confirm(i18next.t("Dashboard:deleteBill"))) {
-      Axios.delete(`${endpoints.backend}api/invoice/${id}`, axiosHeaders)
+      Axios.delete(`${endpoints.backend}api/invoice/${id}`, getHeaders())
         .then((res) => {
           if (res.data.success) {
             notify.show(i18next.t("Dashboard:deleteConfirm"), "success");

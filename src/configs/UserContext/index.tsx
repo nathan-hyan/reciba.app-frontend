@@ -3,7 +3,7 @@ import Axios from "axios";
 import { notify } from "react-notify-toast";
 import { useHistory } from "react-router-dom";
 import { endpoints } from "constants/endpoints";
-import { axiosHeaders } from "constants/headers";
+import { getHeaders } from "constants/headers";
 
 type ContextProps = {
   isLoggedIn: boolean;
@@ -31,7 +31,7 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     Axios.post(
       `${endpoints.backend}api/user/loggedInUser`,
       { storedToken },
-      axiosHeaders
+      getHeaders()
     )
       .then((response) => {
         localStorage.setItem("bill-token", response.data.data.token);

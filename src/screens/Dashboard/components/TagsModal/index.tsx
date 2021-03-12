@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { notify } from "react-notify-toast";
 import { endpoints } from "constants/endpoints";
-import { axiosHeaders } from "constants/headers";
+import { getHeaders } from "constants/headers";
 
 export default function TagsModal({
   show,
@@ -38,7 +38,7 @@ export default function TagsModal({
     Axios.put(
       `${endpoints.backend}api/invoice/edit/${invoiceId}`,
       { tags: items },
-      axiosHeaders
+      getHeaders()
     )
       .then(({ data }) => {
         notify.show("Datos guardados", "success");
