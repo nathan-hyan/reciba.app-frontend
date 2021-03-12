@@ -139,7 +139,7 @@ export default function Filter({
                       >
                         <option value="">{i18next.t("Filter:all")}</option>
                         {RADIO.map((item) => (
-                          <option value={item}>
+                          <option key={Math.random()} value={item}>
                             {i18next.t(`Radio:${item}`)}
                           </option>
                         ))}

@@ -311,6 +311,7 @@ export default function GenerateInvoice() {
                 <div className="border border-gray p-3">
                   {RADIO.map((item) => (
                     <Form.Check
+                      key={item}
                       className="mx-3"
                       inline
                       type="radio"

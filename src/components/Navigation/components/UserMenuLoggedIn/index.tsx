@@ -8,18 +8,18 @@ import { Link } from "react-router-dom";
 export default function UsermenuLoggedIn() {
   return (
     <div>
-      <NavDropdown.Item>
-        <Link className="text-dark text-decoration-none" to="/profile">
+      <Link to="/profile" className="text-decoration-none">
+        <NavDropdown.Item as="div" className="text-dark">
           <FontAwesomeIcon icon={faUserEdit} className="mr-1" />{" "}
           {i18next.t("LoggedInOpts:profile")}
-        </Link>
-      </NavDropdown.Item>
-      <NavDropdown.Item>
-        <Link className="text-dark text-decoration-none" to="/logout">
+        </NavDropdown.Item>
+      </Link>
+      <Link to="/logout" className="text-decoration-none">
+        <NavDropdown.Item as="div" className="text-dark">
           <FontAwesomeIcon icon={faDoorOpen} className="mr-1" />{" "}
           {i18next.t("LoggedInOpts:closeSession")}
-        </Link>
-      </NavDropdown.Item>
+        </NavDropdown.Item>
+      </Link>
     </div>
   );
 }
