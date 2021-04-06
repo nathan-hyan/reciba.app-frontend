@@ -166,6 +166,8 @@ export default function GenerateInvoice() {
           setState({ ...data.data, date: newDate });
         }
       );
+    } else {
+      setIsLoading(false);
     }
 
     socket.on("close", () => {
