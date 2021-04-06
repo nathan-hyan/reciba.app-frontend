@@ -56,7 +56,7 @@ fieldset {
 }
 
 .border-black {
-  border-color: black !important;
+  border-color: #000000 !important;
 }
 
 @media (max-width: 500px) {

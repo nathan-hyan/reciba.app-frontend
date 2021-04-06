@@ -11,6 +11,7 @@ i18next.addResources("es", "GenerateInvoice", {
   cancel: "Cancelar",
   save: "Guardar",
   transactionNumber: "Numero de transacción",
+  loadingText: "Cargando comprobante",
 });
 
 i18next.addResources("en", "GenerateInvoice", {
@@ -24,6 +25,7 @@ i18next.addResources("en", "GenerateInvoice", {
   cancel: "Cancel",
   save: "Save",
   transactionNumber: "Transaction number",
+  loadingText: "Loading invoice data",
 });
 
 i18next.addResources("es", "GIError", {

@@ -25,6 +25,7 @@ import { UserContext } from "configs/UserContext";
 import { endpoints } from "constants/endpoints";
 import { Invoice } from "interfaces/invoice";
 import { getHeaders } from "constants/headers";
+import LoadingScreen from "components/LoadingScreen";
 import ShowQRCodeModal from "./components/ShowQRCodeModal";
 import { RADIO } from "./constants";
 
@@ -56,7 +57,7 @@ export default function GenerateInvoice() {
   });
   const [validated, setValidated] = useState(false);
   const [showQRCodeModal, setShowQRCodeModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Setting up history
   const history = useHistory();
@@ -160,6 +161,7 @@ export default function GenerateInvoice() {
     if (id) {
       Axios.get(`${endpoints.backend}api/invoice/single/${id}`).then(
         ({ data }) => {
+          setIsLoading(false);
           const newDate = data.data.date.substr(0, 10);
           setState({ ...data.data, date: newDate });
         }
@@ -191,7 +193,9 @@ export default function GenerateInvoice() {
     setShowQRCodeModal((i) => !i);
   };
 
-  return (
+  return isLoading ? (
+    <LoadingScreen text={i18next.t("GenerateInvoice:loadingText")} />
+  ) : (
     <Container className="h-100-minus">
       <ShowQRCodeModal
         currentId={socketRoomId}

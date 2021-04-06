@@ -10,6 +10,7 @@ import i18next from "i18next";
 import { Invoice } from "interfaces/invoice";
 import { endpoints } from "constants/endpoints";
 import { getHeaders } from "constants/headers";
+import LoadingScreen from "components/LoadingScreen";
 import EmailInput from "./components/EmailInput";
 import ButtonsGroup from "./components/ButtonsGroup";
 import Bill from "./components/Bill";
@@ -36,6 +37,7 @@ export default function DisplayInvoice() {
   const [showEmail, setShowEmail] = useState<boolean>(false);
   const [recipient, setRecipient] = useState<string>("");
   const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   /**
    * Adapta la fecha para poder ser parseada sin necesidad de usar Moment
@@ -118,13 +120,16 @@ export default function DisplayInvoice() {
   useEffect(() => {
     socket = io(endpoints.backend);
 
-    Axios.get(
-      `${endpoints.backend}api/invoice/single/${id}`,
-      getHeaders()
-    ).then(({ data }) => {
-      const { year, month, date } = dateTransformer(data.data.date);
-      setState({ ...data.data, date: new Date(year, month, date) });
-    });
+    Axios.get(`${endpoints.backend}api/invoice/single/${id}`, getHeaders())
+      .then(({ data }) => {
+        setIsLoading(false);
+        const { year, month, date } = dateTransformer(data.data.date);
+        setState({ ...data.data, date: new Date(year, month, date) });
+      })
+      .catch((err) => {
+        notify.show(i18next.t("DisplayInvoice:error"));
+        setIsLoading(false);
+      });
 
     socket.emit("join", socketId);
 
@@ -134,7 +139,9 @@ export default function DisplayInvoice() {
     // eslint-disable-next-line
   }, [endpoints.backend]);
 
-  return (
+  return isLoading ? (
+    <LoadingScreen text={i18next.t("GenerateInvoice:loadingText")} />
+  ) : (
     <Container>
       <Row className="my-5">
         <ButtonsGroup

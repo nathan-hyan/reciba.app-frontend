@@ -6,11 +6,17 @@ function requireAll(requireContext) {
   return requireContext.keys().map(requireContext);
 }
 
+const storedLanguage =
+  localStorage.getItem("i18nextLng") === "es" &&
+  localStorage.getItem("i18nextLng") === "en"
+    ? localStorage.getItem("i18nextLng")
+    : "en";
+
 i18next
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
-    fallbackLng: localStorage.getItem("i18nextLng") || "en",
+    fallbackLng: storedLanguage,
     detection: {
       order: ["localStorage"],
       cache: ["localStorage"],
