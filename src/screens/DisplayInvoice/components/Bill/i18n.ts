@@ -11,6 +11,7 @@ i18next.addResources("es", "Invoice", {
   inConceptOf: "En concepto de",
   receiptBy: "Recibo por",
   signature: "Firma",
+  total: "Son",
 });
 i18next.addResources("en", "Invoice", {
   originalInvoice: "Original receipt",
@@ -23,4 +24,5 @@ i18next.addResources("en", "Invoice", {
   inConceptOf: "In concept of",
   receiptBy: "Receipt by",
   signtaure: "Signature",
+  total: "Total",
 });

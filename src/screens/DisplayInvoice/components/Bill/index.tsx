@@ -20,12 +20,6 @@ export default function Bill({
       ) : null}
         <p
           className="text-muted p-0 mt-auto text-center"
-          style={{
-            // height: 64,
-            // marginTop: 150,
-            // width: 109,
-            // paddingLeft: 0,
-          }}
         >
           {isOriginal
             ? i18next.t('Invoice:originalInvoice')
@@ -95,7 +89,7 @@ export default function Bill({
         <Row>
           <Col md={2} className="bg-light">
             <p className="my-2">
-              <strong>Son: </strong> {data.currency} ${data.amount}
+              <strong>{i18next.t('Invoice:total')}: </strong> {data.currency} ${data.amount}
             </p>
           </Col>
           <Col />
